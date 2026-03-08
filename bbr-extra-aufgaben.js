@@ -1,10 +1,10 @@
 var BBR_EXTRA_THEMES = [
   // ─────────────────────────────────────────────────────────────
-  // Thema 1: Groß- und Kleinschreibung 
+  // Thema 1: Groß- und Kleinschreibung (extra)
   // ─────────────────────────────────────────────────────────────
   {
     id: "bbr_extra_grossklein",
-    title: "Groß- und Kleinschreibung",
+    title: "Groß- und Kleinschreibung (extra)",
     emoji: "🔠",
     color: "#dc2626",
     qs: [
