@@ -1,7 +1,15 @@
 // ================================================================
 // BBR-AUFGABEN.JS – Übungsaufgaben für die BBR
 // 6 Oberthemen, jeweils mit mehreren Aufgaben.
-// Neues Thema: Objekt { id, title, emoji, color, qs:[...] } ans Ende ergänzen.
+//
+// ÜBERARBEITETE VERSION – Änderungen:
+//  • Alle self-Aufgaben, die nur einzelne Wörter/Buchstaben
+//    einsetzen, wurden in cross- oder mc-Aufgaben umgewandelt.
+//  • Behalten als self: Satzgefüge mit Konjunktion bilden,
+//    Sätze in Zeitform umschreiben, Indirekte Rede umformen.
+//  • Inhaltlicher Fehler behoben: eu/äu-Lückentext –
+//    „M___er" war fehlerhaft (Mauer = au), korrigiert zu
+//    „M___te" = Meute (eu) ✓
 // ================================================================
 
 var BBR_THEMES = [
@@ -41,10 +49,14 @@ correct:[1,2,0,2,0,0],
 model:"Idee (ee) / Befehl (eh) / Steg (e) / mehr (eh) / Schere (e) / rege (e)",
 rule:"<div class=rbox><span class=hl>ee</span>: langes e in Fremdwörtern (Idee, See)<br><span class=hl>eh</span>: Dehnungs‑h (Befehl, mehr)<br><span class=hl>e</span>: kurzes e (Steg, Schere)</div>"},
 
-{sub:"Lückentext: e / ee / eh",type:"self",
-q:"Ergänzen Sie die richtige Schreibweise (-e-, -ee- oder -eh-):\n\nDas S___gel stürzte im heftigen Sturm ins M___r,\nwas uns das Fürchten l___rte.",
-model:"Das Segel stürzte im heftigen Sturm ins Meer, was uns das Fürchten lehrte.",
-rule:"<div class=rbox>Segel → kurzes e<br>Meer → langes e → ee<br>lehrte → langes e → eh</div>"},
+// Umgewandelt von self zu cross (Lückentext → Einzelwörter als Zeilen)
+{sub:"Lückentext: e / ee / eh",type:"cross",
+q:"Kurz oder lang? Wähle e, ee oder eh:",
+rows:["S___gel (Segel)","M___r (Meer)","l___rte (lehrte)"],
+cols:["e","ee","eh"],
+correct:[0,1,2],
+model:"Segel → kurzes e / Meer → langes e → ee / lehrte → Dehnungs-h → eh",
+rule:"<div class=rbox>Segel → kurzes e<br>Meer → langes e → <span class=hl>ee</span><br>lehrte → Dehnungs-h → <span class=hl>eh</span></div>"},
 
 {sub:"o / oo / oh",type:"cross",
 q:"Ergänze die fehlenden Buchstaben (o, oo oder oh):",
@@ -54,30 +66,53 @@ correct:[1,2,0,2,1,2],
 model:"Moor (oo) / wohnen (oh) / Tor (o) / belohnen (oh) / Zoo (oo) / Sohn (oh)",
 rule:"<div class=rbox><span class=hl>oo</span>: langes o ohne h (Moor, Zoo)<br><span class=hl>oh</span>: Dehnungs‑h (wohnen, Sohn)<br><span class=hl>o</span>: kurzes o (Tor)</div>"},
 
-{sub:"Lückentext: o / oo / oh",type:"self",
-q:"Ergänzen Sie die richtige Schreibweise (-o-, -oo- oder -oh-):\n\nMit dem B___t kamen wir in eine bedr___liche N___tlage.",
-model:"Mit dem Boot kamen wir in eine bedrohliche Notlage.",
-rule:"<div class=rbox>Boot → oo<br>bedrohlich → oh<br>Notlage → kurzes o</div>"},
+// Umgewandelt von self zu cross
+{sub:"Lückentext: o / oo / oh",type:"cross",
+q:"Kurz oder lang? Wähle o, oo oder oh:",
+rows:["B___t (Boot)","bedr___lich (bedrohlich)","N___tlage (Notlage)"],
+cols:["o","oo","oh"],
+correct:[1,2,0],
+model:"Boot → oo / bedrohlich → oh (Dehnungs-h) / Notlage → kurzes o",
+rule:"<div class=rbox>Boot → <span class=hl>oo</span><br>bedrohlich → <span class=hl>oh</span><br>Notlage → kurzes <span class=hl>o</span></div>"},
 
-{sub:"eu oder äu? (1)",type:"self",
-q:"Ergänzen Sie eu oder äu:\n\na) Vor manchen Geb___den stehen große Z___ne.\nb) Ich fr___e mich, dass ich h___te hier sein kann.\nc) Gute Kr___ter sind beim Kochen von großer Bed___tung.\nd) Schlangen müssen sich h___fig vollständig h___ten.",
-model:"a) Vor manchen Gebäuden stehen große Zäune.\nb) Ich freue mich, dass ich heute hier sein kann.\nc) Gute Kräuter sind beim Kochen von großer Bedeutung.\nd) Schlangen müssen sich häufig vollständig häuten.",
-rule:"<div class=rbox><span class=hl>äu</span>: wenn ein verwandtes Wort mit au existiert (Zaun→Zäune, Kraut→Kräuter)<br><span class=hl>eu</span>: kein au‑Bezug (freuen, heute, Bedeutung)</div>"},
+// Umgewandelt von self zu cross – Einzelwörter als Zeilen
+{sub:"eu oder äu? (1)",type:"cross",
+q:"eu oder äu? (Tipp: äu wenn verwandtes Wort mit au existiert)",
+rows:["Geb___den (Gebäuden)","Z___ne (Zäune)","fr___e (freue)","h___te (heute)","Kr___ter (Kräuter)","Bed___tung (Bedeutung)","h___fig (häufig)","h___ten (häuten)"],
+cols:["eu","äu"],
+correct:[1,1,0,0,1,0,1,1],
+model:"äu: Gebäude (Bau), Zäune (Zaun), Kräuter (Kraut), häufig (Haufen), häuten (Haut) · eu: freuen, heute, Bedeutung",
+rule:"<div class=rbox><span class=hl>äu</span>: verwandtes Wort mit au (Zaun→Zäune, Kraut→Kräuter)<br><span class=hl>eu</span>: kein au‑Bezug (freuen, heute, Bedeutung)</div>"},
 
-{sub:"eu oder äu? (2)",type:"self",
-q:"Ergänzen Sie eu oder äu:\n\na) H___te müssen die B___me gefällt werden.\nb) Dieses Shampoo sch___mt aber erfrischend stark.\nc) Ich denke, ___re Tr___me können erfüllt werden!\nd) Ich ber___e es nicht, alle L___te eingeladen zu haben.",
-model:"a) Heute müssen die Bäume gefällt werden.\nb) Dieses Shampoo schäumt aber erfrischend stark.\nc) Ich denke, eure Träume können erfüllt werden!\nd) Ich bereue es nicht, alle Leute eingeladen zu haben.",
-rule:"<div class=rbox>Bäume→Baum, schäumt→Schaum, Träume→Traum → <span class=hl>äu</span><br>bereuen, eure, Leute → kein au‑Bezug → <span class=hl>eu</span></div>"},
+// Umgewandelt von self zu cross
+{sub:"eu oder äu? (2)",type:"cross",
+q:"eu oder äu?",
+rows:["H___te (Heute)","B___me (Bäume)","sch___mt (schäumt)","___re (eure)","Tr___me (Träume)","ber___e (bereue)","L___te (Leute)"],
+cols:["eu","äu"],
+correct:[0,1,1,0,1,0,0],
+model:"eu: heute, eure, bereue, Leute · äu: Bäume (Baum), schäumt (Schaum), Träume (Traum)",
+rule:"<div class=rbox>Baum→Bäume, Schaum→schäumt, Traum→Träume → <span class=hl>äu</span><br>bereuen, eure, Leute → kein au‑Bezug → <span class=hl>eu</span></div>"},
 
-{sub:"eu oder äu? (Lückentext)",type:"self",
-q:"Ergänzen Sie eu oder äu:\n\na) Eine M___er von R___bern stahl die B___te aus dem Geb___de.\nb) In der Sch___ne unter den B___men machten die M___se h___te viel Lärm.\nc) Beim S___bern der t___ren Garten___bel brach n___lich ein Pfosten ab.",
-model:"a) Eine Mauer von Räubern stahl die Beute aus dem Gebäude.\nb) In der Scheune unter den Bäumen machten die Mäuse heute viel Lärm.\nc) Beim Säubern der teuren Gartenmöbel brach neulich ein Pfosten ab.",
-rule:"<div class=rbox>au‑Bezug → <span class=hl>äu</span>. Kein au‑Bezug → <span class=hl>eu</span>.</div>"},
+// Umgewandelt von self zu cross.
+// Fehlerkorrektur: Im Original war „M___er" = Mauer (au, kein eu/äu) –
+// das ist ein Fehler in der Vorlage. Korrigiert zu „M___te" = Meute (eu) ✓
+// „Garten___bel" = Möbel (ö) war ebenfalls fehlerhaft und wurde entfernt.
+{sub:"eu oder äu? (Lückentext)",type:"cross",
+q:"eu oder äu?",
+rows:["M___te (Meute = Schar)","R___bern (Räubern)","Be___te (Beute)","Geb___de (Gebäude)","Sch___ne (Scheune)","B___men (Bäumen)","M___se (Mäuse)","h___te (heute)","S___bern (Säubern)","t___ren (teuren)","n___lich (neulich)"],
+cols:["eu","äu"],
+correct:[0,1,0,1,0,1,1,0,1,0,0],
+model:"eu: Meute, Beute, Scheune, heute, teuren, neulich · äu: Räuber(Raub), Gebäude(Bau), Bäume(Baum), Mäuse(Maus), Säubern(sauber)",
+rule:"<div class=rbox>au‑Bezug → <span class=hl>äu</span> · kein au‑Bezug → <span class=hl>eu</span></div>"},
 
-{sub:"e oder ä?",type:"self",
-q:"Ergänzen Sie e oder ä:\n\na) Die G___ste best___llten eine M___nge Getr___nke.\nb) In der Jugendherb___rge bel___ge ich Brötchen mit K___se und sp___ter noch einige mit Wurst.\nc) Draußen in den G___rten liegen w___rmende D___cken auf den B___nken.",
-model:"a) Die Gäste bestellten eine Menge Getränke.\nb) In der Jugendherberge belege ich Brötchen mit Käse und später noch einige mit Wurst.\nc) Draußen in den Gärten liegen wärmende Decken auf den Bänken.",
-rule:"<div class=rbox><span class=hl>ä</span>: verwandtes Wort mit a vorhanden (Gast, warm, Bank)<br><span class=hl>e</span>: kein a‑Bezug (Menge, Herberge, Decke)</div>"}
+// Umgewandelt von self zu cross
+{sub:"e oder ä?",type:"cross",
+q:"e oder ä? (Tipp: ä wenn verwandtes Wort mit a existiert)",
+rows:["G___ste (Gäste)","best___llten (bestellten)","M___nge (Menge)","Getr___nke (Getränke)","Jugendherb___rge (Jugendherberge)","K___se (Käse)","sp___ter (später)","G___rten (Gärten)","w___rmende (wärmende)","D___cken (Decken)","B___nken (Bänken)"],
+cols:["e","ä"],
+correct:[1,0,0,1,0,1,1,1,1,0,1],
+model:"ä: Gäste(Gast), Getränke(Trank), Käse, später(spät), Gärten(Garten), wärmend(warm), Bänken(Bank) · e: bestellten, Menge, Herberge, Decken",
+rule:"<div class=rbox><span class=hl>ä</span>: verwandtes Wort mit a (Gast, warm, Bank, spät)<br><span class=hl>e</span>: kein a‑Bezug (Menge, Herberge, Decke)</div>"}
 
 ]},
 
@@ -92,9 +127,13 @@ correct:[2,1,1,1,1,2],
 model:"genießen (ß, langes ie) / Schloss (ss, kurzes o) / Pass (ss, kurzes a) / passen (ss) / wissen (ss) / Schoß (ß, langes o)",
 rule:"<div class=rbox><span class=hl>ß</span>: nach langem Vokal oder Diphthong (genießen, Schoß)<br><span class=hl>ss</span>: nach kurzem Vokal (Schloss, Pass, wissen)</div>"},
 
-{sub:"s / ss / ß (Lückentext)",type:"self",
-q:"Ergänzen Sie s, ss oder ß:\n\nLutz will Ella noch den Weg wei___en, bevor er zum Fu___balltraining mu___.\nEr schickt sie zum wei___en Strand.",
-model:"Lutz will Ella noch den Weg weißen, bevor er zum Fußballtraining muss. Er schickt sie zum weißen Strand.",
+// Umgewandelt von self zu cross
+{sub:"s / ss / ß (Lückentext)",type:"cross",
+q:"s, ss oder ß?",
+rows:["wei___en (den Weg zeigen – langes ei)","Fu___ball","mu___ (er muss – kurzes u)","zum wei___en Strand (Adjektiv von weiß)"],
+cols:["s","ss","ß"],
+correct:[2,2,1,2],
+model:"weißen (lang ei → ß) / Fußball (lang u → ß) / muss (kurz u → ss) / weißen Adj. (lang ei → ß)",
 rule:"<div class=rbox><span class=hl>ß</span>: langer Vokal oder Diphthong (weiß, Fuß)<br><span class=hl>ss</span>: kurzer Vokal (muss)</div>"},
 
 {sub:"z / tz / zz (1)",type:"cross",
@@ -113,9 +152,13 @@ correct:[1,1,0,1,0,2],
 model:"schützen (tz) / Glatze (tz) / Brezel (z) / nützlich (tz) / ergänzen (z) / Mozzarella (zz)",
 rule:"<div class=rbox><span class=hl>tz</span>: kurzer Vokal (schützen, Glatze, nützlich)<br><span class=hl>z</span>: langer Vokal (Brezel, ergänzen)<br><span class=hl>zz</span>: Fremdwort (Mozzarella)</div>"},
 
-{sub:"z / tz / zz (Lückentext)",type:"self",
-q:"Ergänzen Sie z, tz oder zz:\n\na) Beim Pu___eln gibt es für jedes Teil nur einen bestimmten Pla___.\nb) Der Künstler ski___ierte die Turmspi___e mit einem Bleistift.",
-model:"a) Beim Puzzeln gibt es für jedes Teil nur einen bestimmten Platz.\nb) Der Künstler skizzierte die Turmspitze mit einem Bleistift.",
+// Umgewandelt von self zu cross
+{sub:"z / tz / zz (Lückentext)",type:"cross",
+q:"z, tz oder zz?",
+rows:["Pu___eln (Puzzeln)","Pla___ (Platz)","ski___ierte (skizzierte)","Turmspi___e (Turmspitze)"],
+cols:["z","tz","zz"],
+correct:[2,1,2,1],
+model:"Puzzeln(zz, Fremdwort) / Platz(tz, kurzes a) / skizzierte(zz, Fremdwort) / Turmspitze(tz, kurzes i)",
 rule:"<div class=rbox><span class=hl>tz</span>: kurzer Vokal (Platz, Spitze)<br><span class=hl>zz</span>: Fremdwörter (Puzzle, Skizze)</div>"},
 
 {sub:"x / chs / gs (1)",type:"cross",
@@ -124,12 +167,16 @@ rows:["mi___en","allerdin___","verwec___eln","A___t","Fuc___","anfan___"],
 cols:["sch","x","hs","gs"],
 correct:[0,3,2,1,2,3],
 model:"mischen (sch) / allerdings (gs) / verwechseln (hs) / Axt (x) / Fuchs (hs) / anfangs (gs)",
-rule:"<div class=rbox><span class=hl>chs</span>: spricht wie 'ks' – das c ist schon da (Fuc<b>hs</b>, verwec<b>hs</b>eln)<br><span class=hl>gs</span>: Wortende nach Stamm (anfangs, allerdings)<br><span class=hl>x</span>: in Fremdwörtern (Axt)<br><span class=hl>sch</span>: Lautverbindung (mischen)</div>"},
+rule:"<div class=rbox><span class=hl>chs</span>: spricht wie 'ks' (Fuchs, verwechseln)<br><span class=hl>gs</span>: Wortende nach Stamm (anfangs, allerdings)<br><span class=hl>x</span>: in Fremdwörtern (Axt)<br><span class=hl>sch</span>: Lautverbindung (mischen)</div>"},
 
-{sub:"x / chs / gs (Lückentext)",type:"self",
-q:"Ergänzen Sie x, chs oder gs:\n\nDie Eide___e bewegte sich geradewe___ auf die Bo___ zu.",
-model:"Die Eidechse bewegte sich geradewegs auf die Box zu.",
-rule:"<div class=rbox>Eidechse → chs (spricht wie ks)<br>geradewegs → gs (Weg→-gs)<br>Box → x (Fremdwort)</div>"},
+// Umgewandelt von self zu cross
+{sub:"x / chs / gs (Lückentext)",type:"cross",
+q:"x, chs oder gs?",
+rows:["Eide___e (Eidechse)","geradewe___ (geradewegs)","Bo___ (Box)"],
+cols:["x","chs","gs"],
+correct:[1,2,0],
+model:"Eidechse(chs, spricht ks) / geradewegs(gs, Weg+-s) / Box(x, Fremdwort)",
+rule:"<div class=rbox>Eidechse → <span class=hl>chs</span> (spricht wie ks)<br>geradewegs → <span class=hl>gs</span> (Weg→-gs)<br>Box → <span class=hl>x</span> (Fremdwort)</div>"},
 
 {sub:"x / cks / ks",type:"cross",
 q:"Ergänze x, cks oder ks:",
@@ -139,29 +186,49 @@ correct:[0,1,1,0,2,1],
 model:"Praxis (x) / Klecks (cks) / zwecks (cks) / Komplex (x) / Keks (ks) / hinterrücks (cks)",
 rule:"<div class=rbox><span class=hl>x</span>: Fremdwörter (Praxis, Komplex)<br><span class=hl>cks</span>: von -ck abgeleitet (Klecks, hinterrücks)<br><span class=hl>ks</span>: einfache Form (Keks, links)</div>"},
 
-{sub:"x / cks / ks (Lückentext)",type:"self",
-q:"Ergänzen Sie x, cks oder ks:\n\nDer Ta___ifahrer blinkte lin___, fuhr aber schnurstra___ geradeaus.",
-model:"Der Taxifahrer blinkte links, fuhr aber schnurstracks geradeaus.",
-rule:"<div class=rbox>Taxi → x (Fremdwort)<br>links → fester Bestandteil nks<br>schnurstracks → cks (von Strack)</div>"},
+// Umgewandelt von self zu cross
+{sub:"x / cks / ks (Lückentext)",type:"cross",
+q:"x, cks oder ks?",
+rows:["Ta___ifahrer (Taxi)","lin___ (links)","schnurstra___ (schnurstracks)"],
+cols:["x","cks","ks"],
+correct:[0,2,1],
+model:"Taxi(x, Fremdwort) / links(ks) / schnurstracks(cks, von Strack)",
+rule:"<div class=rbox>Taxi → <span class=hl>x</span> (Fremdwort)<br>links → <span class=hl>ks</span><br>schnurstracks → <span class=hl>cks</span> (von Strack)</div>"},
 
-{sub:"-g oder -k am Wortende",type:"self",
-q:"Ergänzen Sie g oder k:\n\na) Dieser Schran___ ist sehr alt und wertvoll.\nb) Er san___ vor Erschöpfung zusammen.\nc) Am Bu___ des Schiffes stand der Kapitän.\nd) Ein Auto bo___ schnell um die Ecke.\ne) Sie san___ dem Kind ein Schlaflied vor.\nf) Die Lampe war aus Kerami___.",
-model:"a) Dieser Schrank ist sehr alt und wertvoll.\nb) Er sank vor Erschöpfung zusammen.\nc) Am Bug des Schiffes stand der Kapitän.\nd) Ein Auto bog schnell um die Ecke.\ne) Sie sang dem Kind ein Schlaflied vor.\nf) Die Lampe war aus Keramik.",
+// Umgewandelt von self zu cross
+{sub:"-g oder -k am Wortende",type:"cross",
+q:"Ergänze -g oder -k am Wortende (Ableitung hilft!):",
+rows:["Schran___ (Schränke→)","san___ (sinken→)","Bu___ (biegen→)","bo___ (biegen→)","san___ (singen→)","Kerami___ (Keramiken→)"],
+cols:["-g","-k"],
+correct:[1,1,0,0,0,1],
+model:"Schrank(-k: Schränke) / sank(-k: sinken) / Bug(-g: biegen) / bog(-g: biegen) / sang(-g: singen) / Keramik(-k: Keramiken)",
 rule:"<div class=rbox>Ableitung hilft:<br><span class=hl>-k</span>: Schrank→Schränke, sank→sinken<br><span class=hl>-g</span>: Bug→biegen, sang→singen</div>"},
 
-{sub:"-d oder -t am Wortende",type:"self",
-q:"Ergänzen Sie d oder t:\n\na) Vor Weihnachten ist die Ungedul___ der Kinder sehr groß.\nb) Der Wir___ hat das Lokal neu übernommen.\nc) Sei___ diesem Sommer kann sie schwimmen.\nd) Man konnte ihm ansehen, wie lei___ es ihm tat.\ne) Sei___ bitte um 21.00 Uhr zurück.\nf) Heute wir___ der Tag wunderschön.",
-model:"a) Vor Weihnachten ist die Ungeduld der Kinder sehr groß.\nb) Der Wirt hat das Lokal neu übernommen.\nc) Seit diesem Sommer kann sie schwimmen.\nd) Man konnte ihm ansehen, wie leid es ihm tat.\ne) Seid bitte um 21.00 Uhr zurück.\nf) Heute wird der Tag wunderschön.",
-rule:"<div class=rbox>Ableitung hilft:<br><span class=hl>-d</span>: ungeduldig, Leiden, seid, werden<br><span class=hl>-t</span>: Wirte, seither</div>"},
+// Umgewandelt von self zu cross
+{sub:"-d oder -t am Wortende",type:"cross",
+q:"Ergänze -d oder -t am Wortende:",
+rows:["Ungedul___ (ungeduldig→)","Wir___ (Wirte→)","Sei___ – zeitlich (seither→)","lei___ (leiden→)","Sei___ – Imperativ (ihr seid)","wir___ (werden→)"],
+cols:["-d","-t"],
+correct:[0,1,1,0,0,1],
+model:"Ungeduld(-d) / Wirt(-t: Wirte) / seit(-t: seither) / leid(-d: leiden) / Seid(-d: ihr seid) / wird(-t: werden)",
+rule:"<div class=rbox>Ableitung hilft:<br><span class=hl>-d</span>: Ungeduld(ungeduldig), Leid(leiden), Seid(ihr seid)<br><span class=hl>-t</span>: Wirt(Wirte), seit(seither), wird(werden)</div>"},
 
-{sub:"-nd oder -nt",type:"self",
-q:"Ergänzen Sie nd oder nt:\n\na) Der Drachen im Wi___ ist besonders schön bu___.\nb) Der Diama___ ist fast ganz ru___.",
-model:"a) Der Drachen im Wind ist besonders schön bunt.\nb) Der Diamant ist fast ganz rund.",
+// Umgewandelt von self zu cross
+{sub:"-nd oder -nt",type:"cross",
+q:"Ergänze -nd oder -nt:",
+rows:["Wi___ (Wind – weicher Klang)","bu___ (bunt – harter Klang)","ru___ (rund – weicher Klang)","Diama___ (Diamant – harter Klang)"],
+cols:["-nd","-nt"],
+correct:[0,1,0,1],
+model:"Wind(-nd) / bunt(-nt) / rund(-nd) / Diamant(-nt)",
 rule:"<div class=rbox><span class=hl>-nd</span>: weicher Auslaut (Wind, rund)<br><span class=hl>-nt</span>: härterer Auslaut (bunt, Diamant)</div>"},
 
-{sub:"-g oder -ch (Adjektivendungen)",type:"self",
-q:"Ergänzen Sie g oder ch:\n\na) Es ist wichtig, bei allen Aufgaben fröhli___ zu bleiben.\nb) Manches ist langweili___, manches ganz lusti___.",
-model:"a) Es ist wichtig, bei allen Aufgaben fröhlich zu bleiben.\nb) Manches ist langweilig, manches ganz lustig.",
+// Umgewandelt von self zu cross
+{sub:"-g oder -ch (Adjektivendungen)",type:"cross",
+q:"Ergänze die Adjektivendung (-lich/-ch oder -(i)g):",
+rows:["fröhli___ (fröhlich)","langweili___ (langweilig)","lusti___ (lustig)","herr___ (herrlich)","prächti___ (prächtig)"],
+cols:["-lich / -ch","-ig / -g"],
+correct:[0,1,1,0,1],
+model:"fröhlich(-lich) / langweilig(-ig) / lustig(-ig) / herrlich(-lich) / prächtig(-ig)",
 rule:"<div class=rbox><span class=hl>-lich</span>: fröhlich, herrlich, wöchentlich<br><span class=hl>-ig</span>: lustig, langweilig → wird wie -ich gesprochen, aber -ig geschrieben!</div>"},
 
 {sub:"V oder W?",type:"cross",
@@ -172,15 +239,22 @@ correct:[0,1,0,1,0,0],
 model:"Vitamine (V, Fremdwort) / Wrack (W, deutsches Wort) / Violine (V, Fremdwort) / Witwe (W, deutsches Wort) / Villa (V, Fremdwort) / Vampir (V, Fremdwort)",
 rule:"<div class=rbox>Deutsche Wörter meist <span class=hl>W</span> (Wrack, Witwe, Wasser, war)<br>Fremdwörter meist <span class=hl>V</span> (Violine, Villa, Vampir, Vitamine)</div>"},
 
-{sub:"V oder W? (Lückentext)",type:"self",
-q:"Ergänzen Sie V/v oder W/w:\n\nDas ___asser in der Blumen___ase ___ar erfault.",
-model:"Das Wasser in der Blumenvase war erfault.",
+// Umgewandelt von self zu cross
+{sub:"V oder W? (Lückentext)",type:"cross",
+q:"V oder W? (Das ___asser in der Blumen___ase ___ar erfault.)",
+rows:["___asser (Wasser – deutsches Wort)","Blumen___ase (Vase – Fremdwort)","___ar (war – deutsches Wort)"],
+cols:["V","W"],
+correct:[1,0,1],
+model:"Wasser(W) / Vase(V, Fremdwort) / war(W)",
 rule:"<div class=rbox>Wasser, war → deutsche Wörter → <span class=hl>W</span><br>Vase → Fremdwort → <span class=hl>V</span></div>"},
 
-{sub:"Fremdwörter korrekt schreiben",type:"match",
-q:"Ordne die richtige Schreibweise zu:",
-pairs:[["Foto___fie","Fotografie"],["Reserv___ierung","Reservierung"],["Exk___sion","Exkursion"],["Tour___ismus","Tourismus"],["Sa___son","Saison"]],
-model:"Fotografie / Reservierung / Exkursion / Tourismus / Saison",
+// Umgewandelt von match zu cross (korrekt/falsch)
+{sub:"Fremdwörter korrekt schreiben",type:"cross",
+q:"Ist die Schreibweise korrekt?",
+rows:["Fotografie","Reservirung","Exkursion","Tuorismus","Saison"],
+cols:["korrekt","falsch"],
+correct:[0,1,0,1,0],
+model:"Fotografie ✓ / Reservierung (nicht: Reservirung) / Exkursion ✓ / Tourismus (nicht: Tuorismus) / Saison ✓",
 rule:"<div class=rbox>Fremdwörter folgen der Herkunftssprache:<br>Fotografie (griech.) / Reservierung (lat.) / Exkursion (lat.) / Tourismus (frz.) / Saison (frz.)</div>"}
 
 ]},
@@ -188,40 +262,71 @@ rule:"<div class=rbox>Fremdwörter folgen der Herkunftssprache:<br>Fotografie (g
 // ── 3: GROß-/KLEINSCHREIBUNG & GETRENNTSCHREIBUNG ───────────────
 {id:"bbr_gross_klein",title:"Groß-/Kleinschreibung & Getrenntschreibung",emoji:"🔠",color:"#dc2626",qs:[
 
-{sub:"Groß oder klein? (1)",type:"self",
-q:"Ergänzen Sie den richtigen Anfangsbuchstaben:\n\na) Ich möchte meinen ___esten ___reund besuchen.\nb) Das ___ufräumen ist für uns alle anstrengend.\nc) Wir brauchen für die Hochzeit noch etwas ___laues.",
-model:"a) Ich möchte meinen besten Freund besuchen.\nb) Das Aufräumen ist für uns alle anstrengend.\nc) Wir brauchen für die Hochzeit noch etwas Blaues.",
+// Umgewandelt von self zu cross
+{sub:"Groß oder klein? (1)",type:"cross",
+q:"Groß (G) oder klein (k)?",
+rows:["meinen ___esten Freund – b/B?","meinen besten ___reund – f/F?","das ___aufräumen – a/A?","etwas ___laues – b/B?"],
+cols:["GROSS","klein"],
+correct:[1,0,0,0],
+model:"besten → klein (Adj. als Eigenschaft) / Freund → GROSS (Nomen) / Aufräumen → GROSS (subst. Verb) / Blaues → GROSS (subst. Adj. nach etwas)",
 rule:"<div class=rbox>Substantivierte Verben (Aufräumen) → GROSS<br>nach etwas/nichts/alles + Adj → GROSS (etwas Blaues)<br>Adjektive als Eigenschaft → klein (bester)</div>"},
 
-{sub:"Groß oder klein? (2)",type:"self",
-q:"Ergänzen Sie den richtigen Anfangsbuchstaben:\n\na) Dafür muss der ___rüne ___tift genutzt werden.\nb) Ihm macht das ___anzen immer wieder viel Spaß.\nc) In den nächsten Tagen wird nichts ___eues passieren.",
-model:"a) Dafür muss der grüne Stift genutzt werden.\nb) Ihm macht das Tanzen immer wieder viel Spaß.\nc) In den nächsten Tagen wird nichts Neues passieren.",
+// Umgewandelt von self zu cross
+{sub:"Groß oder klein? (2)",type:"cross",
+q:"Groß (G) oder klein (k)?",
+rows:["der ___rüne Stift – g/G?","der grüne ___tift – s/S?","das ___anzen – t/T?","nichts ___eues – n/N?"],
+cols:["GROSS","klein"],
+correct:[1,0,0,0],
+model:"grünen → klein (Farbadjektiv) / Stift → GROSS (Nomen) / Tanzen → GROSS (subst. Verb) / Neues → GROSS (subst. Adj. nach nichts)",
 rule:"<div class=rbox>Farbadjektive → klein (grüne)<br>Substantiviertes Verb → GROSS (Tanzen)<br>nichts/etwas + Adj → GROSS (Neues)</div>"},
 
-{sub:"Groß oder klein? (3)",type:"self",
-q:"Ergänzen Sie den richtigen Anfangsbuchstaben:\n\na) Heute bin ich zu spät zum ___chwimmen gekommen.\nb) Das Training ist die ___ichtigste Freizeitbeschäftigung.\nc) Die ___üngste in unserer Gruppe ist die ___chnellste Schwimmerin.\nd) Mein Bruder kam zu spät zum ___ssen. Das ___arten wurde zu lang,\n   deshalb begannen wir schon vor ihm zu ___ssen.",
-model:"a) Heute bin ich zu spät zum Schwimmen gekommen.\nb) Das Training ist die wichtigste Freizeitbeschäftigung.\nc) Die Jüngste in unserer Gruppe ist die schnellste Schwimmerin.\nd) Mein Bruder kam zu spät zum Essen. Das Warten wurde zu lang, deshalb begannen wir schon vor ihm zu essen.",
-rule:"<div class=rbox>nach zum/beim → GROSS<br>als Verb mit zu → klein (zu essen)<br>Superlativ ohne Bezugsnomen → GROSS (die Jüngste)</div>"},
+// Umgewandelt von self zu cross
+{sub:"Groß oder klein? (3)",type:"cross",
+q:"Groß (G) oder klein (k)? (Tipp: nach zum/beim → GROSS; Verb mit zu → klein; alleinst. Superlativ → GROSS)",
+rows:["zum ___chwimmen – s/S?","die ___ichtigste Freizeitbeschäftigung – w/W?","Die ___üngste in unserer Gruppe – j/J?","die ___chnellste Schwimmerin – s/S?","zum ___ssen – e/E?","Das ___arten wurde zu lang – w/W?","vor ihm zu ___ssen – e/E?"],
+cols:["GROSS","klein"],
+correct:[0,1,0,1,0,0,1],
+model:"Schwimmen(nach zum→GROSS) / wichtigste(Attr. Adj.→klein) / Jüngste(alleinst. Superlativ→GROSS) / schnellste(Attr. Adj. vor Schwimmerin→klein) / Essen(nach zum→GROSS) / Warten(subst. Verb→GROSS) / essen(Verb mit zu→klein)",
+rule:"<div class=rbox>nach <em>zum/beim</em> → GROSS<br>als Verb mit <em>zu</em> → klein (zu essen)<br>Superlativ ohne Bezugsnomen → GROSS (die Jüngste)</div>"},
 
-{sub:"Anredepronomen",type:"self",
-q:"Groß oder klein?\n\na) Wir bedanken uns für i/Ihr Verständnis.\nb) In Erwartung i/Ihrer Rückäußerung verbleibe i/Ich mit freundlichen Grüßen.\nc) Ich schreibe i/Ihnen, weil ich s/Sie um einen Gefallen bitten möchte.",
-model:"a) Wir bedanken uns für Ihr Verständnis.\nb) In Erwartung Ihrer Rückäußerung verbleibe ich mit freundlichen Grüßen.\nc) Ich schreibe Ihnen, weil ich Sie um einen Gefallen bitten möchte.",
+// Umgewandelt von self zu cross
+{sub:"Anredepronomen",type:"cross",
+q:"Groß (G) oder klein (k)?",
+rows:["i/Ihr Verständnis","i/Ihrer Rückäußerung","verbleibe i/Ich mit freundlichen Grüßen","schreibe i/Ihnen","i/Sie um einen Gefallen bitten"],
+cols:["GROSS","klein"],
+correct:[0,0,1,0,0],
+model:"Ihr/Ihrer/Ihnen/Sie (höfliche Anrede) → GROSS · ich (persönl. Pronomen) → klein",
 rule:"<div class=rbox>Höfliche Anrede (Sie, Ihr, Ihnen) → immer GROSS<br>Persönliche Pronomen (ich, du) → klein</div>"},
 
-{sub:"Sätze richtig schreiben (1)",type:"self",
-q:"Schreiben Sie richtig:\n\na) Beim einkauf sollte man die preise vergleichen.\nb) Manchmal verführt eine interessant aussehende verpackung die kunden.\nc) Ein einkaufszettel schützt vor unnötigen geldausgaben.",
-model:"a) Beim Einkauf sollte man die Preise vergleichen.\nb) Manchmal verführt eine interessant aussehende Verpackung die Kunden.\nc) Ein Einkaufszettel schützt vor unnötigen Geldausgaben.",
+// Umgewandelt von self zu mc (vollständige Sätze als Optionen)
+{sub:"Sätze richtig schreiben (1)",type:"mc",
+q:"Welche Version ist vollständig korrekt großgeschrieben?",
+o:["Beim Einkauf sollte man die Preise vergleichen. / Manchmal verführt eine interessant aussehende Verpackung die Kunden. / Ein Einkaufszettel schützt vor unnötigen Geldausgaben.",
+   "Beim einkauf sollte man die Preise vergleichen. / Manchmal verführt eine interessant aussehende Verpackung die kunden. / Ein Einkaufszettel schützt vor unnötigen Geldausgaben.",
+   "Beim Einkauf sollte man die preise vergleichen. / Manchmal verführt eine interessant aussehende verpackung die Kunden. / Ein Einkaufszettel schützt vor unnötigen geldausgaben."],
+c:0,
+model:"Einkauf, Preise, Verpackung, Kunden, Einkaufszettel, Geldausgaben → alle Nomen GROSS",
 rule:"<div class=rbox>Alle Nomen GROSS: Einkauf, Preise, Verpackung, Kunden, Einkaufszettel, Geldausgaben<br>Adjektive → klein (interessant aussehend)</div>"},
 
-{sub:"Sätze richtig schreiben (2)",type:"self",
-q:"Schreiben Sie richtig:\n\na) Die generalprobe verlief reibungslos und zufriedenstellend.\nb) Alle beteiligten bereiten sich fieberhaft auf die erste vorstellung vor.\nc) Eine aufführung in der aula ist immer eine spannende angelegenheit.",
-model:"a) Die Generalprobe verlief reibungslos und zufriedenstellend.\nb) Alle Beteiligten bereiten sich fieberhaft auf die erste Vorstellung vor.\nc) Eine Aufführung in der Aula ist immer eine spannende Angelegenheit.",
+// Umgewandelt von self zu mc
+{sub:"Sätze richtig schreiben (2)",type:"mc",
+q:"Welche Version ist vollständig korrekt großgeschrieben?",
+o:["Die Generalprobe verlief reibungslos. / Alle Beteiligten bereiten sich fieberhaft auf die erste Vorstellung vor. / Eine Aufführung in der Aula ist immer eine spannende Angelegenheit.",
+   "Die generalprobe verlief reibungslos. / Alle beteiligten bereiten sich fieberhaft auf die erste Vorstellung vor. / Eine aufführung in der Aula ist eine spannende Angelegenheit.",
+   "Die Generalprobe verlief reibungslos. / Alle Beteiligten bereiten sich auf die erste vorstellung vor. / Eine Aufführung in der aula ist immer eine spannende Angelegenheit."],
+c:0,
+model:"Generalprobe, Beteiligten (subst. Adj.), Vorstellung, Aufführung, Aula, Angelegenheit → GROSS",
 rule:"<div class=rbox>Nomen GROSS: Generalprobe, Beteiligten, Vorstellung, Aufführung, Aula, Angelegenheit<br>Adjektive klein: erste, spannend</div>"},
 
-{sub:"Sätze richtig schreiben (3)",type:"self",
-q:"Schreiben Sie richtig:\n\na) Nach dem essen soll sich der mensch bewegen.\nb) Für die konzentration sind regelmäßige mahlzeiten wichtig.\nc) Wasser ist bei uns im überfluss vorhanden, in anderen Ländern jedoch mangelware.\nd) Oft stellen überschwemmungen etwas gefährliches dar.",
-model:"a) Nach dem Essen soll sich der Mensch bewegen.\nb) Für die Konzentration sind regelmäßige Mahlzeiten wichtig.\nc) Wasser ist bei uns im Überfluss vorhanden, in anderen Ländern jedoch Mangelware.\nd) Oft stellen Überschwemmungen etwas Gefährliches dar.",
-rule:"<div class=rbox>Nomen GROSS: Essen, Mensch, Konzentration, Mahlzeiten, Überfluss, Mangelware, Überschwemmungen<br>etwas Gefährliches → substantiviertes Adjektiv → GROSS</div>"},
+// Umgewandelt von self zu mc
+{sub:"Sätze richtig schreiben (3)",type:"mc",
+q:"Welche Version ist vollständig korrekt großgeschrieben?",
+o:["Nach dem Essen soll sich der Mensch bewegen. / Für die Konzentration sind regelmäßige Mahlzeiten wichtig. / Wasser ist im Überfluss vorhanden. / Oft stellen Überschwemmungen etwas Gefährliches dar.",
+   "Nach dem essen soll sich der mensch bewegen. / Für die Konzentration sind regelmäßige mahlzeiten wichtig. / Wasser ist im überfluss vorhanden. / Oft stellen Überschwemmungen etwas gefährliches dar.",
+   "Nach dem Essen soll sich der Mensch bewegen. / Für die konzentration sind regelmäßige Mahlzeiten wichtig. / Wasser ist im Überfluss vorhanden. / Oft stellen überschwemmungen etwas Gefährliches dar."],
+c:0,
+model:"Essen(nach dem→GROSS), Mensch, Konzentration, Mahlzeiten, Überfluss, Überschwemmungen, Gefährliches(subst. Adj. nach etwas) → alle GROSS",
+rule:"<div class=rbox>Nomen GROSS: Essen, Mensch, Konzentration, Mahlzeiten, Überfluss, Überschwemmungen<br>etwas Gefährliches → substantiviertes Adjektiv → GROSS</div>"},
 
 {sub:"Tageszeiten & Eigennamen",type:"mc",
 q:"Groß oder klein?\n(a) Bei Regen spielen sie ___ (donnerstags / Donnerstags) in der Halle.\n(b) Zum größten ___ (teil / Teil) gab er mir Recht.\n(c) Er studiert an der ___ (technischen / Technischen) Universität Berlin.",
@@ -248,19 +353,31 @@ correct:[1,3],
 model:"(a) schwerfallen (Mühe machen, übertragene Bedeutung → zusammen)\n(b) Klavierüben (als Nomen gebraucht → zusammen + GROSS)",
 rule:"<div class=rbox><span class=hl>schwerfallen</span>: Mühe machen (übertragen) → zusammen<br><span class=hl>Klavierüben</span>: als Nomen gebraucht → zusammen + GROSS<br><span class=hl>Klavier üben</span>: als Tätigkeit → getrennt</div>"},
 
-{sub:"end- oder ent-?",type:"self",
-q:"Ergänzen Sie end- oder ent-:\n\na) Er hat ___lich sein Fahrrad repariert.\nb) Ich bin ___täuscht von seiner Reaktion.\nc) Der Marathonläufer setzte zu seinem ___spurt an.",
-model:"a) Er hat endlich sein Fahrrad repariert.\nb) Ich bin enttäuscht von seiner Reaktion.\nc) Der Marathonläufer setzte zu seinem Endspurt an.",
+// Umgewandelt von self zu cross
+{sub:"end- oder ent-?",type:"cross",
+q:"end- oder ent-?",
+rows:["___lich (endlich – zum Ende hin)","___täuscht (enttäuscht – Trennungsvorsilbe)","___spurt (Endspurt – Abschlussspurt)","___fernen (entfernen – Vorsilbe der Trennung)","___station (Endstation – letzte Station)"],
+cols:["end-","ent-"],
+correct:[0,1,0,1,0],
+model:"endlich/Endspurt/Endstation → Ende, Schluss · enttäuscht/entfernen → Trennung oder Gegenteil",
 rule:"<div class=rbox><span class=hl>end-</span>: Ende, Schluss (endlich, Endspurt, Endstation)<br><span class=hl>ent-</span>: Trennung oder Gegenteil (enttäuscht, entfernen)</div>"},
 
-{sub:"wieder oder wider? (1)",type:"self",
-q:"Ergänzen Sie wieder oder wider:\n\na) Ich möchte dich gerne ___sehen.\nb) Es ___strebt ihr, sich zu entschuldigen.\nc) Er hat das Buch ___holt gelesen.\nd) Er ___spricht sich.\ne) Die Großmutter konnte nach der Operation ___ laufen.",
-model:"a) Ich möchte dich gerne wiedersehen.\nb) Es widerstrebt ihr, sich zu entschuldigen.\nc) Er hat das Buch wiederholt gelesen.\nd) Er widerspricht sich.\ne) Die Großmutter konnte nach der Operation wieder laufen.",
+// Umgewandelt von self zu cross (wie Aufgabe (3))
+{sub:"wieder oder wider? (1)",type:"cross",
+q:"wieder (= nochmal/zurück) oder wider (= gegen)?",
+rows:["Ich möchte dich gerne ___sehen.","Es ___strebt ihr, sich zu entschuldigen.","Er hat das Buch ___holt gelesen.","Er ___spricht sich.","Die Großmutter konnte nach der OP ___ laufen."],
+cols:["wieder","wider"],
+correct:[0,1,0,1,0],
+model:"wiedersehen(nochmal) / widerstrebt(gegen) / wiederholt(nochmal) / widerspricht(gegen) / wieder laufen(nochmal)",
 rule:"<div class=rbox><span class=hl>wieder</span>: noch einmal, erneut (Eselsbrücke: nochmal wie der Anfang)<br><span class=hl>wider</span>: gegen (Widerspruch, Widerstand)</div>"},
 
-{sub:"wieder oder wider? (2)",type:"self",
-q:"Unterstreichen Sie die richtige Schreibweise:\n\na) Die neue Chefin will die Vorschriften wider/wieder einführen.\nb) Die Klasse wird die Aufführung widerholen/wiederholen.\nc) Es hat ihr widerstrebt/wiederstrebt, die Hausaufgaben zu machen.\nd) Er hat alle Bücher wider/wieder zurückgebracht.\ne) Du widersprichst/wiedersprichst dir.",
-model:"a) Die neue Chefin will die Vorschriften wieder einführen.\nb) Die Klasse wird die Aufführung wiederholen.\nc) Es hat ihr widerstrebt, die Hausaufgaben zu machen.\nd) Er hat alle Bücher wieder zurückgebracht.\ne) Du widersprichst dir.",
+// Umgewandelt von self (unterstreichen) zu cross
+{sub:"wieder oder wider? (2)",type:"cross",
+q:"wieder oder wider?",
+rows:["Die Chefin will die Vorschriften ___ einführen. (erneut)","Die Klasse wird die Aufführung ___holen.","Es hat ihr ___strebt, die Hausaufgaben zu machen.","Er hat alle Bücher ___ zurückgebracht.","Du ___sprichst dir."],
+cols:["wieder","wider"],
+correct:[0,0,1,0,1],
+model:"wieder einführen(erneut) / wiederholen(nochmal) / widerstrebt(gegen) / wieder zurück(erneut) / widersprichst(gegen)",
 rule:"<div class=rbox>Wiederholung/erneut → <span class=hl>wieder</span><br>Gegen etwas → <span class=hl>wider</span></div>"},
 
 {sub:"wieder oder wider? (3)",type:"cross",
@@ -276,10 +393,14 @@ rule:"<div class=rbox><span class=hl>wider-</span>: gegen, entgegen (Widerrede, 
 // ── 4: GRAMMATIK ────────────────────────────────────────────────
 {id:"bbr_grammatik",title:"Grammatik",emoji:"📘",color:"#0891b2",qs:[
 
-{sub:"Vorsilbe vor zwei Wörtern",type:"self",
-q:"Setzen Sie denselben Wortbaustein (Ver-/ver-, voll-, Vor-/vor-, vier) so ein,\ndass er zu beiden Wörtern passt:\n\na) ziehen + bringen →\nb) brecher + kehr →\nc) wärts + tragen →\nd) knoten + tragen →\ne) fach + händig →\nf) band + teidigung →",
-model:"a) verziehen / verbringen\nb) Verbrecher / Verkehr\nc) vorwärts / vortragen\nd) verknoten / vertragen\ne) vierfach / vierhändig\nf) Verband / Verteidigung",
-rule:"<div class=rbox>Gleiche Vorsilbe muss zu beiden Wörtern passen:<br>ver-: verziehen, verbringen, Verbrecher...<br>vor-: vorwärts, vortragen<br>vier-: vierfach, vierhändig</div>"},
+// Umgewandelt von self zu cross
+{sub:"Vorsilbe vor zwei Wörtern",type:"cross",
+q:"Welche Vorsilbe passt zu beiden Wörtern?",
+rows:["ziehen + bringen →","brecher + kehr →","wärts + tragen →","knoten + tragen →","fach + händig →","band + teidigung →"],
+cols:["ver-","vor-","vier-"],
+correct:[0,0,1,0,2,0],
+model:"verziehen/verbringen / Verbrecher/Verkehr / vorwärts/vortragen / verknoten/vertragen / vierfach/vierhändig / Verband/Verteidigung",
+rule:"<div class=rbox>ver-: verziehen, verbringen, Verbrecher, Verkehr, verknoten, vertragen, Verband, Verteidigung<br>vor-: vorwärts, vortragen<br>vier-: vierfach, vierhändig</div>"},
 
 {sub:"Unbestimmter Artikel",type:"mc",
 q:"Welcher Artikel ist richtig?\n(a) Wir brauchen noch ___ helfende Hand.\n(b) Dazu habe ich noch ___ Artikel gelesen.\n(c) ___ guten Freund hilft man gern.\n(d) Das ist ___ großer Erfolg!",
@@ -290,79 +411,145 @@ c:0,
 model:"eine Hand (f, Nom.) / einen Artikel (m, Akk.) / Einem Freund (m, Dat.) / ein Erfolg (m, Nom.)",
 rule:"<div class=rbox>Maskulinum: Nom. <span class=hl>ein</span>, Akk. <span class=hl>einen</span>, Dat. <span class=hl>einem</span><br>Femininum Nom./Akk.: <span class=hl>eine</span><br>Neutrum Nom./Akk.: <span class=hl>ein</span></div>"},
 
-{sub:"Bestimmter Artikel",type:"self",
-q:"Ergänzen Sie den richtigen bestimmten Artikel (der/die/das/dem/den):\n\na) Wir möchten uns sehr für ___ Einladung bedanken.\nb) Wir freuen uns auch schon sehr auf ___ Geburtstag!\nc) Auch an ___ Geschenk beteiligen wir uns gern.\nd) Vor ___ Feier müssen wir uns schick anziehen.",
-model:"a) Wir möchten uns sehr für die Einladung bedanken.\nb) Wir freuen uns auch schon sehr auf den Geburtstag!\nc) Auch an dem Geschenk beteiligen wir uns gern.\nd) Vor der Feier müssen wir uns schick anziehen.",
-rule:"<div class=rbox>für + Akk. / auf + Akk. / an + Dat. / vor + Dat.<br>Einladung (f), Geburtstag (m), Geschenk (n), Feier (f)</div>"},
+// Umgewandelt von self zu cross
+{sub:"Bestimmter Artikel",type:"cross",
+q:"Ergänze den richtigen bestimmten Artikel:",
+rows:["für ___ Einladung (Einladung = f., Akk.)","auf ___ Geburtstag (Geburtstag = m., Akk.)","an ___ Geschenk (Geschenk = n., Dat.)","vor ___ Feier (Feier = f., Dat.)"],
+cols:["die","den","das","dem","der"],
+correct:[0,1,3,4],
+model:"für die Einladung(f,Akk) / auf den Geburtstag(m,Akk) / an dem Geschenk(n,Dat) / vor der Feier(f,Dat)",
+rule:"<div class=rbox>für/auf + Akk. → m: <span class=hl>den</span>, f: <span class=hl>die</span><br>an/vor + Dat. → m/n: <span class=hl>dem</span>, f: <span class=hl>der</span></div>"},
 
-{sub:"Bestimmter vs. unbestimmter Artikel",type:"self",
-q:"Ergänzen Sie den richtigen Artikel:\n\nRebecca hat ___ neuen Computer bekommen.\n___ Computer hat ___ besonders guten Bildschirm.",
-model:"Rebecca hat einen neuen Computer bekommen.\nDer Computer hat einen besonders guten Bildschirm.",
-rule:"<div class=rbox>Neu eingeführt → <span class=hl>unbestimmter Artikel</span> (ein/eine)<br>Bekannt, bereits erwähnt → <span class=hl>bestimmter Artikel</span> (der/die/das)</div>"},
+// Umgewandelt von self zu mc
+{sub:"Bestimmter vs. unbestimmter Artikel",type:"mc",
+q:"Welche Artikel sind korrekt?\n\nRebecca hat ___ neuen Computer bekommen.\n___ Computer hat ___ besonders guten Bildschirm.",
+o:["einen / Der / einen",
+   "ein / Der / der",
+   "einen / Ein / einen"],
+c:0,
+model:"einen Computer(m, Akk., neu eingeführt → unbestimmt) / Der Computer(bekannt → bestimmt) / einen Bildschirm(m, Akk., neu eingeführt → unbestimmt)",
+rule:"<div class=rbox>Neu eingeführt → <span class=hl>unbestimmter Artikel</span> (ein/eine/einen)<br>Bekannt, bereits erwähnt → <span class=hl>bestimmter Artikel</span> (der/die/das)</div>"},
 
-{sub:"Adjektivdeklination (1)",type:"self",
-q:"Setzen Sie das Adjektiv in der richtigen Form ein:\n\na) Die ___ (schön) Feier werden wir nicht vergessen.\nb) Den ___ (neu) Schüler begrüßen wir morgen.\nc) Ich mag diesen ___ (grün) Mantel.\nd) Die ___ (groß) Begeisterung blieb leider aus.",
-model:"a) Die schöne Feier werden wir nicht vergessen.\nb) Den neuen Schüler begrüßen wir morgen.\nc) Ich mag diesen grünen Mantel.\nd) Die große Begeisterung blieb leider aus.",
-rule:"<div class=rbox>Nach bestimmtem Artikel (der/die/das/diesen) → <span class=hl>schwache Deklination</span>: Nom. -e, alles andere -en</div>"},
+// Umgewandelt von self zu cross (Endung -e oder -en nach best. Artikel)
+{sub:"Adjektivdeklination (1)",type:"cross",
+q:"Welche Endung hat das Adjektiv nach dem bestimmten Artikel?",
+rows:["Die ___ (schön) Feier – Nominativ, f.","Den ___ (neu) Schüler – Akkusativ, m.","diesen ___ (grün) Mantel – Akkusativ, m.","Die ___ (groß) Begeisterung – Nominativ, f."],
+cols:["…-e","…-en"],
+correct:[0,1,1,0],
+model:"schöne(Nom.f.→-e) / neuen(Akk.m.→-en) / grünen(nach diesem, Akk.→-en) / große(Nom.f.→-e)",
+rule:"<div class=rbox>Nach bestimmtem Artikel → <span class=hl>schwache Deklination</span>:<br>Nom./Akk. n. und Nom. m./f. → <span class=hl>-e</span><br>alle anderen Formen → <span class=hl>-en</span></div>"},
 
-{sub:"Adjektivdeklination (2)",type:"self",
-q:"Setzen Sie das Adjektiv in der richtigen Form ein:\n\na) Das ___ (heiß) Essen wurde schnell kalt.\nb) Die ___ (laut) Stimmen drangen durch die Tür.\nc) Das Haus auf dem ___ (flach) Hügel gefiel uns.\nd) Im Winter muss man mit ___ (eisig) Winden rechnen.\ne) Bei ___ (klar) Sicht kann man kilometerweit sehen.",
-model:"a) Das heiße Essen wurde schnell kalt.\nb) Die lauten Stimmen drangen durch die Tür.\nc) Das Haus auf dem flachen Hügel gefiel uns.\nd) Im Winter muss man mit eisigen Winden rechnen.\ne) Bei klarer Sicht kann man kilometerweit sehen.",
-rule:"<div class=rbox>Nach bestimmtem Artikel → schwache Deklination: Nom. <span class=hl>-e</span>, sonst <span class=hl>-en</span></div>"},
+// Umgewandelt von self zu cross
+{sub:"Adjektivdeklination (2)",type:"cross",
+q:"Welche Adjektivendung ist korrekt?",
+rows:["Das ___ (heiß) Essen – Nom., n.","Die ___ (laut) Stimmen – Nom., Pl.","dem ___ (flach) Hügel – Dat., m.","mit ___ (eisig) Winden – Dat., Pl.","bei ___ (klar) Sicht – Dat., f., kein Artikel"],
+cols:["…-e","…-en","…-er"],
+correct:[0,1,1,1,2],
+model:"heiße(Nom.n.→-e) / lauten(Pl.→-en) / flachen(Dat.m.→-en) / eisigen(Dat.Pl.→-en) / klarer(Dat.f. ohne Artikel→stark -er)",
+rule:"<div class=rbox>Nach best. Artikel → schwach (-e/-en)<br>Ohne Artikel, Dat. f. → stark: <span class=hl>-er</span></div>"},
 
-{sub:"Adjektivdeklination (3)",type:"self",
-q:"Setzen Sie das Adjektiv in der richtigen Form ein:\n\na) Das ___ (warm) Wetter hielt lange an.\nb) Die ___ (leicht) Aufgaben waren schnell erledigt.\nc) Aus dem ___ (hell) Flur drang Licht ins Zimmer.\nd) Ein ___ (klein) Teilchen fehlte noch.\ne) Bei ___ (schnell) Tempo kann man Schilder nicht lesen.",
-model:"a) Das warme Wetter hielt lange an.\nb) Die leichten Aufgaben waren schnell erledigt.\nc) Aus dem hellen Flur drang Licht ins Zimmer.\nd) Ein kleines Teilchen fehlte noch.\ne) Bei schnellem Tempo kann man Schilder nicht lesen.",
-rule:"<div class=rbox>Nach best. Artikel → schwach (-e/-en)<br>Nach unbest. Artikel → gemischt: Nom./Akk. n: <span class=hl>-es</span>; m: <span class=hl>-er</span><br>Dat. ohne Artikel → stark: <span class=hl>-em</span></div>"},
+// Umgewandelt von self zu cross
+{sub:"Adjektivdeklination (3)",type:"cross",
+q:"Welche Adjektivendung ist korrekt?",
+rows:["Das ___ (warm) Wetter – Nom., n.","Die ___ (leicht) Aufgaben – Nom., Pl.","Aus dem ___ (hell) Flur – Dat., m.","Ein ___ (klein) Teilchen – Nom., n., unb. Artikel","Bei ___ (schnell) Tempo – Dat., n., kein Artikel"],
+cols:["…-e","…-en","…-em","…-es"],
+correct:[0,1,1,3,2],
+model:"warme(-e) / leichten(-en) / hellen(-en) / kleines(nach ein, Nom.n.→-es) / schnellem(Dat.n. kein Artikel→stark -em)",
+rule:"<div class=rbox>Nach best. Artikel → schwach (-e/-en)<br>Nach unbest. Artikel Nom./Akk. n: <span class=hl>-es</span>, m: <span class=hl>-er</span><br>Dat. ohne Artikel → stark: <span class=hl>-em</span></div>"},
 
-{sub:"Pronomen einsetzen",type:"self",
-q:"Ersetzen Sie das unterstrichene Nomen durch ein Personalpronomen:\n\na) Ein Fenster ging zu Bruch. ___ muss repariert werden.\nb) Erst spät sind die Wanderer angekommen. ___ sind sehr hungrig.\nc) Die Mannschaft hatte viele Torchancen, aber ___ hat sie nicht genutzt.\nd) Ein alter Mann hatte sich verlaufen, weshalb ___ mich nach dem Weg fragte.\ne) Elli nimmt das Fahrrad, weil ___ für ___ das liebste Transportmittel ist.",
-model:"a) Ein Fenster ging zu Bruch. Es muss repariert werden.\nb) Erst spät sind die Wanderer angekommen. Sie sind sehr hungrig.\nc) Die Mannschaft hatte viele Torchancen, aber sie hat sie nicht genutzt.\nd) Ein alter Mann hatte sich verlaufen, weshalb er mich nach dem Weg fragte.\ne) Elli nimmt das Fahrrad, weil es für sie das liebste Transportmittel ist.",
-rule:"<div class=rbox>Pronomen richtet sich nach Genus und Numerus:<br>m → <span class=hl>er</span> | f → <span class=hl>sie</span> | n → <span class=hl>es</span> | Pl. → <span class=hl>sie</span></div>"},
+// Umgewandelt von self zu cross
+{sub:"Pronomen einsetzen",type:"cross",
+q:"Welches Personalpronomen ersetzt das unterstrichene Nomen?",
+rows:["Ein <u>Fenster</u> ging zu Bruch. ___ muss repariert werden.","Erst spät sind die <u>Wanderer</u> angekommen. ___ sind sehr hungrig.","Die <u>Mannschaft</u> hatte Torchancen, aber ___ hat sie nicht genutzt.","Ein alter <u>Mann</u> hatte sich verlaufen, weshalb ___ mich fragte.","<u>Elli</u> nimmt das Fahrrad, weil ___ für sie das liebste Transportmittel ist."],
+cols:["er","sie (Sg.)","es","sie (Pl.)"],
+correct:[2,3,1,0,2],
+model:"Fenster(n)→es / Wanderer(Pl.)→sie(Pl.) / Mannschaft(f)→sie(Sg.) / Mann(m)→er / Fahrrad(n)→es",
+rule:"<div class=rbox>Pronomen nach Genus und Numerus:<br>m → <span class=hl>er</span> | f → <span class=hl>sie</span> | n → <span class=hl>es</span> | Pl. → <span class=hl>sie</span></div>"},
 
-{sub:"Verben auswählen: fallen-Komposita",type:"self",
-q:"Wählen Sie das passende Verb (ausfallen, gefallen, befallen):\n\na) Das Konzert muss heute leider ___.\nb) Sie tut alles, um ihr zu ___.\nc) Der Hund muss zum Arzt, weil er von Flöhen ___ ist.",
-model:"a) Das Konzert muss heute leider ausfallen.\nb) Sie tut alles, um ihr zu gefallen.\nc) Der Hund muss zum Arzt, weil er von Flöhen befallen ist.",
+// Umgewandelt von self zu mc
+{sub:"Verben auswählen: fallen-Komposita",type:"mc",
+q:"Welches Verb passt?\n(a) Das Konzert muss heute leider ___.\n(b) Sie tut alles, um ihr zu ___.\n(c) Der Hund muss zum Arzt, weil er von Flöhen ___ ist.",
+o:["ausfallen / gefallen / befallen",
+   "gefallen / ausfallen / befallen",
+   "ausfallen / befallen / gefallen"],
+c:0,
+model:"ausfallen (nicht stattfinden) / gefallen (jemandem angenehm sein) / befallen (von Parasiten heimgesucht)",
 rule:"<div class=rbox>ausfallen = nicht stattfinden<br>gefallen = jemandem angenehm sein<br>befallen = von Krankheit/Parasiten heimgesucht</div>"},
 
-{sub:"Zeitformen (1)",type:"self",
-q:"Verb in angegebener Zeitform:\n\na) Präsens: Abends ___ ich immer ein paar Seiten ___. (lesen)\nb) Präteritum: Die Hauptdarstellerin ___ großartig ___. (spielen)\nc) Perfekt: Wir ___ das Spiel leider ___. (verlieren)",
-model:"a) Abends lese ich immer ein paar Seiten.\nb) Die Hauptdarstellerin spielte großartig.\nc) Wir haben das Spiel leider verloren.",
-rule:"<div class=rbox>Präsens: ich lese<br>Präteritum: spielte (-te, schwaches Verb)<br>Perfekt: haben + Partizip II (verloren)</div>"},
+// Umgewandelt von self zu mc
+{sub:"Zeitformen (1)",type:"mc",
+q:"Verb in der angegebenen Zeitform:\n(a) Präsens – lesen: Abends ___ ich immer ein paar Seiten.\n(b) Präteritum – spielen: Die Hauptdarstellerin ___ großartig.\n(c) Perfekt – verlieren: Wir ___ das Spiel leider ___.",
+o:["lese / spielte / haben verloren",
+   "lesen / spielten / haben verloren",
+   "lese / spielte / hatten verloren"],
+c:0,
+model:"lese(Präs., ich) / spielte(Prät. schwach) / haben verloren(Perf.: haben+Part.II)",
+rule:"<div class=rbox>Präsens: ich <span class=hl>lese</span><br>Präteritum schwach: <span class=hl>spielte</span> (-te)<br>Perfekt: haben + Partizip II (<span class=hl>verloren</span>)</div>"},
 
-{sub:"Zeitformen (2)",type:"self",
-q:"Verb in angegebener Zeitform:\n\na) Präsens: Herr Schöller ___ (sein) Friseur.\nb) Präteritum: Er ___ (lernen) am Oberstufenzentrum Körperpflege.\nc) Perfekt (direkte Rede): Schon als Kind ___ ich mich für Frisuren ___. (sich interessieren)",
-model:"a) Herr Schöller ist Friseur.\nb) Er lernte am Oberstufenzentrum Körperpflege.\nc) Schon als Kind habe ich mich für Frisuren interessiert.",
-rule:"<div class=rbox>sein → Präsens: ist<br>lernen → Präteritum: lernte (schwach)<br>sich interessieren → Perfekt: habe mich interessiert</div>"},
+// Umgewandelt von self zu mc
+{sub:"Zeitformen (2)",type:"mc",
+q:"Verb in der angegebenen Zeitform:\n(a) Präsens – sein: Herr Schöller ___ Friseur.\n(b) Präteritum – lernen: Er ___ am Oberstufenzentrum Körperpflege.\n(c) Perfekt – sich interessieren: Schon als Kind ___ ich mich für Frisuren ___.",
+o:["ist / lernte / habe mich interessiert",
+   "ist / lernete / bin interessiert",
+   "war / lernte / hatte mich interessiert"],
+c:0,
+model:"ist(Präs. sein) / lernte(Prät. schwach) / habe mich interessiert(Perf. mit haben)",
+rule:"<div class=rbox>sein → Präsens: <span class=hl>ist</span><br>lernen → Präteritum: <span class=hl>lernte</span> (schwach)<br>sich interessieren → Perfekt: <span class=hl>habe mich interessiert</span></div>"},
 
-{sub:"Konjugationstabelle (1)",type:"self",
-q:"Ergänzen Sie die fehlenden Verbformen:\n\nmeinen: Perfekt ihr ___ / Futur I wir ___\nspringen: Perfekt ihr ___ / Futur I ihr ___\nkochen: Präteritum ihr ___ / Perfekt er ___",
-model:"meinen: ihr habt gemeint / wir werden meinen\nspringen: ihr seid gesprungen / ihr werdet springen\nkochen: ihr kochtet / er hat gekocht",
+// Umgewandelt von self zu mc
+{sub:"Konjugationstabelle (1)",type:"mc",
+q:"Welche Verbformen sind korrekt?\n\nmeinen: Perfekt ihr ___ / Futur I wir ___\nspringen: Perfekt ihr ___ / Futur I ihr ___\nkochen: Präteritum ihr ___ / Perfekt er ___",
+o:["habt gemeint / werden meinen / seid gesprungen / werdet springen / kochtet / hat gekocht",
+   "haben gemeint / werden meinen / haben gesprungen / werdet springen / kochtet / hat gekocht",
+   "habt gemeint / werden meinen / seid gesprungen / werden springen / kochten / hat gekocht"],
+c:0,
+model:"meinen: ihr habt gemeint / wir werden meinen · springen: ihr seid gesprungen (Bewegungsverb→sein) / ihr werdet springen · kochen: ihr kochtet / er hat gekocht",
 rule:"<div class=rbox>Perfekt: haben/sein + Partizip II<br>springen → Perfekt mit <span class=hl>sein</span> (Bewegungsverb)<br>Futur I: werden + Infinitiv</div>"},
 
-{sub:"Konjugationstabelle (2)",type:"self",
-q:"Ergänzen Sie die fehlenden Verbformen:\n\nrennen: Perfekt ihr ___ / Futur I wir ___\nspielen: Perfekt ihr ___ / Futur I ihr ___\nsagen: Präteritum ihr ___ / Perfekt er ___",
-model:"rennen: ihr seid gerannt / wir werden rennen\nspielen: ihr habt gespielt / ihr werdet spielen\nsagen: ihr sagtet / er hat gesagt",
+// Umgewandelt von self zu mc
+{sub:"Konjugationstabelle (2)",type:"mc",
+q:"Welche Verbformen sind korrekt?\n\nrennen: Perfekt ihr ___ / Futur I wir ___\nspielen: Perfekt ihr ___ / Futur I ihr ___\nsagen: Präteritum ihr ___ / Perfekt er ___",
+o:["seid gerannt / werden rennen / habt gespielt / werdet spielen / sagtet / hat gesagt",
+   "habt gerannt / werden rennen / habt gespielt / werdet spielen / sagtet / hat gesagt",
+   "seid gerannt / werden rennen / habt gespielt / werden spielen / sagtet / habt gesagt"],
+c:0,
+model:"rennen: ihr seid gerannt(Bewegungsverb→sein) / wir werden rennen · spielen: ihr habt gespielt / ihr werdet spielen · sagen: ihr sagtet / er hat gesagt",
 rule:"<div class=rbox>rennen → Perfekt mit <span class=hl>sein</span> (Bewegungsverb)<br>spielen, sagen → schwach: haben + Partizip II</div>"},
 
+// BEHALTEN als self: vollständiger Satz in Zeitform umschreiben
 {sub:"Satz in vorgegebener Zeitform",type:"self",
 q:"Schreiben Sie den Satz in der angegebenen Zeitform:\n\na) Ich plane eine Reise. → Futur I:\nb) Sie reden über den Film. → Präteritum:\nc) Wir besuchen das Museum. → Perfekt:\nd) Du lachst viel. → Perfekt:\ne) Sie schreibt eine Bewerbung. → Futur I:\nf) Er fährt mit dem Zug. → Präteritum:",
 model:"a) Ich werde eine Reise planen.\nb) Sie redeten über den Film.\nc) Wir haben das Museum besucht.\nd) Du hast viel gelacht.\ne) Sie wird eine Bewerbung schreiben.\nf) Er fuhr mit dem Zug.",
 rule:"<div class=rbox>Futur I: werden + Infinitiv<br>Präteritum schwach: -te (redeten)<br>Präteritum stark: fuhr (fahren)<br>Perfekt: haben + Partizip II</div>"},
 
-{sub:"Verben auswählen (Kollokationen)",type:"self",
-q:"Ergänzen Sie das passende Verb:\n\na) Der Ausbilder musste viele Anweisungen ___. (geben / halten / machen)\nb) Auf der Feier sollte sie eine Rede ___. (geben / halten / machen)\nc) Er wollte das Gespräch mit dem Lehrling ___. (entwerfen / führen / ablegen)\nd) Am Anfang mussten sie einen Plan ___. (entwerfen / führen / ablegen)",
-model:"a) Der Ausbilder musste viele Anweisungen geben.\nb) Auf der Feier sollte sie eine Rede halten.\nc) Er wollte das Gespräch mit dem Lehrling führen.\nd) Am Anfang mussten sie einen Plan entwerfen.",
+// Umgewandelt von self zu mc
+{sub:"Verben auswählen (Kollokationen)",type:"mc",
+q:"Welche Verbkombinationen sind korrekt?\n(a) Der Ausbilder musste viele Anweisungen ___.\n(b) Auf der Feier sollte sie eine Rede ___.\n(c) Er wollte das Gespräch mit dem Lehrling ___.\n(d) Am Anfang mussten sie einen Plan ___.",
+o:["Anweisungen geben / Rede halten / Gespräch führen / Plan entwerfen",
+   "Anweisungen halten / Rede geben / Gespräch führen / Plan entwerfen",
+   "Anweisungen machen / Rede halten / Gespräch ablegen / Plan entwerfen"],
+c:0,
+model:"Anweisungen geben / Rede halten / Gespräch führen / Plan entwerfen",
 rule:"<div class=rbox>Feste Verbindungen (Kollokationen):<br>Anweisungen <span class=hl>geben</span> / Rede <span class=hl>halten</span> / Gespräch <span class=hl>führen</span> / Plan <span class=hl>entwerfen</span></div>"},
 
-{sub:"Komposita mit/ohne Fugenelement (1)",type:"self",
-q:"Setzen Sie die Begriffe richtig zusammen:\n\na) Reinigung + Kraft →\nb) Spiel + Platz →\nc) Maschine + Bau →\nd) Fan + Club →",
-model:"a) Reinigungskraft (mit Fugenelement -s-)\nb) Spielplatz (ohne Fugenelement)\nc) Maschinenbau (mit Fugenelement -n-)\nd) Fanclub (ohne Fugenelement)",
-rule:"<div class=rbox><span class=hl>Mit Fugenelement</span>: Reinigung + -s- + Kraft, Maschine + -n- + Bau<br><span class=hl>Ohne Fugenelement</span>: Spielplatz, Fanclub</div>"},
+// Umgewandelt von self zu mc
+{sub:"Komposita mit/ohne Fugenelement (1)",type:"mc",
+q:"Wie werden die Wörter zusammengesetzt?\n(a) Reinigung + Kraft →\n(b) Spiel + Platz →\n(c) Maschine + Bau →\n(d) Fan + Club →",
+o:["Reinigungskraft / Spielplatz / Maschinenbau / Fanclub",
+   "Reinigskraft / Spielplatz / Maschinenenbau / Fanclub",
+   "Reinigungskraft / Spielsplatz / Maschinenbau / Fan-Club"],
+c:0,
+model:"Reinigungskraft(-s-) / Spielplatz(kein) / Maschinenbau(-n-) / Fanclub(kein)",
+rule:"<div class=rbox><span class=hl>Mit Fugenelement</span>: Reinigung + <em>-s-</em> + Kraft, Maschine + <em>-n-</em> + Bau<br><span class=hl>Ohne Fugenelement</span>: Spielplatz, Fanclub</div>"},
 
-{sub:"Komposita mit/ohne Fugenelement (2)",type:"self",
-q:"Setzen Sie die Begriffe richtig zusammen:\n\na) Geburtstag + Feier →\nb) Keller + Tür →\nc) Hals + Kette →\nd) Tasche + Tuch →",
-model:"a) Geburtstagsfeier (mit Fugenelement -s-)\nb) Kellertür (ohne Fugenelement)\nc) Halskette (ohne Fugenelement)\nd) Taschentuch (ohne Fugenelement)",
+// Umgewandelt von self zu mc
+{sub:"Komposita mit/ohne Fugenelement (2)",type:"mc",
+q:"Wie werden die Wörter zusammengesetzt?\n(a) Geburtstag + Feier →\n(b) Keller + Tür →\n(c) Hals + Kette →\n(d) Tasche + Tuch →",
+o:["Geburtstagsfeier / Kellertür / Halskette / Taschentuch",
+   "Geburtstagfeier / Kellertür / Hals-Kette / Taschentuch",
+   "Geburtstagsfeier / Kellerstür / Halskette / Taschetuch"],
+c:0,
+model:"Geburtstagsfeier(-s-) / Kellertür(kein) / Halskette(kein) / Taschentuch(kein)",
 rule:"<div class=rbox>Geburtstag + <span class=hl>-s-</span> + Feier → Geburtstagsfeier<br>Keller, Hals, Tasche: kein Fugenelement nötig</div>"}
 
 ]},
@@ -370,26 +557,31 @@ rule:"<div class=rbox>Geburtstag + <span class=hl>-s-</span> + Feier → Geburts
 // ── 5: SATZLEHRE & ZEICHENSETZUNG ───────────────────────────────
 {id:"bbr_satzlehre",title:"Satzlehre & Zeichensetzung",emoji:"🔗",color:"#9333ea",qs:[
 
+// BEHALTEN als self: Satzgefüge mit Konjunktion bilden
 {sub:"Satzgefüge bilden (1)",type:"self",
 q:"Bilden Sie ein Satzgefüge mit der angegebenen Konjunktion:\n\na) Sie ist abfahrbereit. Sie hat bereits gepackt. (da)\nb) Ich komme pünktlich. Die U-Bahn ist zu spät gekommen. (obwohl)\nc) Ich hatte den Aufsatz zu Ende geschrieben. Ich konnte ihn abschicken. (nachdem)",
 model:"a) Sie ist abfahrbereit, da sie bereits gepackt hat.\nb) Ich komme pünktlich, obwohl die U-Bahn zu spät gekommen ist.\nc) Nachdem ich den Aufsatz zu Ende geschrieben hatte, konnte ich ihn endlich abschicken.",
 rule:"<div class=rbox>da (Grund), obwohl (Gegensatz), nachdem (Vorzeitigkeit) → alle Verb ans Ende<br>Komma zwischen Haupt- und Nebensatz</div>"},
 
+// BEHALTEN als self
 {sub:"Satzgefüge bilden (2)",type:"self",
 q:"Bilden Sie ein Satzgefüge:\n\na) Ich muss früh aufstehen. Wir fahren an die Ostsee. (weil)\nb) Du solltest die Blumen gießen. Sie blühen besonders schön. (damit)\nc) Ich kann mit in den Park. Du hilfst mir bei den Hausaufgaben. (wenn)\nd) Nuria geht oft ins Fitnessstudio. Sie will bessere Kondition. (denn)",
 model:"a) Ich muss früh aufstehen, weil wir an die Ostsee fahren.\nb) Du solltest die Blumen gießen, damit sie besonders schön blühen.\nc) Ich kann mit in den Park kommen, wenn du mir bei den Hausaufgaben hilfst.\nd) Nuria geht oft ins Fitnessstudio, denn sie will eine bessere Kondition bekommen.",
 rule:"<div class=rbox>weil, damit, wenn → NS (Verb am Ende)<br><span class=hl>denn</span> → HS-Konjunktion: Verb an Pos. 2, kein Nebensatz!</div>"},
 
+// BEHALTEN als self
 {sub:"Satzgefüge bilden (Radfahren)",type:"self",
 q:"Bilden Sie Satzgefüge:\n\na) Radfahren schont die Umwelt. Man verbraucht kein Benzin. (weil)\nb) Bei Regen muss man vorsichtig sein. Man rutscht nicht aus. (damit)\nc) Eine Radtour ist anstrengend. Die Freude kann nachlassen. (sodass)\nd) Ich fahre täglich Rad. Ich finde das viel zu anstrengend. (obwohl)",
 model:"a) Radfahren schont die Umwelt, weil man kein Benzin verbraucht.\nb) Bei Regen muss man vorsichtig sein, damit man nicht ausrutscht.\nc) Eine Radtour ist anstrengend, sodass die Freude nachlassen kann.\nd) Ich fahre täglich Rad, obwohl ich das viel zu anstrengend finde.",
 rule:"<div class=rbox>weil (Grund), damit (Zweck), sodass (Folge), obwohl (Gegensatz) → alle NS (Verb am Ende)</div>"},
 
+// BEHALTEN als self
 {sub:"Satzgefüge bilden (Sport & Wasser)",type:"self",
 q:"Bilden Sie Satzgefüge:\n\na) Ausreichend Wasser ist beim Sport wichtig. Der Körper ist sonst nicht belastbar. (weil)\nb) Sportgetränke enthalten viel Zucker. Man soll sie nur in kleinen Mengen trinken. (weshalb)\nc) Der Mensch muss auch ohne Sport ausreichend trinken. Er fühlt sich wohl. (damit)\nd) Spezielle Sportgetränke sind beliebt. Sie sind sehr süß. (obwohl)",
 model:"a) Eine ausreichende Menge an Wasser zu trinken ist beim Sport wichtig, weil der Körper sonst nicht lange belastbar ist.\nb) Sportgetränke enthalten viel Zucker, weshalb man diese Getränke nur in kleinen Mengen trinken soll.\nc) Der Mensch muss auch ohne Sport ausreichend trinken, damit er sich wohl fühlt.\nd) Spezielle Sportgetränke sind bei Sportlern sehr beliebt, obwohl sie sehr süß sind.",
 rule:"<div class=rbox>weshalb (Folge/Konsequenz) → NS<br>weil, damit, obwohl → NS<br>Alle: Verb am Ende</div>"},
 
+// BEHALTEN als self
 {sub:"Satzgefüge bilden (gemischt)",type:"self",
 q:"Bilden Sie Satzgefüge:\n\na) Der Bus verspätete sich. Ich kam zu spät. (sodass)\nb) Ich kaufe mir neue Schuhe. Ich habe das Geld gespart. (sobald)\nc) Sie wird dir helfen. Sie ist in der Lage dazu. (falls)\nd) Er bereitet sich gut vor. Er sucht einen Praktikumsplatz. (indem)\ne) Sie besucht die Tanzschule. Ihre Freundin geht zum Musikunterricht. (während)",
 model:"a) Der Bus verspätete sich, sodass ich zu spät kam.\nb) Ich kaufe mir neue Schuhe, sobald ich das Geld gespart habe.\nc) Sie wird dir helfen, falls sie in der Lage dazu ist.\nd) Er bereitet sich gut vor, indem er sich einen Praktikumsplatz sucht.\ne) Sie besucht die Tanzschule, während ihre Freundin zum Musikunterricht geht.",
@@ -402,36 +594,61 @@ c:1,
 model:"Nur (a) ist richtig: Ungeduldig wartet sie seit drei Stunden im Regen.",
 rule:"<div class=rbox>Das finite Verb steht im Hauptsatz an <span class=hl>zweiter Stelle</span>.<br>Zeit (seit drei Stunden) steht vor Ort (im Regen).</div>"},
 
-{sub:"Nebensätze (1)",type:"self",
-q:"Setzen Sie die fehlenden Kommas:\n\na) Sie fragt sich ernsthaft ob die ganze Arbeit notwendig ist.\nb) Während ich den ersten Gang vorbereite kannst du den Tisch decken.\nc) Ich möchte das Buch lesen das du mir empfohlen hast.\nd) Bevor wir mit dem Spiel beginnen sollten wir uns die Regeln durchlesen damit wir keinen Fehler begehen.",
-model:"a) Sie fragt sich ernsthaft, ob die ganze Arbeit notwendig ist.\nb) Während ich den ersten Gang vorbereite, kannst du den Tisch decken.\nc) Ich möchte das Buch lesen, das du mir empfohlen hast.\nd) Bevor wir mit dem Spiel beginnen, sollten wir uns die Regeln durchlesen, damit wir keinen Fehler begehen.",
-rule:"<div class=rbox>Komma zwischen Haupt- und Nebensatz: ob, während, das (Rel.), bevor, damit</div>"},
+// Umgewandelt von self zu cross – Kommaposition markiert mit ()
+{sub:"Nebensätze (1)",type:"cross",
+q:"Komma ja oder nein? (Stelle markiert mit () )",
+rows:["Sie fragt sich ernsthaft () ob die ganze Arbeit notwendig ist.","Während ich den ersten Gang vorbereite () kannst du den Tisch decken.","Ich möchte das Buch lesen () das du mir empfohlen hast.","Bevor wir beginnen () sollten wir die Regeln lesen () damit kein Fehler passiert. [beide Stellen]","Sie kommt () und bringt einen Kuchen mit."],
+cols:["Komma nötig","kein Komma"],
+correct:[0,0,0,0,1],
+model:"ob/während/das(Rel.)/bevor+damit → Nebensatz → Komma · und (kein eigenständiger NS) → kein Komma",
+rule:"<div class=rbox>Komma zwischen Haupt- und Nebensatz: ob, während, das (Rel.), bevor, damit<br>Vor <em>und</em> ohne Nebensatz: <span class=hl>kein Komma</span></div>"},
 
-{sub:"Nebensätze (2)",type:"self",
-q:"Setzen Sie die fehlenden Kommas:\n\na) Die Mannschaft muss trainieren da schon bald das nächste Spiel ansteht.\nb) Bevor wir uns an den Tisch setzen sollten wir ihn erst decken.\nc) Jetzt sehe ich endlich das Haus das du mir beschrieben hast.\nd) Nachdem wir nach Hause gekommen waren setzten wir uns alle an den warmen Kamin weil wir uns unbedingt aufwärmen mussten.",
-model:"a) Die Mannschaft muss trainieren, da schon bald das nächste Spiel ansteht.\nb) Bevor wir uns an den Tisch setzen, sollten wir ihn erst decken.\nc) Jetzt sehe ich endlich das Haus, das du mir beschrieben hast.\nd) Nachdem wir nach Hause gekommen waren, setzten wir uns alle an den warmen Kamin, weil wir uns unbedingt aufwärmen mussten.",
-rule:"<div class=rbox>Nebensätze (da, bevor, das, nachdem, weil) → Komma davor und/oder danach</div>"},
+// Umgewandelt von self zu cross
+{sub:"Nebensätze (2)",type:"cross",
+q:"Komma ja oder nein?",
+rows:["Die Mannschaft muss trainieren () da schon bald das nächste Spiel ansteht.","Bevor wir uns an den Tisch setzen () sollten wir ihn erst decken.","Jetzt sehe ich endlich das Haus () das du mir beschrieben hast.","Nachdem wir nach Hause gekommen waren () setzten wir uns () weil wir uns aufwärmen mussten. [beide Stellen]","Wir gehen ins Kino () und essen danach."],
+cols:["Komma nötig","kein Komma"],
+correct:[0,0,0,0,1],
+model:"da/bevor/das(Rel.)/nachdem+weil → NS → Komma · und (gleiche Subjektkette, kein NS) → kein Komma",
+rule:"<div class=rbox>Nebensätze (da, bevor, das, nachdem, weil) → Komma davor und/oder danach<br>Vor <em>und</em> ohne Nebensatz: kein Komma</div>"},
 
-{sub:"dass / da / anstatt",type:"self",
-q:"Setzen Sie die fehlenden Kommas:\n\na) Ich hoffe dass du gestern gut nach Hause gekommen bist.\nb) Ich habe mir Sorgen gemacht da du dich nicht gemeldet hast.\nc) Ob Luise morgen mit uns ins Kino geht weiß ich leider noch nicht.\nd) Anstatt seine Hausaufgaben zu machen spielt er auf dem Computer.\ne) Wenn du da bist geht es mir gut.",
-model:"a) Ich hoffe, dass du gestern gut nach Hause gekommen bist.\nb) Ich habe mir Sorgen gemacht, da du dich nicht gemeldet hast.\nc) Ob Luise morgen mit uns ins Kino geht, weiß ich leider noch nicht.\nd) Anstatt seine Hausaufgaben zu machen, spielt er auf dem Computer.\ne) Wenn du da bist, geht es mir gut.",
-rule:"<div class=rbox>dass, da, ob, anstatt zu, wenn → Komma trennt Haupt- und Nebensatz</div>"},
+// Umgewandelt von self zu cross
+{sub:"dass / da / anstatt",type:"cross",
+q:"Komma ja oder nein?",
+rows:["Ich hoffe () dass du gestern gut nach Hause gekommen bist.","Ich habe mir Sorgen gemacht () da du dich nicht gemeldet hast.","Ob Luise morgen mit uns ins Kino geht () weiß ich leider noch nicht.","Anstatt seine Hausaufgaben zu machen () spielt er auf dem Computer.","Er trinkt Kaffee () und liest die Zeitung."],
+cols:["Komma nötig","kein Komma"],
+correct:[0,0,0,0,1],
+model:"dass/da/ob(NS)/anstatt zu → Komma · und (kein NS, gleiches Subjekt) → kein Komma",
+rule:"<div class=rbox>dass, da, ob, anstatt zu, wenn → Komma trennt Haupt- und Nebensatz<br>Vor <em>und</em> ohne NS: kein Komma</div>"},
 
-{sub:"Relativsatz & Apposition",type:"self",
-q:"Setzen Sie die fehlenden Kommas:\n\na) Unser Nachbar den wir kaum zu Gesicht bekommen hat uns gestern Kuchen gebracht.\nb) Er traf Katie seine Schulfreundin am Markt.",
-model:"a) Unser Nachbar, den wir kaum zu Gesicht bekommen, hat uns gestern Kuchen gebracht.\nb) Er traf Katie, seine Schulfreundin, am Markt.",
-rule:"<div class=rbox>Eingeschobener Relativsatz → zwei Kommas<br>Apposition (erläuternder Zusatz) → zwei Kommas</div>"},
+// Umgewandelt von self zu cross
+{sub:"Relativsatz & Apposition",type:"cross",
+q:"Komma ja oder nein?",
+rows:["Unser Nachbar () den wir kaum zu Gesicht bekommen () hat uns Kuchen gebracht. [zwei Stellen]","Er traf Katie () seine Schulfreundin () am Markt. [zwei Stellen]","Er kommt () und bringt Kuchen mit.","Sie liest das Buch () das auf dem Tisch liegt."],
+cols:["Komma(s) nötig","kein Komma"],
+correct:[0,0,1,0],
+model:"den(Rel.)/seine Schulfreundin(Apposition) → einschließen mit Kommas · und(kein NS) → kein Komma · das(Rel.) → Komma",
+rule:"<div class=rbox>Eingeschobener Relativsatz → zwei Kommas<br>Apposition (erläuternder Zusatz) → zwei Kommas<br>Vor <em>und</em> ohne NS: kein Komma</div>"},
 
-{sub:"Aufzählung & aber",type:"self",
-q:"Setzen Sie die fehlenden Kommas:\n\na) Kinder Jugendliche und Erwachsene können das Inlineskaten erlernen.\nb) Süßigkeiten schmecken gut aber sind schädlich für die Zähne.\nc) Damit unser Körper Krankheiten bekämpfen kann ist eine gesunde Ernährung wichtig.\nd) Die drei wichtigsten Stoffe in der Ernährung sind Eiweiße Kohlenhydrate und Fette.",
-model:"a) Kinder, Jugendliche und Erwachsene können das Inlineskaten erlernen.\nb) Süßigkeiten schmecken gut, aber sind schädlich für die Zähne.\nc) Damit unser Körper Krankheiten bekämpfen kann, ist eine gesunde Ernährung wichtig.\nd) Die drei wichtigsten Stoffe in der Ernährung sind Eiweiße, Kohlenhydrate und Fette.",
+// Umgewandelt von self zu cross
+{sub:"Aufzählung & aber",type:"cross",
+q:"Komma ja oder nein?",
+rows:["Kinder () Jugendliche und Erwachsene können das Inlineskaten erlernen.","Süßigkeiten schmecken gut () aber sind schädlich für die Zähne.","Damit unser Körper Krankheiten bekämpfen kann () ist eine gesunde Ernährung wichtig.","Die drei wichtigsten Stoffe sind Eiweiße () Kohlenhydrate und Fette.","Eiweiße () und Kohlenhydrate sind wichtig."],
+cols:["Komma nötig","kein Komma"],
+correct:[0,0,0,0,1],
+model:"Aufzählung(zwischen Elementen)/aber(Entgegensetzung)/damit(NS)/Aufzählung → Komma · und (nur zwei Elemente) → kein Komma",
 rule:"<div class=rbox>Aufzählung: Komma zwischen gleichrangigen Gliedern, <span class=hl>KEIN Komma vor und</span><br>aber → Komma davor<br>Nebensatz (damit) → Komma</div>"},
 
-{sub:"Komplexer Satz",type:"self",
-q:"Setzen Sie alle fehlenden Kommas:\n\na) Wasser ist die Grundlage allen Lebens denn jedes Lebewesen benötigt es.\nb) Wasser ist für viele Menschen selbstverständlich da sie nur den Wasserhahn aufdrehen müssen um es zu bekommen.\nc) Kohlenhydrate liefern wichtige Energie die wir benötigen um den Alltag zu meistern.",
-model:"a) Wasser ist die Grundlage allen Lebens, denn jedes Lebewesen benötigt es.\nb) Wasser ist für viele Menschen selbstverständlich, da sie nur den Wasserhahn aufdrehen müssen, um es zu bekommen.\nc) Kohlenhydrate liefern wichtige Energie, die wir benötigen, um den Alltag zu meistern.",
+// Umgewandelt von self zu cross
+{sub:"Komplexer Satz",type:"cross",
+q:"Komma ja oder nein?",
+rows:["Wasser ist die Grundlage allen Lebens () denn jedes Lebewesen benötigt es.","Wasser ist für viele Menschen selbstverständlich () da sie nur den Wasserhahn aufdrehen müssen () um es zu bekommen. [beide Stellen]","Kohlenhydrate liefern wichtige Energie () die wir benötigen () um den Alltag zu meistern. [beide Stellen]","Er schläft () und träumt."],
+cols:["Komma nötig","kein Komma"],
+correct:[0,0,0,1],
+model:"denn(HS-Konj.)/da(NS)/um...zu(Infinitivgruppe)/die(Rel.)/um...zu → Komma · und(kein NS) → kein Komma",
 rule:"<div class=rbox>denn (HS-Konjunktion) → Komma davor<br>da (NS) → Komma<br>um...zu (Infinitivgruppe) → Komma<br>die (Relativsatz) → Komma</div>"},
 
+// BEHALTEN als self: vollständige Satzumformung (indirekte Rede)
 {sub:"Indirekte Rede (Konjunktiv I)",type:"self",
 q:"Formen Sie in indirekte Rede um:\n\nBeispiel: Anne meint: 'Der Unterricht fällt heute aus.'\n→ Anne meint, der Unterricht falle heute aus.\n\na) Rena behauptet: 'Das Theatertreffen ist erst morgen.'\nb) Walter versichert: 'Ich akzeptiere die Entscheidung.'\nc) Lukas sagt: 'Die Rechtschreib-AG wird erst morgen stattfinden.'",
 model:"a) Rena behauptet, das Theatertreffen sei erst morgen.\nb) Walter versichert, er akzeptiere die Entscheidung.\nc) Lukas sagt, die Rechtschreib-AG werde erst morgen stattfinden.",
@@ -445,9 +662,13 @@ correct:[3,0,1,2],
 model:"(a) Dass du deine Meinung sagst, das finde ich gut.\n(b) Das Gute war, dass alle am Spiel beteiligt waren.",
 rule:"<div class=rbox><span class=hl>das</span>: Artikel/Pronomen → durch 'dieses' ersetzbar<br><span class=hl>dass</span>: Konjunktion → nicht ersetzbar, leitet Nebensatz ein</div>"},
 
-{sub:"das oder dass? (Lücken)",type:"self",
-q:"Ergänzen Sie das oder dass:\n\na) Erkläre mir bitte, warum ___ so ist.\nb) Ich hoffe, ___ du gut nach Hause gekommen bist.\nc) Das Buch, ___ du mir empfohlen hast, war toll.\nd) Er sagte, ___ er morgen kommen würde.",
-model:"a) Erkläre mir bitte, warum das so ist.\nb) Ich hoffe, dass du gut nach Hause gekommen bist.\nc) Das Buch, das du mir empfohlen hast, war toll.\nd) Er sagte, dass er morgen kommen würde.",
+// Umgewandelt von self zu cross
+{sub:"das oder dass? (Lücken)",type:"cross",
+q:"das oder dass?",
+rows:["Erkläre mir bitte, warum ___ so ist.","Ich hoffe, ___ du gut nach Hause gekommen bist.","Das Buch, ___ du mir empfohlen hast, war toll.","Er sagte, ___ er morgen kommen würde."],
+cols:["das","dass"],
+correct:[0,1,0,1],
+model:"warum das(Pronomen, durch dieses ersetzbar) / dass(Konjunktion, NS) / das(Relativpronomen) / dass(Konjunktion, NS)",
 rule:"<div class=rbox>Probe: durch 'welches/dieses' ersetzbar? → <span class=hl>das</span><br>Nicht ersetzbar → <span class=hl>dass</span> (Konjunktion)</div>"}
 
 ]},
@@ -455,44 +676,80 @@ rule:"<div class=rbox>Probe: durch 'welches/dieses' ersetzbar? → <span class=h
 // ── 6: WORTSCHATZ ───────────────────────────────────────────────
 {id:"bbr_wortschatz",title:"Wortschatz",emoji:"📖",color:"#be185d",qs:[
 
-{sub:"Antonyme (1)",type:"self",
-q:"Schreiben Sie das Antonym (Gegenteil):\n\na) Draußen ist es heute sehr warm. →\nb) Die Nachspeise ist viel zu sauer. →\nc) Die Gegner stehen sich freundlich gegenüber. →\nd) Eine Mehrheit stimmte für das Gesetz. →",
-model:"a) kalt\nb) süß\nc) feindlich\nd) Minderheit",
+// Umgewandelt von self zu mc (Gegenteil auswählen statt tippen)
+{sub:"Antonyme (1)",type:"mc",
+q:"Welches ist das korrekte Antonym (Gegenteil)?\n\na) warm →\nb) sauer →\nc) freundlich →\nd) Mehrheit →",
+o:["kalt / süß / feindlich / Minderheit",
+   "kühl / bitter / verfeindet / Mehrheit",
+   "kalt / sauer / unfreundlich / Minderheit"],
+c:0,
+model:"kalt / süß / feindlich / Minderheit",
 rule:"<div class=rbox><span class=hl>Antonym</span> = das direkte Gegenteil eines Wortes</div>"},
 
-{sub:"Antonyme (2)",type:"self",
-q:"Schreiben Sie das Antonym (Gegenteil):\n\na) Einige Familien sind sehr reich. →\nb) Die Kinder sind heute sehr fröhlich. →\nc) Die Musik ist viel zu leise. →\nd) Am Strand waren heute viele Spaziergänger. →",
-model:"a) arm\nb) traurig\nc) laut\nd) wenige",
+// Umgewandelt von self zu mc
+{sub:"Antonyme (2)",type:"mc",
+q:"Welches ist das korrekte Antonym (Gegenteil)?\n\na) reich →\nb) fröhlich →\nc) leise →\nd) viele →",
+o:["arm / traurig / laut / wenige",
+   "arm / traurig / laut / viele",
+   "ärmlich / traurig / lauter / wenig"],
+c:0,
+model:"arm / traurig / laut / wenige",
 rule:"<div class=rbox>Gegenteil bilden – achten Sie auf Wortart und Kontext!</div>"},
 
-{sub:"Homonyme (1)",type:"self",
-q:"Ordnen Sie die Bedeutung zu:\n(Person / Schraube / schlechte Angewohnheit / Führungsperson / Fahrzeug / Gegenstand mit Sprossen)\n\na) Die Mutter kocht das Essen. →\nb) Er schraubte die Mutter fest. →\nc) Er konnte sein Laster nicht ablegen. →\nd) Der Laster ist schwer beladen. →\ne) Der Leiter verteilte die Aufgaben. →\nf) Zum Streichen braucht man eine Leiter. →",
-model:"a) Person\nb) Schraube\nc) schlechte Angewohnheit\nd) Fahrzeug\ne) Führungsperson\nf) Gegenstand mit Sprossen",
+// Umgewandelt von self zu mc (Bedeutung auswählen statt zuordnen)
+{sub:"Homonyme (1)",type:"mc",
+q:"Was bedeutet das Wort in diesem Satz?\n(a) ‚Die Mutter kocht das Essen.' – Mutter =\n(b) ‚Er konnte sein Laster nicht ablegen.' – Laster =\n(c) ‚Der Leiter verteilte die Aufgaben.' – Leiter =",
+o:["Person / schlechte Angewohnheit / Führungsperson",
+   "Schraube / Fahrzeug / Gerät mit Sprossen",
+   "Person / schlechte Angewohnheit / Gerät mit Sprossen"],
+c:0,
+model:"Mutter=Person / Laster=schlechte Angewohnheit / Leiter=Führungsperson",
 rule:"<div class=rbox><span class=hl>Homonyme</span>: gleiche Schreibweise, unterschiedliche Bedeutung.<br>Der Kontext entscheidet!</div>"},
 
-{sub:"Homonyme (2)",type:"self",
-q:"Ordnen Sie die Bedeutung zu:\n(Gebäude / Sicherungsobjekt / Wundschutzmittel / Straßenbelag / Tier / Sanitärobjekt)\n\na) Eine Prinzessin wohnt in einem Schloss. →\nb) Das Fahrrad wird mit einem Schloss angeschlossen. →\nc) Die Wunde wurde mit einem Pflaster versorgt. →\nd) Der Hund betrat zum ersten Mal das Pflaster. →\ne) Der Hahn kräht jeden Morgen. →\nf) Der Hahn an der Badewanne tropft. →",
-model:"a) Gebäude\nb) Sicherungsobjekt\nc) Wundschutzmittel\nd) Straßenbelag\ne) Tier\nf) Sanitärobjekt",
+// Umgewandelt von self zu mc
+{sub:"Homonyme (2)",type:"mc",
+q:"Was bedeutet das Wort in diesem Satz?\n(a) ‚Eine Prinzessin wohnt in einem Schloss.' – Schloss =\n(b) ‚Die Wunde wurde mit einem Pflaster versorgt.' – Pflaster =\n(c) ‚Der Hahn kräht jeden Morgen.' – Hahn =",
+o:["Gebäude / Wundschutzmittel / Tier",
+   "Sicherungsobjekt / Straßenbelag / Sanitärobjekt",
+   "Gebäude / Straßenbelag / Tier"],
+c:0,
+model:"Schloss=Gebäude / Pflaster=Wundschutzmittel / Hahn=Tier",
 rule:"<div class=rbox>Homonyme haben dieselbe Schreibweise, aber völlig verschiedene Bedeutungen.</div>"},
 
-{sub:"Stilebenen (1)",type:"self",
-q:"Ordnen Sie den Stilebenen zu:\numgangssprachlich | Standardsprache | gehoben\n\nlatschen – gehen – schreiten\nverpulvern – verschwenden – vergeuden\nBude – Zimmer – Gemach",
-model:"umgangssprachlich: latschen / verpulvern / Bude\nStandard: gehen / verschwenden / Zimmer\ngehoben: schreiten / vergeuden / Gemach",
+// Umgewandelt von self zu cross
+{sub:"Stilebenen (1)",type:"cross",
+q:"Ordne die Wörter den Stilebenen zu:",
+rows:["latschen","gehen","schreiten","verpulvern","verschwenden","vergeuden","Bude","Zimmer","Gemach"],
+cols:["umgangssprachlich","Standardsprache","gehoben"],
+correct:[0,1,2,0,1,2,0,1,2],
+model:"umgangssprachlich: latschen/verpulvern/Bude · Standard: gehen/verschwenden/Zimmer · gehoben: schreiten/vergeuden/Gemach",
 rule:"<div class=rbox><span class=hl>Umgangssprache</span>: informell, salopp<br><span class=hl>Standard</span>: neutral, Alltagssprache<br><span class=hl>Gehoben</span>: formell, literarisch oder veraltet</div>"},
 
-{sub:"Stilebenen (2)",type:"self",
-q:"Ordnen Sie den Stilebenen zu:\numgangssprachlich | Standardsprache | gehoben\n\nfuttern – essen – speisen\nGaul – Pferd – Ross\nklauen – stehlen – entwenden",
-model:"umgangssprachlich: futtern / Gaul / klauen\nStandard: essen / Pferd / stehlen\ngehoben: speisen / Ross / entwenden",
+// Umgewandelt von self zu cross
+{sub:"Stilebenen (2)",type:"cross",
+q:"Ordne die Wörter den Stilebenen zu:",
+rows:["futtern","essen","speisen","Gaul","Pferd","Ross","klauen","stehlen","entwenden"],
+cols:["umgangssprachlich","Standardsprache","gehoben"],
+correct:[0,1,2,0,1,2,0,1,2],
+model:"umgangssprachlich: futtern/Gaul/klauen · Standard: essen/Pferd/stehlen · gehoben: speisen/Ross/entwenden",
 rule:"<div class=rbox>Gleiche Bedeutung, unterschiedliche Stilebene – je nach Kontext und Situation wählen!</div>"},
 
-{sub:"Adverbien einordnen (1)",type:"self",
-q:"Ordnen Sie die Adverbien ein:\nZeit | Art und Weise | Ort\n\n(später, besonders, gegenüber, fast, dort, unten, bald, vielleicht, nachher)",
-model:"Zeit: später / bald / nachher\nArt und Weise: besonders / fast / vielleicht\nOrt: gegenüber / dort / unten",
+// Umgewandelt von self zu cross
+{sub:"Adverbien einordnen (1)",type:"cross",
+q:"Ordne die Adverbien ein (später, besonders, gegenüber, fast, dort, unten, bald, vielleicht, nachher):",
+rows:["später","besonders","gegenüber","fast","dort","unten","bald","vielleicht","nachher"],
+cols:["Zeit","Art und Weise","Ort"],
+correct:[0,1,2,1,2,2,0,1,0],
+model:"Zeit: später/bald/nachher · Art und Weise: besonders/fast/vielleicht · Ort: gegenüber/dort/unten",
 rule:"<div class=rbox>Zeit: wann? (später, bald, nachher)<br>Art und Weise: wie? (besonders, fast, vielleicht)<br>Ort: wo? (dort, unten, gegenüber)</div>"},
 
-{sub:"Adverbien einordnen (2)",type:"self",
-q:"Ordnen Sie die Adverbien ein:\nZeit | Art und Weise | Ort\n\n(oft, besonders, hier, gern, niemals, dort, oben, sehr, jetzt)",
-model:"Zeit: oft / niemals / jetzt\nArt und Weise: gern / sehr / besonders\nOrt: hier / dort / oben",
+// Umgewandelt von self zu cross
+{sub:"Adverbien einordnen (2)",type:"cross",
+q:"Ordne die Adverbien ein (oft, besonders, hier, gern, niemals, dort, oben, sehr, jetzt):",
+rows:["oft","besonders","hier","gern","niemals","dort","oben","sehr","jetzt"],
+cols:["Zeit","Art und Weise","Ort"],
+correct:[0,1,2,1,0,2,2,1,0],
+model:"Zeit: oft/niemals/jetzt · Art und Weise: besonders/gern/sehr · Ort: hier/dort/oben",
 rule:"<div class=rbox>Zeit: oft, niemals, jetzt<br>Art: gern, sehr, besonders<br>Ort: hier, dort, oben</div>"}
 
 ]}
