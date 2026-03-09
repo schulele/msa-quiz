@@ -1,11 +1,13 @@
 var BBR_EXTRA_THEMES = [
+  // ═══════════════════════════════════════════════════════════
+  // Thema 1: Nominalisierung von Verben
+  // ═══════════════════════════════════════════════════════════
   {
     id: "bbr_extra_nominalisierung",
     title: "Nominalisierung von Verben",
     emoji: "📝",
     color: "#16a34a",
     qs: [
-      // Aufgabe 1: Nominalisierte Verben im Text erkennen (Seite 2, Aufgabe 1)
       {
         sub: "Nominalisierte Verben im Text",
         type: "cross",
@@ -23,34 +25,8 @@ var BBR_EXTRA_THEMES = [
         model: "Alle hervorgehobenen Verben sind nominalisiert, daher groß: Pflanzen, Ernten, Stehen, Ruhen, Genießen, Kühlen.",
         rule: "<div class=rbox>Verben werden großgeschrieben, wenn sie wie Nomen gebraucht werden. Man erkennt sie oft an Begleitern wie <span class=hl>Artikel (das, der, die), versteckten Artikeln (beim, zum, im)</span> oder <span class=hl>Possessivpronomen (mein, sein, unser)</span>.</div>"
       },
-
-      // Aufgabe 2: Nominalisierung und Verb zuordnen (Seite 2, Aufgabe 2)
       {
         sub: "Nominalisierung → Verb",
-        type: "cross",
-        q: "Welches Verb steckt in der Nominalisierung? Wähle die richtige Verbform.",
-        rows: [
-          "das Pflanzen → ?",
-          "das Ernten → ?",
-          "mein sonntägliches Stehen → ?",
-          "unser Ruhen → ?",
-          "ihr Genießen → ?",
-          "das Kühlen → ?"
-        ],
-        cols: ["pflanzen", "ernten", "stehen", "ruhen", "genießen", "kühlen"],
-        correct: [0, 1, 2, 3, 4, 5], // Indices der richtigen Verben in der Reihenfolge der Spalten? 
-        // Eigentlich ist es eine Zuordnung: Für jede Zeile gibt es eine Spalte, die richtig ist.
-        // Wir müssen das als Spaltenarray definieren: Jede Zeile hat eine korrekte Spalte.
-        // Aber hier haben wir mehrere Spalten mit verschiedenen Verben. Besser: Wir machen eine Spalte mit "richtig" und "falsch" und geben ein Paar vor? 
-        // Oder wir machen eine Multiple-Choice pro Zeile. Aber cross erlaubt nur zwei Spalten.
-        // Alternative: Wir machen eine Aufgabe, bei der wir für jede Nominalisierung zwei Verbvorschläge anbieten (einen richtigen, einen falschen). 
-        // Dann cols = ["Verb A", "Verb B"] und correct gibt an, welcher richtig ist.
-        // Das machen wir hier.
-        // Also umstrukturieren:
-      },
-      // Stattdessen Aufgabe 2 als cross mit zwei Optionen pro Zeile:
-      {
-        sub: "Nominalisierung → Verb (2)",
         type: "cross",
         q: "Welches Verb steckt in der Nominalisierung?",
         rows: [
@@ -61,13 +37,11 @@ var BBR_EXTRA_THEMES = [
           "ihr Genießen → genießen / genieß",
           "das Kühlen → kühlen / kühl"
         ],
-        cols: ["erste Option", "zweite Option"],
-        correct: [0, 0, 0, 0, 0, 0], // jeweils die erste (pflanzen, ernten, stehen, ruhen, genießen, kühlen) ist richtig
+        cols: ["erste Option (Infinitiv)", "zweite Option (Stamm)"],
+        correct: [0, 0, 0, 0, 0, 0],
         model: "pflanzen, ernten, stehen, ruhen, genießen, kühlen sind die richtigen Verben (Infinitiv).",
-        rule: "<div class=rbox>Die Nominalisierung wird meist vom Infinitiv des Verbs abgeleitet: pflanzen → das Pflanzen, ernten → das Ernten usw.</div>"
+        rule: "<div class=rbox>Die Nominalisierung wird vom Infinitiv des Verbs abgeleitet: pflanzen → das Pflanzen, ernten → das Ernten usw.</div>"
       },
-
-      // Aufgabe 3: Lückentext Verb oder Nomen (Seite 2, Aufgabe 3)
       {
         sub: "Verb oder Nomen?",
         type: "cross",
@@ -76,35 +50,15 @@ var BBR_EXTRA_THEMES = [
           "Pflaumen ___ (schmecken) süß.",
           "Das ___ (schenken) einer solchen Frucht eignet sich besonders.",
           "Das ___ (schmecken) von Süße zeigt die Herzlichkeit.",
-          "Das ___ (erblicken) eines kräftigen Blau-Lila ___ (freuen) das Herz.",
-          "Die runde Form ___ (stehen) für Harmonie.",
+          "Das ___ (erblicken) eines kräftigen Blau-Lila freut das Herz.",
+          "Das Licht ___ (freuen) das Herz.",
           "Die ___ (übergeben) einer Pflaume ist das Liebevollste."
         ],
         cols: ["Verb (klein)", "Nomen (groß)"],
-        correct: [0, 1, 1, 1, 0, 1], // schmecken = Verb; schenken, schmecken, erblicken, übergeben = Nomen; freuen = Verb? Im Satz: "Das Erblicken ... freut das Herz." - freuen ist hier Verb (3. Person). Also freuen klein. In der Zeile "Das erblicken ... freuen" haben wir zwei Lücken, aber wir haben sie kombiniert. Besser jede Lücke einzeln. Aber wir haben 6 Zeilen, die 6 Lücken entsprechen. Ich passe an:
-        // Ursprünglicher Text: "Das erblicken eines ... freuen das Herz." Da sind zwei Lücken. Ich nehme nur eine pro Zeile. Also nehme ich andere Sätze.
-        // Ich nutze die Sätze aus Aufgabe 3, aber splitte sie in einzelne Lücken. Der Text hat mehrere Lücken. Ich wähle 6 aus:
-        // 1. Pflaumen schmecken süß. (Verb)
-        // 2. Das Schenken einer solchen Frucht ... (Nomen)
-        // 3. Das Schmecken von Süße ... (Nomen)
-        // 4. Das Erblicken eines kräftigen Blau-Lila ... (Nomen)
-        // 5. ... freut das Herz. (Verb) – aber das ist schon in Zeile 4 enthalten. Besser separat: "Das Erblicken ... freut das Herz." – freut ist Verb.
-        // 6. Die Übergabe einer Pflaume ... (Nomen)
-        // Also 6 Lücken: schmecken, Schenken, Schmecken, Erblicken, freut, Übergabe.
-        rows: [
-          "Pflaumen ___ (schmecken) süß.",
-          "Das ___ (schenken) einer solchen Frucht eignet sich.",
-          "Das ___ (schmecken) von Süße zeigt die Herzlichkeit.",
-          "Das ___ (erblicken) eines kräftigen Blau-Lila ...",
-          "... ___ (freuen) das Herz.",
-          "Die ___ (übergeben) einer Pflaume ist das Liebevollste."
-        ],
         correct: [0, 1, 1, 1, 0, 1],
-        model: "schmecken (Verb), freuen (Verb) bleiben klein; Schenken, Schmecken, Erblicken, Übergabe werden als Nomen großgeschrieben.",
-        rule: "<div class=rbox>Signalwörter wie <span class=hl>das, die, der</span> oder Possessivpronomen zeigen an, dass ein Verb als Nomen gebraucht wird und dann großgeschrieben werden muss. Steht kein Signalwort, bleibt es klein.</div>"
+        model: "schmecken, freuen (Verben) bleiben klein; Schenken, Schmecken, Erblicken, Übergabe werden als Nomen großgeschrieben.",
+        rule: "<div class=rbox>Signalwörter wie <span class=hl>das, die, der</span> oder Possessivpronomen zeigen an, dass ein Verb als Nomen gebraucht wird. Steht kein Signalwort, bleibt es klein.</div>"
       },
-
-      // Aufgabe 4: Verben mit Signalwort nominalisieren (Seite 5, Aufgabe 1)
       {
         sub: "Verben mit Signalwort nominalisieren",
         type: "cross",
@@ -120,10 +74,8 @@ var BBR_EXTRA_THEMES = [
         cols: ["groß (Nominalisierung)", "klein (Verb)"],
         correct: [0, 0, 0, 0, 0, 0],
         model: "sein Lachen, ihr Kichern, das Grinsen, beim Lieben, sein Vergöttern, zum Anhimmeln – alle nominalisiert, daher groß.",
-        rule: "<div class=rbox>Nach Signalwörtern wie <span class=hl>mein, dein, sein, ihr, unser</span> (Possessivpronomen) sowie nach <span class=hl>beim, zum, im, am</span> (versteckte Artikel) wird das Verb nominalisiert und großgeschrieben.</div>"
+        rule: "<div class=rbox>Nach Signalwörtern wie <span class=hl>mein, dein, sein, ihr, unser</span> sowie nach <span class=hl>beim, zum, im, am</span> wird das Verb nominalisiert und großgeschrieben.</div>"
       },
-
-      // Aufgabe 5: Adjektiv + Nominalisierung (Seite 5, Aufgabe 2) – korrekte Form erkennen
       {
         sub: "Adjektiv + Nominalisierung",
         type: "cross",
@@ -136,29 +88,149 @@ var BBR_EXTRA_THEMES = [
           "mein (unvergleichliches / unvergleichlicher) Lieben",
           "zum (zarten / zarter) Anhimmeln"
         ],
-        cols: ["erste Option", "zweite Option"],
+        cols: ["erste Option (korrekt)", "zweite Option (falsch)"],
         correct: [0, 0, 0, 0, 0, 0],
         model: "Richtig: ihr fleißiges Bauen, sein lautes Lachen, das ständige Kichern, beim heftigen Grinsen, mein unvergleichliches Lieben, zum zarten Anhimmeln.",
-        rule: "<div class=rbox>Das nominalisierte Verb bleibt ein Nomen, daher wird das davorstehende Adjektiv wie bei einem Nomen dekliniert (starke oder schwache Endung, je nach Begleiter). Außerdem wird das nominalisierte Verb großgeschrieben.</div>"
+        rule: "<div class=rbox>Das nominalisierte Verb bleibt ein Nomen, daher wird das davorstehende Adjektiv wie bei einem Nomen dekliniert. Das Verb selbst wird großgeschrieben.</div>"
       },
-
-      // Aufgabe 6: Lückentext aus Seite 8 (Nominalisierungsrelevante Lücken)
       {
         sub: "Gemischter Lückentext",
         type: "cross",
         q: "Entscheide bei den Lücken, ob groß oder klein geschrieben wird.",
         rows: [
           "Beim ___ (bummeln) durch die Stadt habe ich viel gesehen.",
-          "Ich hatte jedoch meinen Geldbeutel ___ (liegenlassen / liegen lassen).", // keine Nominalisierung, aber Getrenntschreibung
-          "Morgen werden wir uns zum ___ (Lernen / lernen) treffen.",
-          "Dann kann ich ihr auch das Geld geben, ___ (das / dass) sie mir geliehen hat.",
-          "Ich finde das unter Freunden sehr ___ (wichtig / Wichtig).",
-          "Es macht das ___ (Besondere / besondere) in einer Freundschaft aus."
+          "Morgen werden wir uns zum ___ (lernen) treffen.",
+          "Das ist schon ___ (viel).",
+          "Es macht das ___ (besondere) in einer Freundschaft aus.",
+          "Sie ist ___ (freundlich).",
+          "Sein ständiges ___ (klagen) nervt."
         ],
-        cols: ["groß / zusammen", "klein / getrennt"], // Hier müssen wir für jede Zeile die richtige Option definieren; die Optionen sind nicht einheitlich, aber wir können sie als "Option 1" und "Option 2" beschriften.
-        correct: [0, 1, 0, 1, 1, 0], // bummeln → beim Bummeln (groß); liegen lassen (getrennt, klein); zum Lernen (groß); das (Relativpronomen) – dass wäre falsch; wichtig (klein); Besondere (groß, substantiviert)
-        model: "Beim Bummeln (groß), Geldbeutel liegen lassen (getrennt/klein), zum Lernen (groß), das Geld (das), wichtig (klein), das Besondere (groß).",
-        rule: "<div class=rbox>Achte auf Signalwörter: <span class=hl>beim, zum</span> verlangen die Großschreibung des folgenden Verbs. <span class=hl>das</span> als Relativpronomen oder Artikel, <span class=hl>dass</span> als Konjunktion. Substantive wie <span class=hl>das Besondere</span> werden großgeschrieben.</div>"
+        cols: ["groß", "klein"],
+        correct: [0, 0, 1, 0, 1, 0],
+        model: "Beim Bummeln (groß), zum Lernen (groß), das Besondere (groß), Klagen (groß); viel (klein), freundlich (klein).",
+        rule: "<div class=rbox>Achte auf Signalwörter: <span class=hl>beim, zum</span> verlangen Großschreibung des folgenden Verbs. Substantive wie <span class=hl>das Besondere</span> werden großgeschrieben. Normale Adjektive bleiben klein.</div>"
+      }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // Thema 2: Groß- und Kleinschreibung (allgemein)
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "bbr_extra_grossklein",
+    title: "Groß- und Kleinschreibung",
+    emoji: "🔠",
+    color: "#dc2626",
+    qs: [
+      {
+        sub: "Anredepronomen (Höflichkeitsform)",
+        type: "cross",
+        q: "Entscheide: groß oder klein?",
+        rows: [
+          "Entschuldigen ___ Sie, wo ist der Bahnhof?",
+          "Kann ich ___ dir helfen?",
+          "Wir haben ___ Ihren Brief erhalten.",
+          "Habt ihr ___ euch verlaufen?",
+          "Darf ___ ich Ihnen eine Frage stellen?"
+        ],
+        cols: ["groß", "klein"],
+        correct: [0, 1, 0, 1, 0],
+        model: "Sie/Ihnen groß; dir, euch klein (informell)",
+        rule: "<div class=rbox>Höflichkeitsanrede <span class=hl>Sie, Ihnen, Ihr</span> wird großgeschrieben. Informelle Anrede (du, ihr, dein, euer) wird kleingeschrieben.</div>"
+      },
+      {
+        sub: "Substantivierte Adjektive",
+        type: "cross",
+        q: "Entscheide: groß oder klein?",
+        rows: [
+          "Das ist etwas ganz ___ Besonderes.",
+          "Im ___ Großen und Ganzen stimme ich zu.",
+          "Sie hat nichts ___ Neues erfahren.",
+          "Er hat ___ gute Ideen.",
+          "Das ___ Schöne am Urlaub ist die Freiheit."
+        ],
+        cols: ["groß", "klein"],
+        correct: [0, 0, 0, 1, 0],
+        model: "Besonderes, Großen, Neues, Schöne – groß; gute – klein",
+        rule: "<div class=rbox>Adjektive nach <span class=hl>etwas, nichts, viel, wenig, alles</span> werden als Nomen gebraucht und großgeschrieben. Auch feste Wendungen wie <span class=hl>im Großen und Ganzen</span>. Steht das Adjektiv vor einem Nomen, bleibt es klein.</div>"
+      },
+      {
+        sub: "Substantivierte Verben",
+        type: "cross",
+        q: "Entscheide: groß oder klein?",
+        rows: [
+          "Beim ___ Joggen höre ich immer Musik.",
+          "Zum ___ Frühstücken bleibt kaum Zeit.",
+          "Das ___ Lachen der Kinder war ansteckend.",
+          "Er kann besonders gut ___ singen.",
+          "Sein ständiges ___ Klagen nervt."
+        ],
+        cols: ["groß", "klein"],
+        correct: [0, 0, 0, 1, 0],
+        model: "Joggen, Frühstücken, Lachen, Klagen – groß; singen – klein",
+        rule: "<div class=rbox>Verben werden großgeschrieben, wenn sie als Nomen gebraucht werden (oft mit Artikel oder Präposition: <span class=hl>das Lachen, beim Joggen, zum Frühstücken</span>). Als reine Verben bleiben sie klein.</div>"
+      },
+      {
+        sub: "Feste Wendungen mit Nomen",
+        type: "cross",
+        q: "Entscheide: groß oder klein?",
+        rows: [
+          "Morgen möchte ich endlich ___ Rad fahren.",
+          "Sie hat große ___ Angst vor Gewitter.",
+          "Wir haben gestern ___ Abendbrot gegessen.",
+          "Er ist mit dem Auto ___ Schuld an dem Unfall.",
+          "Kannst du mir ___ recht geben?"
+        ],
+        cols: ["groß", "klein"],
+        correct: [0, 0, 0, 0, 1],
+        model: "Rad, Angst, Abendbrot, Schuld – Nomen → groß; recht – Adverb → klein",
+        rule: "<div class=rbox>In festen Wendungen wie <span class=hl>Rad fahren, Angst haben, Abendbrot essen, Schuld haben</span> werden die Nomen großgeschrieben. Adverbien wie <span class=hl>recht, unrecht</span> bleiben klein.</div>"
+      },
+      {
+        sub: "Sprachen und Nationalitäten",
+        type: "cross",
+        q: "Entscheide: groß oder klein?",
+        rows: [
+          "Sprichst du ___ Türkisch?",
+          "Das ist ein ___ türkisches Restaurant.",
+          "Sie unterrichtet ___ Englisch.",
+          "Er spricht sehr gut ___ spanisch.",
+          "Die ___ deutsche Küche ist vielfältig."
+        ],
+        cols: ["groß", "klein"],
+        correct: [0, 1, 0, 1, 1],
+        model: "Türkisch, Englisch – Sprache groß; türkisches, spanisch (Adverb), deutsche (Adjektiv) – klein",
+        rule: "<div class=rbox>Sprachen als Nomen werden großgeschrieben (<span class=hl>Deutsch, Englisch</span>). Als Adjektive oder Adverbien schreibt man sie klein (<span class=hl>deutsches Bier, spanisch sprechen</span>).</div>"
+      },
+      {
+        sub: "Farbbezeichnungen",
+        type: "cross",
+        q: "Entscheide: groß oder klein?",
+        rows: [
+          "Das Haus ist in einem hellen ___ Gelb gestrichen.",
+          "Er trägt ein ___ blaues Hemd.",
+          "Bei ___ Rot bleiben wir stehen.",
+          "Die Blume leuchtet in sattem ___ Orange.",
+          "Sie hat ___ rote Haare."
+        ],
+        cols: ["groß", "klein"],
+        correct: [0, 1, 0, 0, 1],
+        model: "Gelb, Rot, Orange – als Nomen groß; blaues, rote – als Adjektive klein",
+        rule: "<div class=rbox>Farbbezeichnungen sind Adjektive und werden kleingeschrieben. Wenn sie als Nomen gebraucht werden (die Farbe Blau, bei Rot), werden sie großgeschrieben.</div>"
+      },
+      {
+        sub: "Gemischte Übung",
+        type: "mc",
+        q: "In welchem Satz wird das Wort in Klammern großgeschrieben?",
+        o: [
+          "Er hat (recht) – Er hat Recht.",
+          "Wir gehen (baden) – Wir gehen Baden.",
+          "Das ist (neu) – Das ist Neu.",
+          "Sie spricht (deutsch) – Sie spricht Deutsch."
+        ],
+        c: 3,
+        model: "deutsch → Deutsch (Sprache als Nomen); recht → Adverb (klein), baden → Verb (klein), neu → Adjektiv (klein)",
+        rule: "<div class=rbox>Nomen werden großgeschrieben, Verben und Adjektive klein. Sprachen als Nomen sind groß.</div>"
       }
     ]
   }

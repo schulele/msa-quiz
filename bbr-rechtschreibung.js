@@ -1,12 +1,12 @@
-var BBR_RECHTSCHREIBUNG_THEMES = [
+var BBR_EXTRA_THEMES = [
   {
     id: "bbr_extra_rechtschreibung",
-    title: "Häufige Rechtschreibprobleme (extra)",
+    title: "Häufige Rechtschreibprobleme",
     emoji: "✏️",
     color: "#b45309",
     qs: [
       {
-        sub: "das oder dass (2)",
+        sub: "das oder dass",
         type: "cross",
         q: "das oder dass?",
         rows: [
@@ -18,13 +18,13 @@ var BBR_RECHTSCHREIBUNG_THEMES = [
         ],
         cols: ["das", "dass"],
         correct: [1, 0, 0, 1, 1],
-        model: "dass leitet Nebensatz ein; das als Artikel oder Relativpronomen.",
-        rule: "<div class=rbox>Ersatzprobe: Kann man 'dieses' oder 'welches' einsetzen? → das. Sonst → dass.</div>"
+        model: "dass leitet Nebensatz ein (hoffe dass, sagte dass, weißt dass); das als Artikel oder Relativpronomen (das Buch, das er fährt).",
+        rule: "<div class=rbox>Ersatzprobe: Kann man 'dieses' oder 'welches' einsetzen? → <span class=hl>das</span>. Sonst → <span class=hl>dass</span>.</div>"
       },
       {
-        sub: "wieder oder wider?",
+        sub: "wieder oder wider",
         type: "cross",
-        q: "wieder (erneut) oder wider (gegen)?",
+        q: "wieder (erneut/zurück) oder wider (gegen)?",
         rows: [
           "Er kommt ___ (erneut).",
           "Das ist ___ (gegen) die Regeln.",
@@ -38,7 +38,7 @@ var BBR_RECHTSCHREIBUNG_THEMES = [
         rule: "<div class=rbox><span class=hl>wieder</span> bedeutet 'noch einmal' oder 'zurück', <span class=hl>wider</span> bedeutet 'gegen'.</div>"
       },
       {
-        sub: "seid oder seit (2)",
+        sub: "seid oder seit",
         type: "cross",
         q: "seid (ihr seid) oder seit (zeitlich)?",
         rows: [
@@ -50,8 +50,8 @@ var BBR_RECHTSCHREIBUNG_THEMES = [
         ],
         cols: ["seid", "seit"],
         correct: [1, 0, 1, 0, 1],
-        model: "seit = zeitlich, seid = 2. Pers. Pl. von sein.",
-        rule: "<div class=rbox>Probe: Kann man 'seid' durch 'ihr' ersetzen? Ja → seid. Sonst zeitlich → seit.</div>"
+        model: "seit = zeitlich (wann, dem Unfall, Jahren); seid = 2. Pers. Pl. von sein (ihr seid).",
+        rule: "<div class=rbox>Probe: Kann man 'seid' durch 'seid ihr' ersetzen? Ja → <span class=hl>seid</span>. Zeitangabe → <span class=hl>seit</span>.</div>"
       },
       {
         sub: "end oder ent?",
@@ -64,15 +64,15 @@ var BBR_RECHTSCHREIBUNG_THEMES = [
           "Sie ___deckte einen Fehler.",
           "Das Buch ist zu ___e."
         ],
-        cols: ["end", "ent"],
+        cols: ["end-", "ent-"],
         correct: [0, 1, 0, 1, 0],
-        model: "end = Ende (Nomen); ent = Vorsilbe (entdecken, entscheiden).",
-        rule: "<div class=rbox><span class=hl>End</span> kommt von Ende, <span class=hl>ent</span> ist eine Vorsilbe wie in entdecken.</div>"
+        model: "Ende (Nomen): end-; entschied, entdeckte: ent- (Vorsilbe).",
+        rule: "<div class=rbox><span class=hl>end-</span> kommt von Ende (Nomen), <span class=hl>ent-</span> ist eine Vorsilbe (entdecken, entscheiden).</div>"
       },
       {
         sub: "fiel oder viel?",
         type: "cross",
-        q: "fiel (fallen) oder viel (Menge)?",
+        q: "fiel (Verb: fallen) oder viel (Menge)?",
         rows: [
           "Er ___ vom Fahrrad.",
           "Sie hat ___ Geld.",
@@ -82,13 +82,13 @@ var BBR_RECHTSCHREIBUNG_THEMES = [
         ],
         cols: ["fiel", "viel"],
         correct: [0, 1, 0, 1, 0],
-        model: "fiel = Präteritum von fallen; viel = Menge.",
+        model: "fiel = Präteritum von fallen; viel = große Menge.",
         rule: "<div class=rbox><span class=hl>fiel</span> ist die Vergangenheit von fallen, <span class=hl>viel</span> bedeutet 'eine große Menge'.</div>"
       },
       {
         sub: "mal oder Mahl?",
         type: "cross",
-        q: "mal (Zeitpunkt, Multiplikation) oder Mahl (Essen)?",
+        q: "mal (Zeitpunkt/Multiplikation) oder Mahl (Essen)?",
         rows: [
           "Komm ___ vorbei!",
           "Das ___ ist angerichtet.",
@@ -98,13 +98,13 @@ var BBR_RECHTSCHREIBUNG_THEMES = [
         ],
         cols: ["mal", "Mahl"],
         correct: [0, 1, 0, 1, 0],
-        model: "mal = Multiplikation oder Partikel; Mahl = Mahlzeit.",
+        model: "mal = Partikel oder Multiplikationszeichen; Mahl = Mahlzeit.",
         rule: "<div class=rbox><span class=hl>mal</span> (klein) ist ein Adverb oder Multiplikationszeichen, <span class=hl>Mahl</span> (groß) ist das Essen.</div>"
       },
       {
         sub: "Doppelkonsonanten",
         type: "cross",
-        q: "Ist die Schreibweise korrekt? (Die Wörter stehen ohne Klammern – entscheide allein aufgrund der Rechtschreibung.)",
+        q: "Ist die Schreibweise korrekt?",
         rows: [
           "Komm mit",
           "renen",
@@ -114,8 +114,8 @@ var BBR_RECHTSCHREIBUNG_THEMES = [
         ],
         cols: ["korrekt", "falsch"],
         correct: [0, 1, 0, 1, 0],
-        model: "Komm, Schwimmen, Schifffahrt sind korrekt; renen und Tip falsch (richtig: rennen, Tipp).",
-        rule: "<div class=rbox>Nach kurzem Vokal wird der Konsonant verdoppelt. Bei drei gleichen Buchstaben bleiben alle (Schifffahrt).</div>"
+        model: "Komm, Schwimmen, Schifffahrt sind korrekt; renen (→ rennen) und Tip (→ Tipp) sind falsch.",
+        rule: "<div class=rbox>Nach kurzem Vokal wird der Konsonant verdoppelt. Bei drei gleichen Buchstaben bleiben alle erhalten (Schifffahrt).</div>"
       },
       {
         sub: "Dehnungs-h",
@@ -126,58 +126,58 @@ var BBR_RECHTSCHREIBUNG_THEMES = [
           "sehren",
           "Zahl",
           "Kohle",
-          "Das erste Mal war er dabei." // ohne h, korrekt
+          "Das erste Mal war er dabei."
         ],
         cols: ["korrekt", "falsch"],
         correct: [0, 1, 0, 0, 0],
-        model: "fahren, Zahl, Kohle, Mal sind korrekt; sehren falsch (richtig: sehr).",
-        rule: "<div class=rbox>Dehnungs-h steht nach langem Vokal oft bei bestimmten Wörtern (fahren, Zahl, Kohle). Es gibt aber Ausnahmen (Mal ohne h).</div>"
+        model: "fahren, Zahl, Kohle, Mal sind korrekt; sehren → sehr (kein h).",
+        rule: "<div class=rbox>Dehnungs-h steht nach langem Vokal bei bestimmten Wörtern (fahren, Zahl, Kohle). Es gibt Ausnahmen (sehr ohne h).</div>"
       },
       {
-        sub: "Gemischte Rechtschreibprobleme",
+        sub: "Gemischte Rechtschreibung",
         type: "cross",
         q: "Ist die Schreibweise korrekt?",
         rows: [
           "Das ist das Beste.",
           "Er fährt rad.",
           "Heute Abend.",
-          "Sie hat recht.", // nach aktueller Rechtschreibung korrekt (klein)
+          "Sie hat recht.",
           "Ich bin der Meinung."
         ],
         cols: ["korrekt", "falsch"],
         correct: [0, 1, 0, 0, 0],
-        model: "Das Beste (groß) korrekt; rad (klein) falsch; heute Abend (groß) korrekt; recht haben (klein) korrekt; Meinung (groß) korrekt.",
-        rule: "<div class=rbox>Achtung bei Groß- und Kleinschreibung: Substantive groß, Adjektive/Verben klein. 'recht haben' ist eine feste Wendung mit kleinem Adjektiv.</div>"
+        model: "Das Beste (groß) korrekt; rad (klein) falsch, muss Rad heißen; heute Abend (groß) korrekt; recht haben (klein) korrekt; Meinung (groß) korrekt.",
+        rule: "<div class=rbox>Substantive groß, Adjektive/Verben klein. 'recht haben' ist eine feste Wendung mit kleinem Adjektiv.</div>"
       },
       {
         sub: "Fremdwörter",
         type: "cross",
-        q: "Ist die Schreibweise korrekt?",
+        q: "Ist die Schreibweise (heute) korrekt?",
         rows: [
-          "Telephon",
-          "Fotographie",
+          "Telefon",
+          "Fotografie",
           "Portemonnaie",
-          "Spagetti",
-          "Mayonaise"
+          "Spaghetti",
+          "Mayonnaise"
         ],
         cols: ["korrekt", "falsch"],
-        correct: [1, 1, 0, 1, 1],
-        model: "Telephon (heute: Telefon), Fotographie (heute: Fotografie), Spagetti (heute: Spaghetti), Mayonaise (heute: Mayonnaise) sind falsch; Portemonnaie ist korrekt.",
-        rule: "<div class=rbox>Bei Fremdwörtern auf die korrekte Schreibung achten: Telefon, Fotografie, Spaghetti, Mayonnaise.</div>"
+        correct: [0, 0, 0, 0, 0],
+        model: "Telefon, Fotografie, Portemonnaie, Spaghetti, Mayonnaise sind alle korrekt (nach aktueller Rechtschreibung).",
+        rule: "<div class=rbox>Aktuelle Schreibweisen: Telefon (nicht Telephon), Fotografie (nicht Photographie), Spaghetti, Mayonnaise.</div>"
       },
       {
-        sub: "Gemischte Übung (Multiple Choice)",
+        sub: "Gemischte Übung",
         type: "mc",
-        q: "Welcher Satz ist korrekt geschrieben?\n\n(A) Er hat viel Geld.\n(B) Er viel vom Fahrrad.\n(C) Seid wann wart ihr da?\n(D) Das ist wieder die Regeln.",
+        q: "Welcher Satz ist korrekt geschrieben?\n\n(A) Er hat viel Geld.\n(B) Er fiel vom Fahrrad.\n(C) Seid wann wart ihr da?\n(D) Das ist wieder die Regeln.",
         o: [
           "nur A",
-          "A und C",
-          "B und D",
-          "A und B (aber B enthält einen Fehler)"
+          "A und B",
+          "B und C",
+          "alle außer D"
         ],
-        c: 0,
-        model: "A ist korrekt (viel). B falsch (fiel), C falsch (seit), D falsch (wider).",
-        rule: "<div class=rbox>Übung zu häufigen Fehlerwörtern.</div>"
+        c: 1,
+        model: "A (viel) und B (fiel) sind korrekt. C falsch (→ seit), D falsch (→ wider).",
+        rule: "<div class=rbox>Übung zu häufigen Fehlerwörtern: viel/fiel, seit/seid, wieder/wider.</div>"
       }
     ]
   }

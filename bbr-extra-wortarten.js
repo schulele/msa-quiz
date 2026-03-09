@@ -5,7 +5,6 @@ var BBR_EXTRA_THEMES = [
     emoji: "🔤",
     color: "#8b5cf6",
     qs: [
-      // Aufgabe 1: Adjektiv oder Adverb?
       {
         sub: "Adjektiv oder Adverb?",
         type: "cross",
@@ -21,9 +20,8 @@ var BBR_EXTRA_THEMES = [
         cols: ["Adjektiv", "Adverb"],
         correct: [0, 1, 0, 1, 0, 1],
         model: "schwer = Adjektiv, Morgen = Adverb, nett = Adjektiv, gerne = Adverb, komische = Adjektiv, wann = Adverb",
-        rule: "<div class=rbox>Adjektive beschreiben Eigenschaften oder Zustände (z.B. schwer, nett, komisch) und können gesteigert werden. Adverbien sind Umstandswörter, die Zeit, Ort, Art und Weise angeben (z.B. morgen, gerne, wann) und sind nicht steigerbar (Ausnahmen: oft, öfter).</div>"
+        rule: "<div class=rbox>Adjektive beschreiben Eigenschaften oder Zustände und können gesteigert werden. Adverbien sind Umstandswörter (Zeit, Ort, Art) und sind unveränderlich.</div>"
       },
-      // Aufgabe 2: Präposition oder Konjunktion?
       {
         sub: "Präposition oder Konjunktion?",
         type: "cross",
@@ -38,10 +36,9 @@ var BBR_EXTRA_THEMES = [
         ],
         cols: ["Präposition", "Konjunktion"],
         correct: [1, 0, 0, 1, 0, 1],
-        model: "weil (1,3) = Konjunktion, bei, wegen, auf = Präposition, und = Konjunktion",
-        rule: "<div class=rbox>Präpositionen stehen vor Nomen oder Pronomen und geben Verhältnisse an (z.B. bei, wegen, auf). Konjunktionen verbinden Wörter, Satzteile oder Sätze (z.B. weil, und).</div>"
+        model: "weil = Konjunktion, bei, wegen, auf = Präposition, und = Konjunktion",
+        rule: "<div class=rbox>Präpositionen stehen vor Nomen und geben Verhältnisse an (bei, wegen, auf). Konjunktionen verbinden Wörter oder Sätze (weil, und).</div>"
       },
-      // Aufgabe 3: Nomen oder Verb? (nominalisierte Verben)
       {
         sub: "Nomen oder Verb? (nominalisierte Verben)",
         type: "cross",
@@ -56,10 +53,9 @@ var BBR_EXTRA_THEMES = [
         ],
         cols: ["Nomen", "Verb"],
         correct: [0, 0, 0, 0, 0, 0],
-        model: "Alle unterstrichenen Wörter sind nominalisierte Verben und werden als Nomen gebraucht (erkennbar an Signalwörtern wie zum, beim, das).",
-        rule: "<div class=rbox>Verben können zu Nomen werden (Nominalisierung). Sie werden dann großgeschrieben und haben oft Begleiter wie <span class=hl>das, zum, beim</span> oder Possessivpronomen. In diesem Fall sind sie als Nomen zu bestimmen.</div>"
+        model: "Alle unterstrichenen Wörter sind nominalisierte Verben (erkennbar an: zum, beim, das).",
+        rule: "<div class=rbox>Verben können zu Nomen werden (Nominalisierung). Sie werden dann großgeschrieben und haben Begleiter wie <span class=hl>das, zum, beim</span>. In diesem Fall sind sie als Nomen zu bestimmen.</div>"
       },
-      // Aufgabe 4: Artikel oder Pronomen?
       {
         sub: "Artikel oder Pronomen?",
         type: "cross",
@@ -75,24 +71,40 @@ var BBR_EXTRA_THEMES = [
         cols: ["Artikel", "Pronomen"],
         correct: [0, 1, 1, 1, 0, 1],
         model: "den, der = Artikel; euer, meine, sie, jemand = Pronomen",
-        rule: "<div class=rbox>Artikel begleiten ein Nomen und geben Geschlecht, Zahl und Fall an (bestimmte: der, die, das; unbestimmte: ein, eine). Pronomen ersetzen ein Nomen oder weisen auf es hin (Personalpronomen: ich, sie; Possessivpronomen: mein, euer; Indefinitpronomen: jemand).</div>"
+        rule: "<div class=rbox>Artikel begleiten ein Nomen (der, die, das; ein, eine). Pronomen ersetzen oder verweisen auf ein Nomen (ich, sie, mein, euer, jemand).</div>"
       },
-      // Aufgabe 5: Gemischte Wortarten (Multiple Choice)
       {
-        sub: "Gemischte Übung",
-        type: "mc",
-        q: "Welche Wortart hat das unterstrichene Wort?\n\n(a) Der Aufsatz ist nicht (schwer).\n(b) Wir gehen, (weil) es gleich regnet.\n(c) (Aua)!\n(d) Claire hat (drei) verschiedene Namensschilder.\n(e) Die Kinder zeigten (unaussprechliche) Freude.",
-        o: [
-          "(a) Adjektiv, (b) Konjunktion, (c) Interjektion, (d) Numerale, (e) Adjektiv",
-          "(a) Adverb, (b) Präposition, (c) Nomen, (d) Adjektiv, (e) Adverb",
-          "(a) Adjektiv, (b) Präposition, (c) Interjektion, (d) Numerale, (e) Adverb",
-          "(a) Verb, (b) Konjunktion, (c) Interjektion, (d) Pronomen, (e) Adjektiv"
+        sub: "Nebenordnende Konjunktionen",
+        type: "cross",
+        q: "Bestimme die Wortart:",
+        rows: [
+          "‚und'",
+          "‚oder'",
+          "‚aber'",
+          "‚denn'",
+          "‚sondern'"
         ],
-        c: 0,
-        model: "schwer = Adjektiv, weil = Konjunktion, Aua = Interjektion, drei = Numerale, unaussprechliche = Adjektiv",
-        rule: "<div class=rbox>Wortarten bestimmen: Adjektive beschreiben Eigenschaften, Konjunktionen verbinden Sätze, Interjektionen sind Ausrufe, Numeralien sind Zahlwörter, Adverbien sind Umstandswörter. Achte auf die Funktion im Satz.</div>"
+        cols: ["nebenordnende Konjunktion", "unterordnende Konjunktion"],
+        correct: [0, 0, 0, 0, 0],
+        model: "und, oder, aber, denn, sondern sind nebenordnende Konjunktionen.",
+        rule: "<div class=rbox>Nebenordnende Konjunktionen verbinden Hauptsätze oder Satzglieder auf gleicher Ebene. Sie lösen keine Verbendstellung aus.</div>"
       },
-      // Aufgabe 6: Numerale oder Adjektiv?
+      {
+        sub: "Unterordnende Konjunktionen",
+        type: "cross",
+        q: "Bestimme die Wortart:",
+        rows: [
+          "‚weil'",
+          "‚dass'",
+          "‚ob'",
+          "‚wenn'",
+          "‚obwohl'"
+        ],
+        cols: ["nebenordnende Konjunktion", "unterordnende Konjunktion"],
+        correct: [1, 1, 1, 1, 1],
+        model: "weil, dass, ob, wenn, obwohl sind unterordnende Konjunktionen.",
+        rule: "<div class=rbox>Unterordnende Konjunktionen leiten Nebensätze ein und verlangen Verbendstellung.</div>"
+      },
       {
         sub: "Numerale oder Adjektiv?",
         type: "cross",
@@ -107,8 +119,38 @@ var BBR_EXTRA_THEMES = [
         ],
         cols: ["Numerale", "Adjektiv"],
         correct: [0, 0, 0, 0, 1, 1],
-        model: "drei, zweiten, erste, viele = Numerale (Zahlwörter); schöner, grüne = Adjektive",
-        rule: "<div class=rbox>Numeralien (Zahlwörter) geben eine Anzahl oder einen Platz in einer Reihenfolge an (z.B. drei, zweite, erste, viele). Adjektive beschreiben Eigenschaften (z.B. schön, grün).</div>"
+        model: "drei, zweiten, erste, viele = Numerale; schöner, grüne = Adjektive",
+        rule: "<div class=rbox>Numeralien geben eine Anzahl oder Reihenfolge an (drei, zweite, erste, viele). Adjektive beschreiben Eigenschaften (schön, grün).</div>"
+      },
+      {
+        sub: "Interjektionen",
+        type: "cross",
+        q: "Bestimme die Wortart:",
+        rows: [
+          "‚Ach'",
+          "‚Oh'",
+          "‚Hallo' (als Ausruf)",
+          "‚Miau'",
+          "‚Hurra'"
+        ],
+        cols: ["Interjektion", "Nomen"],
+        correct: [0, 0, 0, 0, 0],
+        model: "Ach, Oh, Hallo, Miau, Hurra sind Interjektionen.",
+        rule: "<div class=rbox>Interjektionen sind Ausrufe oder Lautmalereien. Sie stehen oft allein und werden durch Komma oder Ausrufezeichen abgetrennt.</div>"
+      },
+      {
+        sub: "Gemischte Übung",
+        type: "mc",
+        q: "Welche Wortart hat das unterstrichene Wort?\n\n(a) Der Aufsatz ist nicht (schwer).\n(b) Wir gehen, (weil) es gleich regnet.\n(c) (Aua)!\n(d) Claire hat (drei) verschiedene Namensschilder.\n(e) Die Kinder zeigten (unaussprechliche) Freude.",
+        o: [
+          "(a) Adjektiv, (b) Konjunktion, (c) Interjektion, (d) Numerale, (e) Adjektiv",
+          "(a) Adverb, (b) Präposition, (c) Nomen, (d) Adjektiv, (e) Adverb",
+          "(a) Adjektiv, (b) Präposition, (c) Interjektion, (d) Numerale, (e) Adverb",
+          "(a) Verb, (b) Konjunktion, (c) Interjektion, (d) Pronomen, (e) Adjektiv"
+        ],
+        c: 0,
+        model: "schwer = Adjektiv, weil = Konjunktion, Aua = Interjektion, drei = Numerale, unaussprechliche = Adjektiv",
+        rule: "<div class=rbox>Adjektive beschreiben Eigenschaften, Konjunktionen verbinden Sätze, Interjektionen sind Ausrufe, Numeralien sind Zahlwörter, Adverbien sind Umstandswörter.</div>"
       }
     ]
   }
