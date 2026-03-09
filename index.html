@@ -88,9 +88,9 @@ body{font-family:"DM Sans",sans-serif;background:var(--paper);color:var(--ink);m
 .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-bottom:16px;font-size:.74rem;font-weight:500;}
 .legend span{display:flex;align-items:center;gap:5px;}
 .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block;}
-#theme-grid, #bbr-grid, #msa-extra-grid, #bbr-extra-grid, #msa-10pkt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-@media(min-width:600px){#theme-grid, #bbr-grid, #msa-extra-grid, #bbr-extra-grid, #msa-10pkt-grid{grid-template-columns:repeat(3,1fr);}}
-@media(min-width:900px){#theme-grid, #bbr-grid, #msa-extra-grid, #bbr-extra-grid, #msa-10pkt-grid{grid-template-columns:repeat(5,1fr);}}
+#theme-grid, #bbr-grid, #msa-extra-grid, #bbr-extra-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media(min-width:600px){#theme-grid, #bbr-grid, #msa-extra-grid, #bbr-extra-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){#theme-grid, #bbr-grid, #msa-extra-grid, #bbr-extra-grid{grid-template-columns:repeat(5,1fr);}}
 .tc{cursor:pointer;padding:18px;border-left:4px solid var(--blue);transition:all .18s;}
 .tc:hover{transform:translateY(-2px);box-shadow:5px 5px 0 rgba(26,26,46,.12);}
 .tc-emoji{font-size:1.9rem;margin-bottom:8px;}
@@ -328,7 +328,7 @@ body{font-family:"DM Sans",sans-serif;background:var(--paper);color:var(--ink);m
 
 /* ─── UPDATE-BUTTON ─────────────────────────────────────────────── */
 .update-btn{
-  margin-left:auto;margin-top:8px;display:flex;align-items:center;gap:6px;
+  margin-left:auto;display:flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);
   color:#fff;border-radius:100px;padding:5px 13px;font-size:.76rem;font-weight:600;
   cursor:pointer;font-family:"DM Sans",sans-serif;transition:all .2s;white-space:nowrap;
@@ -439,11 +439,6 @@ body{font-family:"DM Sans",sans-serif;background:var(--paper);color:var(--ink);m
         <span class="nav-tab-label">Weitere Übungsaufgaben</span>
         <span class="nav-tab-sub">Zusätzlich</span>
       </div>
-      <div class="nav-tab" id="msa-tab-10pkt" onclick="open10PktPage()">
-        <span class="nav-tab-icon">🏆</span>
-        <span class="nav-tab-label">10-Punkte-Tabelle</span>
-        <span class="nav-tab-sub">Prüfungsübungen</span>
-      </div>
     </div>
     <div id="msa-panel-aufgaben">
       <div class="legend">
@@ -528,57 +523,6 @@ body{font-family:"DM Sans",sans-serif;background:var(--paper);color:var(--ink);m
     </div>
     <div style="margin-top:24px">
       <button onclick="goStart()" class="btn btn-ol">← Zurück</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ 10-PUNKTE-TABELLE ════════════════════════════════════════ -->
-<div id="pg-10pkt" class="page">
-  <div class="hdr">
-    <span class="hdr-m">MSA</span><span class="hdr-sub">10-Punkte-Tabelle</span>
-  </div>
-  <div class="area-inner fu">
-    <div class="area-hero">
-      <h2>10-Punkte-Tabelle</h2>
-      <p>Wähle eine Tabelle zum Üben</p>
-    </div>
-    <div class="nav-tabs" style="margin-bottom:18px">
-      <div class="nav-tab active-tab" id="tab-10pkt-1" onclick="switch10PktTab(1)">
-        <span class="nav-tab-icon">📋</span>
-        <span class="nav-tab-label">1. Tabelle</span>
-        <span class="nav-tab-sub">Spargel</span>
-      </div>
-      <div class="nav-tab" id="tab-10pkt-2" onclick="switch10PktTab(2)">
-        <span class="nav-tab-icon">📋</span>
-        <span class="nav-tab-label">2. Tabelle</span>
-        <span class="nav-tab-sub">Ausbildung</span>
-      </div>
-      <div class="nav-tab" id="tab-10pkt-3" onclick="switch10PktTab(3)">
-        <span class="nav-tab-icon">📋</span>
-        <span class="nav-tab-label">3. Tabelle</span>
-        <span class="nav-tab-sub">Werbung</span>
-      </div>
-      <div class="nav-tab" id="tab-10pkt-4" onclick="switch10PktTab(4)">
-        <span class="nav-tab-icon">📋</span>
-        <span class="nav-tab-label">4. Tabelle</span>
-        <span class="nav-tab-sub">Kochen</span>
-      </div>
-      <div class="nav-tab" id="tab-10pkt-5" onclick="switch10PktTab(5)">
-        <span class="nav-tab-icon">📋</span>
-        <span class="nav-tab-label">5. Tabelle</span>
-        <span class="nav-tab-sub">Gärtner</span>
-      </div>
-    </div>
-    <div class="legend">
-      <span><span class="dot" style="background:#d1d5db"></span>Nicht geübt</span>
-      <span><span class="dot" style="background:#ef4444"></span>&lt;60%</span>
-      <span><span class="dot" style="background:#f97316"></span>60–79%</span>
-      <span><span class="dot" style="background:#eab308"></span>80–89%</span>
-      <span><span class="dot" style="background:#16a34a"></span>90%+</span>
-    </div>
-    <div id="msa-10pkt-grid"></div>
-    <div style="margin-top:24px">
-      <button onclick="openArea('msa')" class="btn btn-ol">← Zurück</button>
     </div>
   </div>
 </div>
@@ -731,19 +675,6 @@ function autoCheck(q,inp) {
   if(q.type==="alt") {
     for(var i=0;i<q.a.length;i++) {
       if(stemMatch(q.a[i],inp)) return true;
-    }
-    return false;
-  }
-  // Neue Typen aus 10-Punkte-Tabelle
-  if(q.type==="rs" || q.type==="kasus") {
-    return stemMatch(q.correctWord, inp);
-  }
-  if(q.type==="ausdruck" || q.type==="satzbau" || q.type==="komma") {
-    var answers = q.acceptedAnswers || [];
-    var inpN = norm(inp);
-    for(var j=0;j<answers.length;j++) {
-      var aN = norm(answers[j]);
-      if(inpN===aN || inpN.indexOf(aN)!==-1) return true;
     }
     return false;
   }
@@ -912,23 +843,9 @@ function openArea(area) {
   switchAreaTab(area, 'aufgaben');
   showPage(area);
 }
-function open10PktPage() {
-  currentArea = '10pkt';
-  showPage('10pkt');
-  switch10PktTab(current10PktTab);
-}
-function goBackFromStat() {
-  if(currentArea === '10pkt') { showPage('10pkt'); return; }
-  openArea(currentArea);
-}
-function goBackFromQuiz() {
-  if(currentArea === '10pkt') { showPage('10pkt'); return; }
-  openArea(currentArea);
-}
-function goBackFromResult() {
-  if(currentArea === '10pkt') { showPage('10pkt'); return; }
-  openArea(currentArea);
-}
+function goBackFromStat() { openArea(currentArea); }
+function goBackFromQuiz() { openArea(currentArea); }
+function goBackFromResult() { openArea(currentArea); }
 function goBackFromGram() {
   renderArea(gramFromArea);
   showPage(gramFromArea);
@@ -953,8 +870,7 @@ function renderStart() {
 
 // ================================ BEREICH (MSA/BBR) ================================
 function switchAreaTab(area, tab) {
-  var allTabs = (area === 'msa') ? ['aufgaben','regeln','extra'] : ['aufgaben','regeln','extra'];
-  allTabs.forEach(function(t) {
+  ['aufgaben','regeln','extra'].forEach(function(t) {
     var tabEl = document.getElementById(area+'-tab-'+t);
     var panelEl = document.getElementById(area+'-panel-'+t);
     if(tabEl) tabEl.classList.toggle('active-tab', t===tab);
@@ -967,48 +883,10 @@ function switchAreaTab(area, tab) {
   if(tab==='extra') {
     renderExtraPanel(area);
   }
-  if(tab==='10pkt') {
-    switch10PktTab(1);
-  }
-}
-
-var current10PktTab = 1;
-function switch10PktTab(nr) {
-  current10PktTab = nr;
-  for (var i = 1; i <= 5; i++) {
-    var el = document.getElementById('tab-10pkt-'+i);
-    if (el) el.classList.toggle('active-tab', i === nr);
-  }
-  render10PktGrid(nr);
-}
-
-function render10PktGrid(nr) {
-  var allThemes = (typeof MSA_UEBERARBEITUNG_THEMES !== 'undefined') ? MSA_UEBERARBEITUNG_THEMES : [];
-  // Jede Tabelle entspricht einem Theme per Index (0-basiert)
-  var theme = allThemes[nr - 1];
-  var s = sc();
-  var html = '';
-  if (theme) {
-    var st = s[theme.id];
-    var pct = st ? st.pct : undefined;
-    var lastDate = st ? fmtDate(st.ts) : '';
-    html = '<div class="card tc" style="border-left-color:'+theme.color+'" onclick="openStatPage(\''+theme.id+'\',\'10pkt\')">' +
-           '<div class="tc-emoji">'+theme.emoji+'</div>' +
-           '<div class="tc-title">'+theme.title+'</div>' +
-           '<div class="tc-meta">'+theme.qs.length+' Aufgaben</div>' +
-           '<div class="tc-score"><span class="dot" style="background:'+scCol(pct)+'"></span><span>'+(pct!==undefined?pct+'%':'—')+'</span></div>' +
-           (lastDate?'<div class="tc-lastdate">📅 '+lastDate+'</div>':'') +
-           '</div>';
-  } else {
-    html = '<div class="coming-soon"><div class="coming-soon-icon">🏆</div><h3>Noch keine Aufgaben</h3><p>Füge Aufgaben für Tabelle '+nr+' in msa-10Pkt.js hinzu.</p></div>';
-  }
-  document.getElementById('msa-10pkt-grid').innerHTML = html;
 }
 
 function renderArea(area) {
-  var themes = (area==='msa')
-    ? (typeof MSA_THEMES !== 'undefined' ? MSA_THEMES : [])
-    : (typeof BBR_THEMES !== 'undefined' ? BBR_THEMES : []);
+  var themes = (area==='msa') ? MSA_THEMES : BBR_THEMES;
   var gridId = (area==='msa') ? 'theme-grid' : 'bbr-grid';
   var s = sc();
   var html = '';
@@ -1032,10 +910,10 @@ function renderExtraPanel(area) {
   if (area === 'msa') {
     extraThemes = (typeof MSA_EXTRA_THEMES !== 'undefined') ? MSA_EXTRA_THEMES : 
                   (typeof EXTRA_THEMES !== 'undefined') ? EXTRA_THEMES : [];
+    if(typeof MSA_UEBERARBEITUNG_THEMES !== 'undefined')
+      extraThemes = extraThemes.concat(MSA_UEBERARBEITUNG_THEMES);
   } else {
     extraThemes = (typeof BBR_EXTRA_THEMES !== 'undefined') ? BBR_EXTRA_THEMES : [];
-    if (typeof BBR_RECHTSCHREIBUNG_THEMES !== 'undefined') extraThemes = extraThemes.concat(BBR_RECHTSCHREIBUNG_THEMES);
-    if (typeof BBR_WIEDER_THEMES !== 'undefined')          extraThemes = extraThemes.concat(BBR_WIEDER_THEMES);
   }
   var gridId = (area==='msa') ? 'msa-extra-grid' : 'bbr-extra-grid';
   var s = sc();
@@ -1146,22 +1024,6 @@ function gramSearch(val) {
     '<p style="opacity:.4;text-align:center;padding:30px">Keine Ergebnisse für "'+val+'"</p>';
 }
 
-// ================================ THEME-LOOKUP ================================
-function getAllThemes() {
-  var _msaBase  = typeof MSA_THEMES                 !== 'undefined' ? MSA_THEMES                 : [];
-  var _msaExtra = typeof MSA_EXTRA_THEMES           !== 'undefined' ? MSA_EXTRA_THEMES           :
-                  typeof EXTRA_THEMES               !== 'undefined' ? EXTRA_THEMES               : [];
-  var _10pkt    = typeof MSA_UEBERARBEITUNG_THEMES  !== 'undefined' ? MSA_UEBERARBEITUNG_THEMES  : [];
-  var _bbrBase  = typeof BBR_THEMES                 !== 'undefined' ? BBR_THEMES                 : [];
-  var _bbrExtra = typeof BBR_EXTRA_THEMES           !== 'undefined' ? BBR_EXTRA_THEMES           : [];
-  var _bbrRecht = typeof BBR_RECHTSCHREIBUNG_THEMES !== 'undefined' ? BBR_RECHTSCHREIBUNG_THEMES : [];
-  var _bbrWieder= typeof BBR_WIEDER_THEMES          !== 'undefined' ? BBR_WIEDER_THEMES          : [];
-  if(currentArea === 'msa')   return _msaBase.concat(_msaExtra).concat(_10pkt);
-  if(currentArea === 'bbr')   return _bbrBase.concat(_bbrExtra).concat(_bbrRecht).concat(_bbrWieder);
-  if(currentArea === '10pkt') return _10pkt;
-  return [];
-}
-
 // ================================ STATISTIK ================================
 function scCol(p) {
   if(p===undefined||p===null) return"#d1d5db";
@@ -1174,7 +1036,9 @@ function scCol(p) {
 
 function openStatPage(themeId, area) {
   currentArea = area || currentArea;
-  var allThemes = getAllThemes();
+  var allThemes = (currentArea==='msa') 
+    ? MSA_THEMES.concat(MSA_EXTRA_THEMES||EXTRA_THEMES||[]).concat(typeof MSA_UEBERARBEITUNG_THEMES!=='undefined'?MSA_UEBERARBEITUNG_THEMES:[]) 
+    : BBR_THEMES.concat(BBR_EXTRA_THEMES || []).concat(BBR_RECHTSCHREIBUNG_THEMES || []).concat(BBR_WIEDER_THEMES || []);
   var theme = allThemes.filter(function(t){ return t.id===themeId; })[0];
   if(!theme) return;
   pendingThemeId = themeId;
@@ -1255,7 +1119,9 @@ function startFromStat() {
 
 // ================================ QUIZ-START ================================
 function startTheme(id) {
-  var allThemes = getAllThemes();
+  var allThemes = (currentArea==='msa') 
+    ? MSA_THEMES.concat(MSA_EXTRA_THEMES||EXTRA_THEMES||[]).concat(typeof MSA_UEBERARBEITUNG_THEMES!=='undefined'?MSA_UEBERARBEITUNG_THEMES:[]) 
+    : BBR_THEMES.concat(BBR_EXTRA_THEMES || []).concat(BBR_RECHTSCHREIBUNG_THEMES || []).concat(BBR_WIEDER_THEMES || []);
   var theme = allThemes.filter(function(t){ return t.id===id; })[0];
   if(!theme) return;
   S.themeId = id;
@@ -1266,7 +1132,7 @@ function startTheme(id) {
   S.savedQs = null;
   S.savedIdx = 0;
   document.getElementById("hdr-theme").textContent = theme.title;
-  document.getElementById("quiz-area-label").textContent = currentArea==='10pkt' ? 'MSA' : currentArea.toUpperCase();
+  document.getElementById("quiz-area-label").textContent = currentArea.toUpperCase();
   renderQ();
   showPage("quiz");
 }
@@ -1279,7 +1145,14 @@ function renderQ() {
   document.getElementById("quiz-bar").style.width = Math.round(S.idx/tot*100)+"%";
   document.getElementById("quiz-ctr").textContent = (S.idx+1)+" / "+tot;
   document.getElementById("q-badge").textContent = q.sub||"Aufgabe";
-  document.getElementById("q-text").textContent = q.q;
+  // New types show their sentence in the answer area, not in q-text
+  var newTypes = ["komma","rs","ausdruck","kasus","satzbau"];
+  if(newTypes.indexOf(q.type) !== -1) {
+    document.getElementById("q-text").style.display = "none";
+  } else {
+    document.getElementById("q-text").style.display = "";
+    document.getElementById("q-text").textContent = q.q||"";
+  }
   document.getElementById("q-card").className = "card q-card";
   document.getElementById("rule-desktop").innerHTML = '<span class="rule-empty">Beantworte eine Aufgabe, um die Regel zu sehen.</span>';
   document.getElementById("ans-wrap").innerHTML = "";
@@ -1292,6 +1165,8 @@ function renderQ() {
   if(q.type==="mc") renderMC(q);
   else if(q.type==="match") renderMatch(q);
   else if(q.type==="cross") renderCross(q);
+  else if(q.type==="komma") renderKomma(q);
+  else if(q.type==="rs"||q.type==="ausdruck"||q.type==="kasus"||q.type==="satzbau") renderWortklick(q);
   else renderText(q);
 }
 
@@ -1423,54 +1298,350 @@ function checkCross(q) {
 }
 
 function renderText(q) {
-  var newTypes = ['rs','kasus','ausdruck','satzbau','komma'];
-  var isNew = newTypes.indexOf(q.type) !== -1;
-  var isLong = q.type==="self" || q.type==="satzbau" || q.type==="komma" || (q.q.match(/\n/g)||[]).length>2;
-
-  // Extra-Anweisung für neue Typen (q.prompt)
-  if(isNew && q.prompt) {
-    var hint = document.createElement("p");
-    hint.style.cssText = "font-size:.82rem;font-weight:600;color:var(--blue);margin-bottom:8px;";
-    hint.textContent = q.prompt;
-    document.getElementById("ans-wrap").appendChild(hint);
-  }
-
-  // Bei rs/kasus: fehlerhaftes Wort hervorheben
-  if((q.type==="rs"||q.type==="kasus"||q.type==="ausdruck") && q.errorWord) {
-    var errHint = document.createElement("p");
-    errHint.style.cssText = "font-size:.8rem;margin-bottom:8px;";
-    errHint.innerHTML = '✏️ Fehlerhaftes Wort: <span style="background:#fde8e8;border:1px solid #d94f4f;border-radius:5px;padding:1px 7px;font-weight:700;color:#991b1b;">'+q.errorWord+'</span>';
-    document.getElementById("ans-wrap").appendChild(errHint);
-  }
-
+  var isLong = q.type==="self" || (q.q.match(/\n/g)||[]).length>2;
   var inp = document.createElement("textarea");
   inp.className = "ans-input";
   inp.rows = isLong ? 4 : 2;
-  inp.placeholder = q.placeholder || (q.type==="self" ? "Deine Antwort / Erklärung …" : "Korrektur eingeben …");
+  inp.placeholder = q.type==="self" ? "Deine Antwort / Erklärung …" : "Antwort eingeben …";
   inp.id = "main-inp";
   inp.setAttribute("data-qtype", q.type);
   inp.oninput = function(){ document.getElementById("btn-ok").disabled = this.value.trim()===""; };
   inp.onkeydown = function(e){
-    var t = this.getAttribute("data-qtype");
+    var isAlt = this.getAttribute("data-qtype")==="alt";
     if(e.key==="Enter" && !S.answered){
-      if(t==="alt" && !e.shiftKey){ e.preventDefault(); doConfirm(); }
-      else if(t==="self"||t==="satzbau"||t==="komma"){ if(e.shiftKey){ e.preventDefault(); doConfirm(); } }
-      else if(t!=="self" && !e.shiftKey){ e.preventDefault(); doConfirm(); }
+      if(isAlt && !e.shiftKey){ e.preventDefault(); doConfirm(); }
+      else if(!isAlt && e.shiftKey){ e.preventDefault(); doConfirm(); }
     }
   };
   document.getElementById("ans-wrap").appendChild(inp);
   var okBtn = document.getElementById("btn-ok");
   okBtn.style.display = ""; okBtn.disabled = true;
-  var hintMsg = (q.type==="self"||q.type==="satzbau"||q.type==="komma")
-    ? "Shift+Enter = bestätigen  ·  → = weiter"
-    : "Enter = bestätigen  ·  → = weiter";
-  setHint(hintMsg);
+  setHint(q.type==="self" ? "Shift+Enter = bestätigen  ·  Enter = neue Zeile  ·  → = weiter" : "Enter = bestätigen  ·  → = weiter");
   setTimeout(function(){ inp.focus(); },50);
+}
+
+// ================================================================
+// WORTKLICK-AUFGABE (rs / ausdruck / kasus / satzbau)
+// Alle Wörter anklickbar → richtiges grün, falsches rot
+// Dann leeres Tippfeld erscheint
+// ================================================================
+function renderWortklick(q) {
+  var aw = document.getElementById("ans-wrap");
+  aw.innerHTML = "";
+
+  // Satz in anklickbare Wörter aufteilen
+  // Wir tokenisieren nach Wortgrenzen, behalten Satzzeichen als eigene Tokens
+  var sentenceEl = document.createElement("div");
+  sentenceEl.style.cssText = "font-size:1rem;line-height:2;margin-bottom:14px;word-break:break-word;";
+
+  var sentence = q.sentence || "";
+  // Tokenize: split on spaces, keep punctuation attached to words
+  var tokens = sentence.split(/(\s+)/);
+  var wordIndex = 0;
+
+  tokens.forEach(function(tok) {
+    if(/^\s+$/.test(tok)) {
+      sentenceEl.appendChild(document.createTextNode(tok));
+      return;
+    }
+    // Each non-space token becomes a clickable span
+    var span = document.createElement("span");
+    span.textContent = tok;
+    span.className = "wort-btn";
+    span.setAttribute("data-token", tok);
+    span.setAttribute("data-idx", wordIndex++);
+    span.style.cssText = [
+      "display:inline-block",
+      "cursor:pointer",
+      "padding:2px 5px",
+      "border-radius:6px",
+      "border:1.5px solid transparent",
+      "transition:all .15s",
+      "font-size:1rem"
+    ].join(";");
+    span.onmouseenter = function() {
+      if(!this.classList.contains("wort-ok") && !this.classList.contains("wort-err"))
+        this.style.background = "#f0f5fb";
+        this.style.borderColor = "var(--blue)";
+    };
+    span.onmouseleave = function() {
+      if(!this.classList.contains("wort-ok") && !this.classList.contains("wort-err"))
+        this.style.background = "";
+        this.style.borderColor = "transparent";
+    };
+    span.onclick = function() { onWortClick(this, q); };
+    sentenceEl.appendChild(span);
+  });
+
+  aw.appendChild(sentenceEl);
+
+  // Tipp-Bereich (zunächst versteckt, erscheint nach Klick)
+  var tippWrap = document.createElement("div");
+  tippWrap.id = "tipp-wrap";
+  tippWrap.style.display = "none";
+  tippWrap.innerHTML =
+    '<p id="tipp-label" style="font-weight:700;font-size:.88rem;margin-bottom:7px;color:var(--blue)">Richtige Schreibweise:</p>' +
+    '<input type="text" id="tipp-inp" autocomplete="off" autocorrect="off" autocapitalize="off" ' +
+    '  style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--border);' +
+    '  font-family:\'DM Sans\',sans-serif;font-size:1rem;outline:none;" ' +
+    '  placeholder="" />';
+  aw.appendChild(tippWrap);
+
+  var okBtn = document.getElementById("btn-ok");
+  okBtn.style.display = ""; okBtn.disabled = true;
+  setHint("Fehlerhaftes Wort antippen → korrigieren → Bestätigen");
+
+  // Wire input to enable confirm
+  setTimeout(function() {
+    var inp = document.getElementById("tipp-inp");
+    if(inp) inp.addEventListener("input", function() {
+      document.getElementById("btn-ok").disabled = this.value.trim() === "";
+    });
+    if(inp) inp.addEventListener("keydown", function(e) {
+      if(e.key === "Enter") doConfirm();
+    });
+  }, 50);
+}
+
+function onWortClick(span, q) {
+  if(S.answered) return;
+
+  // Check if this token matches the errorWord
+  // We compare the clicked token OR the surrounding multi-word span
+  var clicked = span.getAttribute("data-token");
+
+  // Try to match single or multi-word errorWord
+  var errorWord = q.errorWord || "";
+  var isCorrect = false;
+
+  // Single word match (case-insensitive, strip punctuation for comparison)
+  function stripPunct(s) { return s.replace(/[.,!?;:„"'"'»«\(\)]/g,"").trim(); }
+  var cleanClicked = stripPunct(clicked);
+  var cleanError = stripPunct(errorWord);
+
+  if(cleanClicked.toLowerCase() === cleanError.toLowerCase()) {
+    isCorrect = true;
+  }
+
+  // Multi-word: if errorWord has spaces, check surrounding tokens
+  if(!isCorrect && errorWord.includes(" ")) {
+    var parent = span.parentNode;
+    var spans = Array.from(parent.querySelectorAll(".wort-btn"));
+    var idx = parseInt(span.getAttribute("data-idx"));
+    var errorTokens = errorWord.split(/\s+/);
+    // Check if the errorWord starts at this span
+    var match = true;
+    for(var i = 0; i < errorTokens.length; i++) {
+      if(!spans[idx+i] || stripPunct(spans[idx+i].getAttribute("data-token")).toLowerCase() !== stripPunct(errorTokens[i]).toLowerCase()) {
+        match = false; break;
+      }
+    }
+    if(match) isCorrect = true;
+  }
+
+  // Visual feedback
+  if(isCorrect) {
+    // Mark green
+    if(errorWord.includes(" ")) {
+      var parent2 = span.parentNode;
+      var spans2 = Array.from(parent2.querySelectorAll(".wort-btn"));
+      var idx2 = parseInt(span.getAttribute("data-idx"));
+      var et = errorWord.split(/\s+/);
+      for(var j = 0; j < et.length; j++) {
+        if(spans2[idx2+j]) markWort(spans2[idx2+j], true);
+      }
+    } else {
+      markWort(span, true);
+    }
+    // Show input field
+    showTippfeld(q, true);
+  } else {
+    // Mark red momentarily
+    markWort(span, false);
+    setTimeout(function() {
+      if(!S.answered) {
+        span.style.background = "";
+        span.style.borderColor = "transparent";
+        span.classList.remove("wort-err");
+      }
+    }, 700);
+  }
+}
+
+function markWort(span, ok) {
+  span.style.background = ok ? "#d4f7e8" : "#fde8e8";
+  span.style.borderColor = ok ? "var(--green)" : "var(--red)";
+  span.classList.add(ok ? "wort-ok" : "wort-err");
+}
+
+function showTippfeld(q, wordFound) {
+  var wrap = document.getElementById("tipp-wrap");
+  if(!wrap || wrap.style.display !== "none") return;
+
+  // Set label based on type
+  var label = document.getElementById("tipp-label");
+  var labels = {
+    "rs":      "Richtige Schreibweise:",
+    "ausdruck":"Standardsprachlicher Ausdruck:",
+    "kasus":   "Richtige Form:",
+    "satzbau": "Korrektur:"
+  };
+  if(label) label.textContent = labels[q.type] || "Richtige Schreibweise:";
+
+  wrap.style.display = "block";
+  wrap.style.animation = "fadeUp .25s ease";
+
+  var inp = document.getElementById("tipp-inp");
+  if(inp) {
+    inp.value = "";
+    inp.placeholder = "";
+    setTimeout(function() { inp.focus(); }, 80);
+  }
+  document.getElementById("btn-ok").disabled = true;
+}
+
+function checkWortklick(q) {
+  var inp = document.getElementById("tipp-inp");
+  if(!inp) return false;
+  var val = inp.value.trim();
+  inp.disabled = true;
+
+  // Check against acceptedAnswers
+  var ok = false;
+  var accepted = q.acceptedAnswers || [q.correctWord];
+  for(var i = 0; i < accepted.length; i++) {
+    var a = accepted[i].trim().toLowerCase()
+      .replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss");
+    var v = val.toLowerCase()
+      .replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss");
+    // Accept if typed answer is contained in / matches an accepted answer (trimmed)
+    if(v === a || a.indexOf(v) !== -1 || v.indexOf(a) !== -1) {
+      ok = true; break;
+    }
+  }
+
+  inp.style.background = ok ? "#edfaf4" : "#fdf0f0";
+  inp.style.borderColor = ok ? "var(--green)" : "var(--red)";
+
+  return ok;
+}
+
+// ================================================================
+// KOMMA-AUFGABE
+// Satz wird vorgeschrieben, Nutzer tippt Komma hinein
+// ================================================================
+function renderKomma(q) {
+  var aw = document.getElementById("ans-wrap");
+  aw.innerHTML = "";
+
+  var hint = document.createElement("p");
+  hint.style.cssText = "font-size:.83rem;opacity:.55;margin-bottom:10px;";
+  hint.textContent = "Tippen Sie auf die Stelle im Satz und setzen Sie das fehlende Komma.";
+  aw.appendChild(hint);
+
+  var box = document.createElement("div");
+  box.id = "komma-box";
+  box.contentEditable = "true";
+  box.spellcheck = false;
+  box.autocorrect = "off";
+  box.style.cssText = [
+    "width:100%",
+    "padding:14px 16px",
+    "border-radius:11px",
+    "border:2px solid var(--border)",
+    "font-family:'DM Sans',sans-serif",
+    "font-size:1rem",
+    "line-height:1.85",
+    "color:var(--ink)",
+    "background:#fff",
+    "outline:none",
+    "min-height:56px",
+    "word-break:break-word",
+    "transition:border-color .15s"
+  ].join(";");
+  box.textContent = q.sentence || "";
+
+  box.addEventListener("focus", function() { this.style.borderColor = "var(--blue)"; });
+  box.addEventListener("blur",  function() { this.style.borderColor = "var(--border)"; });
+  box.addEventListener("input", function() {
+    var txt = this.innerText || this.textContent || "";
+    document.getElementById("btn-ok").disabled = txt.indexOf(",") === -1;
+  });
+  // Prevent newlines
+  box.addEventListener("keydown", function(e) {
+    if(e.key === "Enter") { e.preventDefault(); doConfirm(); }
+  });
+
+  aw.appendChild(box);
+
+  var okBtn = document.getElementById("btn-ok");
+  okBtn.style.display = ""; okBtn.disabled = true;
+  setHint("Stelle anklicken → Komma eintippen → Bestätigen");
+  setTimeout(function() { box.focus(); }, 80);
+}
+
+function checkKomma(q) {
+  var box = document.getElementById("komma-box");
+  if(!box) return false;
+  var userText = (box.innerText || box.textContent || "").trim();
+  box.contentEditable = "false";
+
+  function norm(s) { return s.replace(/\s*,\s*/g, ",").replace(/\s+/g, " ").trim(); }
+
+  // Build expected text(s) with all commas inserted
+  var sentence = q.sentence || "";
+  var positions = q.correctPositions || [];
+  var expected = sentence;
+  var offset = 0;
+  positions.forEach(function(pos) {
+    expected = expected.slice(0, pos + offset) + "," + expected.slice(pos + offset);
+    offset++;
+  });
+
+  var ok = norm(userText) === norm(expected);
+
+  box.style.background = ok ? "#edfaf4" : "#fdf0f0";
+  box.style.borderColor = ok ? "var(--green)" : "var(--red)";
+
+  if(!ok) {
+    var hint = document.createElement("div");
+    hint.style.cssText = "margin-top:10px;padding:10px 14px;border-radius:10px;background:#e8f4ff;border:1.5px solid var(--blue);font-size:.88rem;color:var(--ink);";
+    hint.innerHTML = "<strong style='color:var(--blue)'>✓ Lösung:</strong> " + (q.model || expected);
+    box.parentNode.insertBefore(hint, box.nextSibling);
+  }
+  return ok;
 }
 
 function doConfirm() {
   if(S.answered) return;
   var q = S.qs[S.idx];
+
+  // New types
+  if(q.type==="komma") {
+    S.answered = true;
+    var ok = checkKomma(q);
+    flash(ok);
+    showFB(ok,q);
+    S.answers.push({ok:ok, q:q.sentence||q.sub});
+    document.getElementById("act-row").style.display = "none";
+    showNext();
+    return;
+  }
+  if(q.type==="rs"||q.type==="ausdruck"||q.type==="kasus"||q.type==="satzbau") {
+    // Must have tipp-field visible and non-empty
+    var inp = document.getElementById("tipp-inp");
+    if(!inp || inp.value.trim()==="") return;
+    S.answered = true;
+    var ok = checkWortklick(q);
+    flash(ok);
+    showFB(ok,q);
+    S.answers.push({ok:ok, q:q.sentence||q.sub});
+    document.getElementById("act-row").style.display = "none";
+    showNext();
+    return;
+  }
+
+
   if(q.type==="match") {
     S.answered = true;
     var ok = checkMatch(q);
@@ -1586,7 +1757,9 @@ function continueQuiz() {
   S.answers = [];
   S.answered = false;
   S.savedQs = null;
-  var allThemes = getAllThemes();
+  var allThemes = (currentArea==='msa') 
+    ? MSA_THEMES.concat(MSA_EXTRA_THEMES||EXTRA_THEMES||[]).concat(typeof MSA_UEBERARBEITUNG_THEMES!=='undefined'?MSA_UEBERARBEITUNG_THEMES:[]) 
+    : BBR_THEMES.concat(BBR_EXTRA_THEMES || []).concat(BBR_RECHTSCHREIBUNG_THEMES || []).concat(BBR_WIEDER_THEMES || []);
   var theme = allThemes.filter(function(t){ return t.id===S.themeId; })[0];
   if(theme) document.getElementById("hdr-theme").textContent = theme.title;
   renderQ();
@@ -1597,7 +1770,9 @@ function showResult(aborted) {
   var okCount = S.answers.filter(function(a){ return a.ok; }).length;
   var tot = S.answers.length;
   var pct = Math.round(okCount/tot*100);
-  var allThemes = getAllThemes();
+  var allThemes = (currentArea==='msa') 
+    ? MSA_THEMES.concat(MSA_EXTRA_THEMES||EXTRA_THEMES||[]).concat(typeof MSA_UEBERARBEITUNG_THEMES!=='undefined'?MSA_UEBERARBEITUNG_THEMES:[]) 
+    : BBR_THEMES.concat(BBR_EXTRA_THEMES || []).concat(BBR_RECHTSCHREIBUNG_THEMES || []).concat(BBR_WIEDER_THEMES || []);
   var theme = allThemes.filter(function(t){ return t.id===S.themeId; })[0];
   var totalQs = theme ? theme.qs.length : tot;
   var isIncomplete = aborted && tot<totalQs;
@@ -1712,12 +1887,11 @@ document.addEventListener("keydown", function(e){
 <script src="msa-aufgaben.js"></script>
 <script src="bbr-aufgaben.js"></script>
 <script src="msa-extra-aufgaben.js"></script>
+<script src="msa-ueberarbeitung.js"></script>
 <script src="bbr-extra-aufgaben.js"></script>
 <!-- BBR-Sondermodule: separat bearbeitbare Themen -->
 <script src="bbr-rechtschreibung.js"></script>
 <script src="bbr-extra-wieder.js"></script>
-<!-- MSA-Sondermodule -->
-<script src="msa-10Pkt.js"></script>
 
 <!-- ═══ INITIALISIERUNG ════════════════════════════════════════════ -->
 <script>
@@ -1735,8 +1909,7 @@ var UPDATE_SCRIPTS = [
   'msa-extra-aufgaben.js',
   'bbr-extra-aufgaben.js',
   'bbr-rechtschreibung.js',
-  'bbr-extra-wieder.js',
-  'msa-10Pkt.js'
+  'bbr-extra-wieder.js'
 ];
 
 function showToast(msg, type, duration) {
