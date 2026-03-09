@@ -865,7 +865,6 @@ function goBackFromQuiz() { renderArea(currentArea); switchAreaTab(currentArea, 
 function goBackFromResult() { renderArea(currentArea); switchAreaTab(currentArea, currentTab); showPage(currentArea); }
 function goBackFromGram() {
   renderArea(gramFromArea);
-  switchAreaTab(gramFromArea, currentTab);
   showPage(gramFromArea);
 }
 
@@ -955,7 +954,7 @@ function renderZehnPanel() {
             '</div>';
   });
   if(html === '') {
-    html = '<div class="coming-soon"><div class="coming-soon-icon">📋</div><h3>Keine Tabellen vorhanden</h3><p>Die msa-ueberarbeitung.js Datei wird benötigt.</p></div>';
+    html = '<div class="coming-soon"><div class="coming-soon-icon">📋</div><h3>Keine Tabellen vorhanden</h3><p>Die msa-10Pkt.js Datei wird benötigt.</p></div>';
   }
   grid.innerHTML = html;
 }
@@ -1948,7 +1947,7 @@ document.addEventListener("keydown", function(e){
 <script src="msa-aufgaben.js"></script>
 <script src="bbr-aufgaben.js"></script>
 <script src="msa-extra-aufgaben.js"></script>
-<script src="msa-ueberarbeitung.js"></script>
+<script src="msa-10Pkt.js"></script>
 <!-- BBR Extra-Themen: jede Datei überschreibt BBR_EXTRA_THEMES – wir sichern nach jeder Datei -->
 <script src="bbr-extra-aufgaben.js"></script>
 <script>var _bbr0 = (typeof BBR_EXTRA_THEMES!=='undefined') ? BBR_EXTRA_THEMES.slice() : [];</script>
@@ -1980,14 +1979,14 @@ window.addEventListener('load', function(){
 });
 
 // ================================ UPDATE-LOGIK ================================
-// Die JS-Dateien die aktualisiert werden sollen (Reihenfolge wichtig!)
+// Die JS-Dateien die aktualisiert werden sollen
 var UPDATE_SCRIPTS = [
   'regeln.js',
   'regeln-bbr.js',
   'msa-aufgaben.js',
   'bbr-aufgaben.js',
   'msa-extra-aufgaben.js',
-  'msa-ueberarbeitung.js',
+  'msa-10Pkt.js',
   'bbr-extra-aufgaben.js',
   'bbr-rechtschreibung.js',
   'bbr-extra-wieder.js',
@@ -1995,12 +1994,6 @@ var UPDATE_SCRIPTS = [
   'bbr-extra-wortarten.js',
   'bbr-extra-großschreibung.js',
   'bbr-extra-komma.js'
-];
-
-// BBR-Module die jeweils BBR_EXTRA_THEMES neu setzen
-var BBR_MODULE_SCRIPTS = [
-  'bbr-extra-aufgaben.js','bbr-rechtschreibung.js','bbr-extra-wieder.js',
-  'bbr-extra-getrennt.js','bbr-extra-wortarten.js','bbr-extra-großschreibung.js','bbr-extra-komma.js'
 ];
 
 function showToast(msg, type, duration) {
@@ -2046,59 +2039,56 @@ function doUpdate() {
 
   var ts = Date.now();
   var scripts = UPDATE_SCRIPTS.slice();
+  var loaded = 0;
   var failed = [];
-  var bbrSnapshots = []; // BBR_EXTRA_THEMES-Snapshot nach jedem BBR-Modul
+  var changed = 0;
 
-  // Scripts werden EINZELN nacheinander geladen (onload → nächstes Script).
-  // KEIN Seitenreload: nach dem Laden wird die UI direkt neu gerendert.
-  // Das verhindert, dass der Browser nach einem Reload veraltete Cache-Versionen der JS-Dateien lädt.
+  // Für jede Datei: Fetch mit Cache-Bypass, dann neu einbinden
   function loadNext() {
     if(scripts.length === 0) {
+      // Alle durch – Seite neu laden damit neue Skripte aktiv werden
       if(failed.length > 0) {
         setUpdateBtn('error');
         showToast('Einige Dateien konnten nicht geladen werden.', 'err', 4000);
-        return;
+      } else {
+        setUpdateBtn('success');
+        showToast('Inhalte aktualisiert – Seite wird neu geladen …', 'ok', 2500);
+        // Kurze Pause, dann reload mit Cache-Bypass
+        setTimeout(function(){
+          // Cache-buster für index.html selbst
+          var url = window.location.href.split('?')[0];
+          window.location.href = url + '?v=' + ts;
+        }, 1800);
       }
-
-      // BBR-Merge neu ausführen mit frischen Snapshots
-      if(bbrSnapshots.length > 0) {
-        var all = [];
-        bbrSnapshots.forEach(function(snap){ all = all.concat(snap); });
-        var seen = {};
-        window.BBR_EXTRA_THEMES = all.filter(function(t){
-          if(seen[t.id]) return false; seen[t.id]=true; return true;
-        });
-      }
-
-      setUpdateBtn('success');
-      showToast('Inhalte aktualisiert!', 'ok', 2500);
-      // UI direkt neu rendern – kein Reload nötig
-      renderStart();
-      showPage('start');
       return;
     }
 
     var src = scripts.shift();
     var url = src + '?v=' + ts;
 
-    var existing = document.querySelector('script[src^="' + src + '"]');
-    if(existing) existing.remove();
-
-    var s = document.createElement('script');
-    s.onload = function() {
-      // Nach jedem BBR-Modul: Snapshot sichern
-      if(BBR_MODULE_SCRIPTS.indexOf(src) !== -1 && typeof BBR_EXTRA_THEMES !== 'undefined') {
-        bbrSnapshots.push(BBR_EXTRA_THEMES.slice());
-      }
-      loadNext();
-    };
-    s.onerror = function() {
-      console.warn('Update fehlgeschlagen für ' + src);
-      failed.push(src);
-      loadNext();
-    };
-    s.src = url;
-    document.head.appendChild(s);
+    // HEAD-Request um zu prüfen ob Datei existiert, dann Script-Tag ersetzen
+    fetch(url, { cache: 'no-store' })
+      .then(function(r) {
+        if(!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(newCode) {
+        // Altes script-tag entfernen und neues einfügen
+        var existing = document.querySelector('script[src^="' + src + '"]');
+        if(existing) existing.remove();
+        var s = document.createElement('script');
+        s.src = url;
+        document.head.appendChild(s);
+        changed++;
+        loaded++;
+        loadNext();
+      })
+      .catch(function(e) {
+        console.warn('Update fehlgeschlagen für ' + src + ':', e);
+        failed.push(src);
+        loaded++;
+        loadNext();
+      });
   }
 
   loadNext();
