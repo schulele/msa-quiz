@@ -436,7 +436,7 @@ body{font-family:"DM Sans",sans-serif;background:var(--paper);color:var(--ink);m
       </div>
       <div class="nav-tab" id="msa-tab-extra" onclick="switchAreaTab('msa','extra')">
         <span class="nav-tab-icon">✨</span>
-        <span class="nav-tab-label">Weitere Übungsaufgaben</span>
+        <span class="nav-tab-label">weitere Übungsaufgaben</span>
         <span class="nav-tab-sub">Zusätzlich</span>
       </div>
       <div class="nav-tab" id="msa-tab-regeln" onclick="switchAreaTab('msa','regeln')">
@@ -508,7 +508,7 @@ body{font-family:"DM Sans",sans-serif;background:var(--paper);color:var(--ink);m
       </div>
       <div class="nav-tab" id="bbr-tab-extra" onclick="switchAreaTab('bbr','extra')">
         <span class="nav-tab-icon">✨</span>
-        <span class="nav-tab-label">Weitere Übungsaufgaben</span>
+        <span class="nav-tab-label">weitere Übungsaufgaben</span>
         <span class="nav-tab-sub">Zusätzlich</span>
       </div>
     </div>
@@ -854,7 +854,7 @@ function goStart() {
 }
 function openArea(area) {
   currentArea = area;
-  try { renderArea(area); } catch(e) { console.warn('renderArea error:', e); }
+  renderArea(area);
   switchAreaTab(area, 'aufgaben');
   showPage(area);
 }
@@ -912,18 +912,21 @@ function renderArea(area) {
   var s = sc();
   var html = '';
   themes.forEach(function(t) {
-    var st = s[t.id];
-    var pct = st ? st.pct : undefined;
-    var lastDate = st ? fmtDate(st.ts) : '';
-    html += '<div class="card tc" style="border-left-color:'+t.color+'" onclick="openStatPage(\''+t.id+'\',\''+area+'\')">' +
-            '<div class="tc-emoji">'+t.emoji+'</div>' +
-            '<div class="tc-title">'+t.title+'</div>' +
-            '<div class="tc-meta">'+t.qs.length+' Aufgaben</div>' +
-            '<div class="tc-score"><span class="dot" style="background:'+scCol(pct)+'"></span><span>'+(pct!==undefined?pct+'%':'—')+'</span></div>' +
-            (lastDate?'<div class="tc-lastdate">📅 '+lastDate+'</div>':'') +
-            '</div>';
+    try {
+      var st = s[t.id];
+      var pct = st ? st.pct : undefined;
+      var lastDate = st ? fmtDate(st.ts) : '';
+      html += '<div class="card tc" style="border-left-color:'+(t.color||'#3d6b8f')+'" onclick="openStatPage(\''+t.id+'\',\''+area+'\')">' +
+              '<div class="tc-emoji">'+(t.emoji||'📝')+'</div>' +
+              '<div class="tc-title">'+(t.title||'')+'</div>' +
+              '<div class="tc-meta">'+((t.qs&&t.qs.length)||0)+' Aufgaben</div>' +
+              '<div class="tc-score"><span class="dot" style="background:'+scCol(pct)+'"></span><span>'+(pct!==undefined?pct+'%':'—')+'</span></div>' +
+              (lastDate?'<div class="tc-lastdate">📅 '+lastDate+'</div>':'') +
+              '</div>';
+    } catch(e) { console.warn('renderArea theme error:', t && t.id, e); }
   });
-  document.getElementById(gridId).innerHTML = html;
+  var grid = document.getElementById(gridId);
+  if(grid) grid.innerHTML = html || '<p style="opacity:.4;padding:20px">Keine Aufgaben geladen.</p>';
 }
 
 function renderZehnPanel() {
@@ -1244,7 +1247,7 @@ function selectMC(idx) {
   flash(ok);
   showFB(ok,q);
   S.answers.push({ok:ok, q:q.q.split("\n")[0]});
-  document.getElementById("act-row").style.display = "none";
+  hideActRow();
   showNext();
 }
 
@@ -1669,7 +1672,7 @@ function doConfirm() {
     flash(ok);
     showFB(ok,q);
     S.answers.push({ok:ok, q:q.sentence||q.sub});
-    document.getElementById("act-row").style.display = "none";
+    hideActRow();
     showNext();
     return;
   }
@@ -1682,7 +1685,7 @@ function doConfirm() {
     flash(ok);
     showFB(ok,q);
     S.answers.push({ok:ok, q:q.sentence||q.sub});
-    document.getElementById("act-row").style.display = "none";
+    hideActRow();
     showNext();
     return;
   }
@@ -1694,7 +1697,7 @@ function doConfirm() {
     flash(ok);
     showFB(ok,q);
     S.answers.push({ok:ok, q:q.q});
-    document.getElementById("act-row").style.display = "none";
+    hideActRow();
     showNext();
     return;
   }
@@ -1704,7 +1707,7 @@ function doConfirm() {
     flash(ok);
     showFB(ok,q);
     S.answers.push({ok:ok, q:q.q.split("\n")[0]});
-    document.getElementById("act-row").style.display = "none";
+    hideActRow();
     showNext();
     return;
   }
@@ -1720,7 +1723,7 @@ function doConfirm() {
     flash(res);
     showFB(res,q);
     S.answers.push({ok:res, q:q.q.split("\n")[0]});
-    document.getElementById("act-row").style.display = "none";
+    hideActRow();
     showNext();
   }
 }
@@ -1734,7 +1737,7 @@ function showModel(q) {
   sa.innerHTML = '<button class="sa-btn sa-yes" onclick="doSelf(true)">✓ Richtig</button>' +
                  '<button class="sa-btn sa-no" onclick="doSelf(false)">✗ Falsch</button>';
   aw.appendChild(sa);
-  document.getElementById("act-row").style.display = "none";
+  hideActRow();
 }
 
 function doSelf(ok) {
@@ -1771,10 +1774,16 @@ function showNext() {
   nb.textContent = isLast ? "Auswertung →" : "Weiter →";
   if(!isLast) sh.style.display = "block";
   var ab = document.getElementById("btn-abort");
-  if(ab && !isLast) ab.style.display = "block";
+  if(ab) ab.style.display = "block";
 }
 
 function setHint(txt) { var h = document.getElementById("kbd-hint"); if(h) h.textContent = txt; }
+
+function hideActRow() {
+  document.getElementById("act-row").style.display = "none";
+  var ab = document.getElementById("btn-abort");
+  if(ab) ab.style.display = "block";
+}
 
 function doNext() {
   S.idx++;
@@ -1790,9 +1799,8 @@ function doNext() {
 }
 
 function abortQuiz() {
-  if(S.answers.length===0) { goBackFromQuiz(); return; }
   S.savedQs = S.qs.slice();
-  S.savedIdx = S.idx+1;
+  S.savedIdx = S.idx + 1;
   showResult(true);
 }
 
@@ -1928,41 +1936,42 @@ document.addEventListener("keydown", function(e){
 <div class="update-toast" id="update-toast"></div>
 
 <!-- ═══ DATEN (ausgelagert) ═══════════════════════════════════════ -->
-<script src="regeln.js"></script>
-<script src="regeln-bbr.js"></script>
-<script src="msa-aufgaben.js"></script>
-<script src="bbr-aufgaben.js"></script>
-<script src="msa-extra-aufgaben.js"></script>
-<script src="msa-ueberarbeitung.js"></script>
-<!-- BBR Extra-Themen: jede Datei überschreibt BBR_EXTRA_THEMES – wir sichern nach jeder Datei -->
-<script src="bbr-extra-aufgaben.js"></script>
-<script>var _bbr0 = (typeof BBR_EXTRA_THEMES!=='undefined') ? BBR_EXTRA_THEMES.slice() : [];</script>
-<!-- BBR-Sondermodule: separat bearbeitbare Themen -->
-<script src="bbr-rechtschreibung.js"></script>
-<script src="bbr-extra-wieder.js"></script>
-<script>var _bbr1 = (typeof BBR_EXTRA_THEMES!=='undefined') ? BBR_EXTRA_THEMES.slice() : [];</script>
-<script src="bbr-extra-getrennt.js"></script>
-<script>var _bbr2 = (typeof BBR_EXTRA_THEMES!=='undefined') ? BBR_EXTRA_THEMES.slice() : [];</script>
-<script src="bbr-extra-wortarten.js"></script>
-<script>var _bbr3 = (typeof BBR_EXTRA_THEMES!=='undefined') ? BBR_EXTRA_THEMES.slice() : [];</script>
-<script src="bbr-extra-großschreibung.js"></script>
-<script>var _bbr4 = (typeof BBR_EXTRA_THEMES!=='undefined') ? BBR_EXTRA_THEMES.slice() : [];</script>
-<script src="bbr-extra-komma.js"></script>
-<script>var _bbr5 = (typeof BBR_EXTRA_THEMES!=='undefined') ? BBR_EXTRA_THEMES.slice() : [];</script>
 <script>
-// Alle Module zusammenführen, Duplikate per id entfernen (erste Instanz gewinnt)
-(function(){
-  var all = _bbr0.concat(_bbr1).concat(_bbr2).concat(_bbr3).concat(_bbr4).concat(_bbr5);
+// Laedt eine JS-Datei per fetch, behebt den Syntaxfehler mit deutschen Anfuehrungszeichen automatisch
+function loadScript(src) {
+  return fetch(src)
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(function(code){
+      // Ersetze ASCII-" das ein deutsches Paar schliesst durch typografisches (U+201D)
+      var fixed = code.replace(/\u201E([^"\n]*?)"/g, function(m, inner){ return '\u201E' + inner + '\u201D'; });
+      try { (0, eval)(fixed); } catch(e) { console.error('Fehler in ' + src + ':', e); }
+    })
+    .catch(function(e){ console.warn('Datei nicht gefunden: ' + src, e); });
+}
+
+var _dataFiles = [
+  'regeln.js','regeln-bbr.js','msa-aufgaben.js','bbr-aufgaben.js',
+  'msa-extra-aufgaben.js','msa-ueberarbeitung.js','bbr-extra-aufgaben.js',
+  'bbr-rechtschreibung.js','bbr-extra-wieder.js','bbr-extra-getrennt.js',
+  'bbr-extra-wortarten.js','bbr-extra-großschreibung.js','bbr-extra-komma.js'
+];
+
+var _dataReady = _dataFiles.reduce(function(chain, src) {
+  return chain.then(function(){ return loadScript(src); });
+}, Promise.resolve());
+
+_dataReady.then(function() {
+  // BBR Extra-Themen zusammenfuehren, Duplikate per id entfernen
+  var all = (typeof BBR_EXTRA_THEMES !== 'undefined') ? BBR_EXTRA_THEMES : [];
   var seen = {};
   BBR_EXTRA_THEMES = all.filter(function(t){ if(seen[t.id]) return false; seen[t.id]=true; return true; });
-})();
+  renderStart();
+});
 </script>
 
 <!-- ═══ INITIALISIERUNG ════════════════════════════════════════════ -->
 <script>
-window.addEventListener('load', function(){
-  renderStart();
-});
+// renderStart() wird nach dem asynchronen Laden aller Datendateien aufgerufen (siehe oben)
 
 // ================================ UPDATE-LOGIK ================================
 // Die JS-Dateien die aktualisiert werden sollen
