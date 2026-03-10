@@ -915,10 +915,10 @@ rule:"<div class=rbox>Zeit: wann? (später, bald, nachher) · Art/Weise: wie? (b
 q:"Schreiben Sie für die jeweils markierten Begriffe das entsprechende Antonym.",
 sentences:[
   "Bsp.: Die Lebensmittel sind verdorben.  → frisch",
-  "a)  Draußen ist es heute sehr *warm*.",
-  "b)  Die Nachspeise ist viel zu *sauer*.",
-  "c)  Die Gegner stehen sich *freundlich* gegenüber.",
-  "d)  Eine *Mehrheit* stimmte heute für das neue Gesetz."
+  "a)  Draußen ist es heute sehr [warm].",
+  "b)  Die Nachspeise ist viel zu [sauer].",
+  "c)  Die Gegner stehen sich [freundlich] gegenüber.",
+  "d)  Eine [Mehrheit] stimmte heute für das neue Gesetz."
 ],
 model:"a) kalt · b) süß · c) feindlich · d) Minderheit",
 rule:"<div class=rbox><span class=hl>Antonym</span> = direktes Gegenteil – Wortart beachten!</div>"},
@@ -1256,15 +1256,15 @@ model:"umgangssprachlich: futtern / Gaul / klauen · Standard: essen / Pferd / s
 rule:"<div class=rbox>Gleiche Bedeutung, unterschiedliche Stilebene – je nach Kontext wählen!</div>"},
 
 {sub:"Wortbedeutung / Homonyme II",type:"self",
-q:"Schreiben Sie für die jeweils unterstrichenen Begriffe die passende Bedeutung aus dem Kasten.",
+q:"Schreiben Sie für die jeweils markierten Begriffe die passende Bedeutung aus dem Kasten.",
 wordbox:"Gebäude, Straßenbelag, Sicherungsobjekt, Tier, Wundschutzmittel, Sanitärobjekt",
 sentences:[
-  "a)  Eine Prinzessin wohnt in einem Schloss.",
-  "b)  Das Fahrrad wird mit einem Schloss angeschlossen.",
-  "c)  Die Wunde wurde mit einem Pflaster versorgt.",
-  "d)  Der Hund betrat zum ersten Mal das Pflaster.",
-  "e)  Der Hahn kräht jeden Morgen.",
-  "f)  Der Hahn an der Badewanne tropft."
+  "a)  Eine Prinzessin wohnt in einem *Schloss*.",
+  "b)  Das Fahrrad wird mit einem *Schloss* angeschlossen.",
+  "c)  Die Wunde wurde mit einem *Pflaster* versorgt.",
+  "d)  Der Hund betrat zum ersten Mal das *Pflaster*.",
+  "e)  Der *Hahn* kräht jeden Morgen.",
+  "f)  Der *Hahn* an der Badewanne tropft."
 ],
 model:"a) Gebäude · b) Sicherungsobjekt · c) Wundschutzmittel · d) Straßenbelag · e) Tier · f) Sanitärobjekt",
 rule:"<div class=rbox>Homonyme: gleiche Schreibweise, völlig verschiedene Bedeutungen.</div>"},

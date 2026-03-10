@@ -460,6 +460,67 @@
 <script src="bbr-aufgaben.js"></script>
 <script src="msa-extra-aufgaben.js"></script>
 <script src="msa-ueberarbeitung.js"></script>
+<script src="msa-satzglieder-wortarten.js"></script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MSA Weitere Übungsaufgaben – ein Thema pro Datei.
+     _msaCollect sammelt alle Themen, Duplikate per ID werden entfernt.
+     ═══════════════════════════════════════════════════════════ -->
+<script>var _msaCollect = [];</script>
+
+
+<script>_msaCollect = _msaCollect.concat(typeof MSA_SATZGLIEDER_THEMES !== 'undefined' ? MSA_SATZGLIEDER_THEMES.slice() : []);</script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_WORTARTEN_THEMES !== 'undefined' ? MSA_WORTARTEN_THEMES.slice() : []);</script>
+
+<script src="msa-extra-grossschreibung.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_GROSSSCHREIBUNG !== 'undefined' ? MSA_EXTRA_GROSSSCHREIBUNG.slice() : []);</script>
+
+<script src="msa-extra-komma.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_KOMMA !== 'undefined' ? MSA_EXTRA_KOMMA.slice() : []);</script>
+
+<script src="msa-extra-passiv.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_PASSIV !== 'undefined' ? MSA_EXTRA_PASSIV.slice() : []);</script>
+
+<script src="msa-extra-indirekte-rede.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_INDIREKTE_REDE !== 'undefined' ? MSA_EXTRA_INDIREKTE_REDE.slice() : []);</script>
+
+<script src="msa-extra-satzglieder.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_SATZGLIEDER !== 'undefined' ? MSA_EXTRA_SATZGLIEDER.slice() : []);</script>
+
+<script src="msa-extra-slaut.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_SLAUT !== 'undefined' ? MSA_EXTRA_SLAUT.slice() : []);</script>
+
+<script src="msa-extra-wortarten.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_WORTARTEN !== 'undefined' ? MSA_EXTRA_WORTARTEN.slice() : []);</script>
+
+<script src="msa-extra-satzbau.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_SATZBAU !== 'undefined' ? MSA_EXTRA_SATZBAU.slice() : []);</script>
+
+<script src="msa-extra-getrennt.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_GETRENNT !== 'undefined' ? MSA_EXTRA_GETRENNT.slice() : []);</script>
+
+<script src="msa-extra-stilmittel.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_STILMITTEL !== 'undefined' ? MSA_EXTRA_STILMITTEL.slice() : []);</script>
+
+<script src="msa-extra-zeitformen.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_ZEITFORMEN !== 'undefined' ? MSA_EXTRA_ZEITFORMEN.slice() : []);</script>
+
+<!-- Alle MSA-Extra-Themen zusammenführen, Duplikate per ID entfernen -->
+<script>
+(function() {
+  'use strict';
+  var seen = {};
+  window.MSA_EXTRA_THEMES = _msaCollect.filter(function(t) {
+    if (!t || !t.id) return false;
+    if (seen[t.id]) return false;
+    seen[t.id] = true;
+    return true;
+  });
+  _msaCollect = [];
+})();
+</script>
+
+
 
 <!-- BBR Weitere Übungsaufgaben – ein Thema pro Datei.
      Alle Dateien setzen BBR_EXTRA_THEMES neu.

@@ -17,6 +17,7 @@ function getAllThemes(area) {
       ...(window.MSA_THEMES || []),
       ...(window.MSA_EXTRA_THEMES || window.EXTRA_THEMES || []),
       ...(typeof window.MSA_UEBERARBEITUNG_THEMES !== 'undefined' ? window.MSA_UEBERARBEITUNG_THEMES : []),
+      ...(typeof window.MSA_SATZGLIEDER_THEMES !== 'undefined' ? window.MSA_SATZGLIEDER_THEMES : []),
     ];
   }
   return [
@@ -154,13 +155,28 @@ function renderExtraPanel(area) {
   renderThemeGrid(gridId, extraThemes, area);
 }
 
+function renderSatzgliederPanel() {
+  const themes = typeof window.MSA_SATZGLIEDER_THEMES !== 'undefined'
+    ? window.MSA_SATZGLIEDER_THEMES : [];
+  const grid = el('msa-satzglieder-grid');
+  if (!grid) return;
+  if (themes.length === 0) {
+    grid.innerHTML =
+      '<div class="coming-soon"><div class="coming-soon-icon">🔍</div>' +
+      '<h3>Keine Aufgaben vorhanden</h3>' +
+      '<p>Die msa-satzglieder.js Datei wird benötigt.</p></div>';
+    return;
+  }
+  renderThemeGrid('msa-satzglieder-grid', themes, 'msa');
+}
+
 /* ═══════════════════════════════════════════════════════════════
    TAB-STEUERUNG
    ═══════════════════════════════════════════════════════════════ */
 function switchAreaTab(area, tab) {
   AppState.currentTab = tab;
   const tabs = area === 'msa'
-    ? ['aufgaben', 'zehn', 'extra', 'regeln']
+    ? ['aufgaben', 'zehn', 'extra', 'satzglieder', 'regeln']
     : ['aufgaben', 'extra', 'regeln'];
 
   tabs.forEach(t => {
@@ -170,10 +186,11 @@ function switchAreaTab(area, tab) {
     if (panelEl) panelEl.style.display = t === tab ? '' : 'none';
   });
 
-  if (tab === 'aufgaben') renderArea(area);
-  if (tab === 'regeln')   { AppState.gramFromArea = area; renderGramNavInArea(area); }
-  if (tab === 'extra')    renderExtraPanel(area);
-  if (tab === 'zehn')     renderZehnPanel();
+  if (tab === 'aufgaben')    renderArea(area);
+  if (tab === 'regeln')      { AppState.gramFromArea = area; renderGramNavInArea(area); }
+  if (tab === 'extra')       renderExtraPanel(area);
+  if (tab === 'zehn')        renderZehnPanel();
+  if (tab === 'satzglieder') renderSatzgliederPanel();
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -366,6 +383,7 @@ function renderQ() {
   else if (cur.type === 'choose')                                 renderChoose(cur);
   else if (cur.type === 'fill')                                   renderFill(cur);
   else if (cur.type === 'komma')                                  renderKomma(cur);
+  else if (cur.type === 'satzglied')                              renderSatzglied(cur);
   else if (NEW_TYPES.includes(cur.type) && cur.type !== 'komma') renderWortklick(cur);
   else                                                            renderText(cur);
 }
@@ -1044,6 +1062,117 @@ function checkWortklick(q) {
   return ok;
 }
 
+/* ── SATZGLIED ───────────────────────────────────────────────── */
+/*
+ * Satzglied-Aufgabe: Der Nutzer klickt jedes Token an und weist ihm
+ * ein Satzglied aus einem Dropdown zu. Satzzeichen (correct === "-")
+ * werden nicht bewertet und erhalten kein Dropdown.
+ *
+ * Datenformat:
+ *   tokens:  ["Der","Hund","bellt","laut","."]
+ *   options: ["Subjekt","Prädikat", ...]
+ *   correct: { "0":"Attribut","1":"Subjekt","2":"Prädikat","3":"Adverbiale Bestimmung","4":"-" }
+ */
+function renderSatzglied(q) {
+  const aw = el('ans-wrap'); if (!aw) return;
+  aw.innerHTML = '';
+
+  // Aufgabentext
+  const qp = document.createElement('p');
+  qp.style.cssText = 'font-size:.93rem;margin-bottom:14px;font-weight:600;';
+  qp.textContent = q.q || '';
+  aw.appendChild(qp);
+
+  const grid = document.createElement('div');
+  grid.id = 'satzglied-grid';
+  grid.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;';
+
+  (q.tokens || []).forEach((tok, i) => {
+    const isSatzzeichen = (q.correct && q.correct[String(i)] === '-');
+
+    const cell = document.createElement('div');
+    cell.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;';
+
+    // Token-Wort
+    const word = document.createElement('div');
+    word.textContent = tok;
+    word.style.cssText = [
+      'font-size:1rem','font-weight:600','padding:4px 8px',
+      'border-radius:6px','background:#f0f5fb',
+      'border:1.5px solid var(--border)',
+      'white-space:nowrap',
+    ].join(';');
+    cell.appendChild(word);
+
+    if (!isSatzzeichen) {
+      const sel = document.createElement('select');
+      sel.setAttribute('data-idx', i);
+      sel.setAttribute('aria-label', `Satzglied für „${tok}"`);
+      sel.style.cssText = [
+        'font-size:.78rem','padding:3px 6px','border-radius:6px',
+        'border:1.5px solid var(--border)','background:#fff',
+        'color:var(--ink)','cursor:pointer','max-width:140px',
+      ].join(';');
+
+      // Platzhalter
+      const ph = document.createElement('option');
+      ph.value = '';
+      ph.textContent = '— wählen —';
+      ph.disabled = true;
+      ph.selected = true;
+      sel.appendChild(ph);
+
+      (q.options || []).forEach(opt => {
+        const o = document.createElement('option');
+        o.value = opt;
+        o.textContent = opt;
+        sel.appendChild(o);
+      });
+
+      cell.appendChild(sel);
+    }
+
+    grid.appendChild(cell);
+  });
+
+  aw.appendChild(grid);
+  const ok = el('btn-ok'); if (ok) { ok.style.display = ''; ok.disabled = false; }
+  setHint('Satzglied je Wort auswählen · Bestätigen');
+}
+
+function checkSatzglied(q) {
+  const sels = document.querySelectorAll('#satzglied-grid select[data-idx]');
+  let allOk  = true;
+
+  sels.forEach(sel => {
+    const idx     = sel.getAttribute('data-idx');
+    const correct = q.correct && q.correct[String(idx)];
+    const chosen  = sel.value;
+    const ok2     = chosen === correct;
+
+    sel.disabled = true;
+    if (!ok2) allOk = false;
+
+    // Wort-Zelle einfärben
+    const cell = sel.parentNode;
+    const word = cell.querySelector('div');
+    if (word) {
+      word.style.background  = ok2 ? '#d4f7e8' : '#fde8e8';
+      word.style.borderColor = ok2 ? 'var(--green)' : 'var(--red)';
+    }
+
+    // Korrekte Antwort als Hinweis anzeigen
+    if (!ok2 && correct) {
+      const hint = document.createElement('div');
+      hint.style.cssText = 'font-size:.72rem;color:var(--green);font-weight:600;';
+      hint.textContent = '✓ ' + correct;
+      cell.appendChild(hint);
+    }
+  });
+
+  return allOk;
+}
+
 /* ── KOMMA ───────────────────────────────────────────────────── */
 /*
  * Komma-Aufgabe: Der Nutzer tippt Kommas in einen editierbaren Satz.
@@ -1155,6 +1284,14 @@ function doConfirm() {
     const ok2 = checkKomma(cur);
     flash(ok2); showFB(ok2, cur);
     q.answers.push({ ok: ok2, q: cur.sentence || cur.sub });
+    hideActRow(); showNext(); return;
+  }
+
+  if (cur.type === 'satzglied') {
+    q.answered = true;
+    const ok2 = checkSatzglied(cur);
+    flash(ok2); showFB(ok2, cur);
+    q.answers.push({ ok: ok2, q: cur.sub || cur.q });
     hideActRow(); showNext(); return;
   }
 
