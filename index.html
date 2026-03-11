@@ -90,6 +90,44 @@
         <div class="cal-grid" id="cal-grid" role="grid" aria-label="Übungskalender"></div>
       </div>
     </section>
+    <!-- Schriftgrößen-Steuerung -->
+    <div id="font-size-ctrl" style="
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      margin-top:18px;
+      opacity:.38;
+      transition:opacity .2s;
+    "
+    onmouseenter="this.style.opacity='.75'"
+    onmouseleave="this.style.opacity='.38'"
+    aria-label="Schriftgröße anpassen">
+      <button id="fs-dec" aria-label="Schrift verkleinern" style="
+        background:none;
+        border:1px solid currentColor;
+        border-radius:50%;
+        width:22px;height:22px;
+        font-size:.7rem;
+        cursor:pointer;
+        color:inherit;
+        display:flex;align-items:center;justify-content:center;
+        padding:0;line-height:1;
+      ">A−</button>
+      <span id="fs-label" style="font-size:.65rem;letter-spacing:.05em;min-width:24px;text-align:center"></span>
+      <button id="fs-inc" aria-label="Schrift vergrößern" style="
+        background:none;
+        border:1px solid currentColor;
+        border-radius:50%;
+        width:22px;height:22px;
+        font-size:.7rem;
+        cursor:pointer;
+        color:inherit;
+        display:flex;align-items:center;justify-content:center;
+        padding:0;line-height:1;
+      ">A+</button>
+    </div>
+
   </main>
 </div>
 
@@ -458,9 +496,7 @@
 <script src="regeln-bbr.js"></script>
 <script src="msa-aufgaben.js"></script>
 <script src="bbr-aufgaben.js"></script>
-<script src="msa-extra-aufgaben.js"></script>
 <script src="msa-ueberarbeitung.js"></script>
-<script src="msa-satzglieder-wortarten.js"></script>
 
 <!-- ═══════════════════════════════════════════════════════════
      MSA Weitere Übungsaufgaben – ein Thema pro Datei.
@@ -468,21 +504,18 @@
      ═══════════════════════════════════════════════════════════ -->
 <script>var _msaCollect = [];</script>
 
-
-<script>_msaCollect = _msaCollect.concat(typeof MSA_SATZGLIEDER_THEMES !== 'undefined' ? MSA_SATZGLIEDER_THEMES.slice() : []);</script>
-<script>_msaCollect = _msaCollect.concat(typeof MSA_WORTARTEN_THEMES !== 'undefined' ? MSA_WORTARTEN_THEMES.slice() : []);</script>
-
 <script src="msa-extra-grossschreibung.js"></script>
 <script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_GROSSSCHREIBUNG !== 'undefined' ? MSA_EXTRA_GROSSSCHREIBUNG.slice() : []);</script>
 
 <script src="msa-extra-komma.js"></script>
 <script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_KOMMA !== 'undefined' ? MSA_EXTRA_KOMMA.slice() : []);</script>
 
-<script src="msa-extra-passiv.js"></script>
-<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_PASSIV !== 'undefined' ? MSA_EXTRA_PASSIV.slice() : []);</script>
 
 <script src="msa-extra-indirekte-rede.js"></script>
 <script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_INDIREKTE_REDE !== 'undefined' ? MSA_EXTRA_INDIREKTE_REDE.slice() : []);</script>
+
+<script src="msa-extra-passiv.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_PASSIV !== 'undefined' ? MSA_EXTRA_PASSIV.slice() : []);</script>
 
 <script src="msa-extra-satzglieder.js"></script>
 <script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_SATZGLIEDER !== 'undefined' ? MSA_EXTRA_SATZGLIEDER.slice() : []);</script>
@@ -493,11 +526,12 @@
 <script src="msa-extra-wortarten.js"></script>
 <script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_WORTARTEN !== 'undefined' ? MSA_EXTRA_WORTARTEN.slice() : []);</script>
 
-<script src="msa-extra-satzbau.js"></script>
-<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_SATZBAU !== 'undefined' ? MSA_EXTRA_SATZBAU.slice() : []);</script>
 
 <script src="msa-extra-getrennt.js"></script>
 <script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_GETRENNT !== 'undefined' ? MSA_EXTRA_GETRENNT.slice() : []);</script>
+
+<script src="msa-extra-satzbau.js"></script>
+<script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_SATZBAU !== 'undefined' ? MSA_EXTRA_SATZBAU.slice() : []);</script>
 
 <script src="msa-extra-stilmittel.js"></script>
 <script>_msaCollect = _msaCollect.concat(typeof MSA_EXTRA_STILMITTEL !== 'undefined' ? MSA_EXTRA_STILMITTEL.slice() : []);</script>
@@ -519,8 +553,6 @@
   _msaCollect = [];
 })();
 </script>
-
-
 
 <!-- BBR Weitere Übungsaufgaben – ein Thema pro Datei.
      Alle Dateien setzen BBR_EXTRA_THEMES neu.
@@ -642,5 +674,47 @@
 })();
 </script>
 
+<!-- ═══════════════════════════════════════════════════════════
+     SCHRIFTGRÖSSEN-STEUERUNG
+     Setzt font-size auf <html>, damit alle rem-Werte in .js-Dateien
+     automatisch mitskalieren. Standard-Browserwert = 16px.
+     Minimum: 16px (Standard) · Maximum: 18px
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  var MIN  = 16;   // px – entspricht der bisherigen Standardgröße
+  var MAX  = 40;   // px – gut lesbar auf Smartboard aus letzter Reihe
+  var STEP = 1;    // px pro Klick
+  var KEY  = 'quiz-font-size';
+
+  var root    = document.documentElement;
+  var btnDec  = document.getElementById('fs-dec');
+  var btnInc  = document.getElementById('fs-inc');
+  var lbl     = document.getElementById('fs-label');
+
+  function apply(size) {
+    size = Math.max(MIN, Math.min(MAX, size));
+    root.style.fontSize = size + 'px';
+    lbl.textContent = size + 'px';
+    btnDec.disabled = (size <= MIN);
+    btnInc.disabled = (size >= MAX);
+    try { localStorage.setItem(KEY, size); } catch(e) {}
+  }
+
+  // Gespeicherte Größe wiederherstellen
+  var saved = MIN;
+  try { saved = parseInt(localStorage.getItem(KEY), 10) || MIN; } catch(e) {}
+  apply(saved);
+
+  btnDec.addEventListener('click', function () {
+    apply(parseInt(root.style.fontSize, 10) - STEP);
+  });
+  btnInc.addEventListener('click', function () {
+    apply(parseInt(root.style.fontSize, 10) + STEP);
+  });
+})();
+</script>
 </body>
 </html>
