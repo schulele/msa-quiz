@@ -384,6 +384,8 @@ function renderQ() {
   else if (cur.type === 'fill')                                   renderFill(cur);
   else if (cur.type === 'komma')                                  renderKomma(cur);
   else if (cur.type === 'satzglied')                              renderSatzglied(cur);
+  else if (cur.type === 'wortart')                                renderWortart(cur);
+  else if (cur.type === 'tap')                                    renderTap(cur);
   else if (NEW_TYPES.includes(cur.type) && cur.type !== 'komma') renderWortklick(cur);
   else                                                            renderText(cur);
 }
@@ -1173,6 +1175,339 @@ function checkSatzglied(q) {
   return allOk;
 }
 
+/* ── TAP (Satzglied antippen – sofortige Rückmeldung) ─────────── */
+/*
+ * Tap-Aufgabe: Schüler*in tippt das gesuchte Satzglied-Token direkt an.
+ * Richtiges Token → sofort grün, verbleibt markiert.
+ * Falsches Token  → kurzer roter Blitz, dann zurück.
+ * Nach 3 Fehltipps: Lösung wird aufgedeckt, Aufgabe als falsch gewertet.
+ *
+ * Datenformat:
+ *   tokens:  ["Die","Mannschaft","hat","gestern","gewonnen","."]
+ *   correct: [2, 4]   ← Indizes der richtigen Token (Array!)
+ *   q:       "Tippe das Prädikat an! (Beide Teile)"
+ */
+function renderTap(q) {
+  const aw = el('ans-wrap'); if (!aw) return;
+  aw.innerHTML = '';
+
+  const correctSet = new Set((q.correct || []).map(Number));
+  let found    = 0;
+  let mistakes = 0;
+  const MAX_MISTAKES = 3;
+
+  function revealAndFail() {
+    if (AppState.quiz.answered) return;
+    AppState.quiz.answered = true;
+    AppState.quiz.answers.push({ ok: false, q: q.sub || q.q });
+    document.querySelectorAll('#tap-tokens .tap-btn').forEach(function(btn) {
+      const idx = parseInt(btn.getAttribute('data-tap-idx'));
+      if (correctSet.has(idx) && !btn.classList.contains('tap-ok')) {
+        btn.style.background  = '#d4f7e8';
+        btn.style.borderColor = '#2d9e6a';
+        btn.style.color       = '#1a6e48';
+      }
+      btn.disabled = true;
+    });
+    flash(false); showFB(false, q);
+    hideActRow(); showNext();
+  }
+
+  const tokenContainer = document.createElement('div');
+  tokenContainer.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;';
+  tokenContainer.id = 'tap-tokens';
+
+  (q.tokens || []).forEach(function(tok, i) {
+    const isPunct = !/[\wäöüÄÖÜß]/.test(tok);
+    if (isPunct) {
+      const dot = document.createElement('span');
+      dot.textContent = tok;
+      dot.style.cssText = 'font-size:1.05rem;align-self:flex-end;padding-bottom:7px;opacity:.45;';
+      tokenContainer.appendChild(dot);
+      return;
+    }
+
+    const btn = document.createElement('button');
+    btn.className = 'cross-btn tap-btn';
+    btn.textContent = tok;
+    btn.setAttribute('data-tap-idx', i);
+    btn.style.cssText = [
+      'font-size:1rem','font-weight:600','padding:7px 14px',
+      'border-radius:9px','transition:background .15s,border-color .15s,color .15s',
+    ].join(';');
+
+    btn.addEventListener('click', function() {
+      if (AppState.quiz.answered) return;
+      if (btn.classList.contains('tap-ok')) return;
+
+      if (correctSet.has(i)) {
+        /* ✓ Richtig */
+        btn.classList.add('tap-ok');
+        btn.style.background  = '#d4f7e8';
+        btn.style.borderColor = '#2d9e6a';
+        btn.style.color       = '#1a6e48';
+        btn.disabled = true;
+        found++;
+
+        if (found === correctSet.size) {
+          const ok2 = (mistakes === 0);
+          AppState.quiz.answered = true;
+          AppState.quiz.answers.push({ ok: ok2, q: q.sub || q.q });
+          flash(ok2); showFB(ok2, q);
+          hideActRow(); showNext();
+        }
+      } else {
+        /* ✗ Falsch – kurzer roter Blitz */
+        mistakes++;
+        btn.style.background  = '#fde8e8';
+        btn.style.borderColor = '#d94f4f';
+        btn.style.color       = '#d94f4f';
+        var b = btn;
+        setTimeout(function() {
+          if (!b.classList.contains('tap-ok')) {
+            b.style.background  = '';
+            b.style.borderColor = '';
+            b.style.color       = '';
+          }
+        }, 700);
+        if (mistakes >= MAX_MISTAKES) revealAndFail();
+      }
+    });
+
+    tokenContainer.appendChild(btn);
+  });
+
+  aw.appendChild(tokenContainer);
+
+  const cnt  = correctSet.size;
+  const hint = document.createElement('p');
+  hint.style.cssText = 'font-size:.8rem;opacity:.5;margin-top:2px;';
+  hint.textContent   = cnt === 1
+    ? '1 Wort antippen · nach 3 Fehltipps wird die Lösung angezeigt'
+    : cnt + ' Wörter antippen · nach 3 Fehltipps wird die Lösung angezeigt';
+  aw.appendChild(hint);
+
+  const okBtn = el('btn-ok'); if (okBtn) okBtn.style.display = 'none';
+  setHint('Richtiges Satzglied antippen → sofort Rückmeldung');
+}
+
+/* ── WORTART ─────────────────────────────────────────────────── */
+/*
+ * Wortart-Aufgabe: Alle Tokens des Satzes sind anklickbar.
+ * Klick auf ein Wort → Dropdown mit Wortarten → sofortiges Feedback.
+ * Satzzeichen (correct === "-") werden nicht bewertet.
+ *
+ * Datenformat:
+ *   sentence : "Der alte Mann liest heute ein Buch."
+ *   options  : ["Nomen","Verb","Adjektiv","Artikel","Pronomen",
+ *               "Numerale","Adverb","Präposition","Konjunktion","Interjektion"]
+ *   correct  : { "Der":"Artikel", "alte":"Adjektiv", ..., ".":"-" }
+ */
+function renderWortart(q) {
+  const aw = el('ans-wrap'); if (!aw) return;
+  aw.innerHTML = '';
+
+  const hint = document.createElement('p');
+  hint.style.cssText = 'font-size:.83rem;opacity:.6;margin-bottom:12px;';
+  hint.textContent = 'Klicke auf ein Wort → Wortart wählen → sofortiges Feedback.';
+  aw.appendChild(hint);
+
+  const scoreEl = document.createElement('div');
+  scoreEl.id = 'wortart-score';
+  scoreEl.style.cssText = 'font-size:.82rem;opacity:.6;margin-bottom:8px;text-align:right;';
+
+  const sentBox = document.createElement('div');
+  sentBox.id = 'wortart-sent';
+  sentBox.style.cssText = [
+    'font-size:1.05rem','line-height:2.8','word-break:break-word',
+    'background:#f7f9fc','border:1.5px solid var(--border)',
+    'border-radius:10px','padding:12px 16px','margin-bottom:14px',
+  ].join(';');
+
+  const tokens = (q.sentence || '').split(/(\s+)/);
+  let totalRatable = 0;
+  let ratedCorrect = 0;
+  let ratedWrong   = 0;
+
+  function updateScore() {
+    scoreEl.textContent = ratedCorrect + ' richtig · ' + ratedWrong + ' falsch';
+    const remaining = sentBox.querySelectorAll('[data-rated="false"]').length;
+    const ob = el('btn-ok');
+    if (ob) ob.disabled = remaining > 0;
+  }
+
+  function closeAllDropdowns() {
+    sentBox.querySelectorAll('.wortart-dd').forEach(function(d) { d.remove(); });
+  }
+
+  tokens.forEach(function(tok) {
+    if (/^\s+$/.test(tok)) {
+      sentBox.appendChild(document.createTextNode(tok));
+      return;
+    }
+
+    // Korrekte Wortart ermitteln – auch bei Tokens mit Satzzeichen am Ende
+    var correctVal = (q.correct || {})[tok];
+    if (!correctVal) {
+      var stripped = tok.replace(/[,!?.]$/, '');
+      correctVal = (q.correct || {})[stripped];
+    }
+    var isRatable = correctVal && correctVal !== '-';
+    if (isRatable) totalRatable++;
+
+    var span = document.createElement('span');
+    span.textContent = tok;
+    span.setAttribute('data-token', tok);
+    span.setAttribute('data-correct', correctVal || '-');
+    span.setAttribute('data-rated', isRatable ? 'false' : 'skip');
+    span.style.cssText = [
+      'display:inline-block',
+      'cursor:' + (isRatable ? 'pointer' : 'default'),
+      'padding:3px 7px','border-radius:7px',
+      'border:1.5px solid ' + (isRatable ? 'var(--border)' : 'transparent'),
+      'margin:0 1px','transition:background .15s, border-color .15s',
+      'position:relative','vertical-align:middle',
+    ].join(';');
+
+    if (!isRatable) {
+      span.style.opacity = '.4';
+      sentBox.appendChild(span);
+      return;
+    }
+
+    span.addEventListener('mouseenter', function() {
+      if (this.getAttribute('data-rated') === 'false') {
+        this.style.background  = '#eef4ff';
+        this.style.borderColor = 'var(--blue)';
+      }
+    });
+    span.addEventListener('mouseleave', function() {
+      if (this.getAttribute('data-rated') === 'false') {
+        this.style.background  = '';
+        this.style.borderColor = 'var(--border)';
+      }
+    });
+
+    span.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (AppState.quiz.answered) return;
+      if (this.getAttribute('data-rated') !== 'false') return;
+
+      // Bereits offenes Dropdown auf diesem Span → schließen und abbrechen
+      if (this.querySelector('.wortart-dd')) {
+        closeAllDropdowns();
+        return;
+      }
+      closeAllDropdowns();
+
+      var tokenSpan = this;
+      var dd = document.createElement('select');
+      dd.className = 'wortart-dd';
+      dd.size = (q.options || []).length + 1; // Listbox statt Klapp-Menü → kein Auto-Close
+      dd.style.cssText = [
+        'position:absolute','top:110%','left:50%',
+        'transform:translateX(-50%)',
+        'z-index:999','font-size:.85rem',
+        'border-radius:8px','border:2px solid var(--blue)',
+        'background:#fff','color:var(--ink)',
+        'box-shadow:0 6px 24px rgba(0,0,0,.15)',
+        'min-width:180px','cursor:pointer',
+        'outline:none',
+      ].join(';');
+
+      (q.options || []).forEach(function(opt) {
+        var o = document.createElement('option');
+        o.value = opt; o.textContent = opt;
+        o.style.cssText = 'padding:5px 10px;font-size:.85rem;';
+        dd.appendChild(o);
+      });
+
+      // Auswahl per Klick auf eine Option
+      dd.addEventListener('change', function(ev) {
+        ev.stopPropagation();
+        var chosen  = this.value;
+        var correct = tokenSpan.getAttribute('data-correct');
+        var ok2     = chosen === correct;
+
+        tokenSpan.setAttribute('data-rated', ok2 ? 'correct' : 'wrong');
+        tokenSpan.style.background  = ok2 ? '#d4f7e8' : '#fde8e8';
+        tokenSpan.style.borderColor = ok2 ? 'var(--green)' : 'var(--red)';
+        tokenSpan.style.cursor      = 'default';
+
+        var old = tokenSpan.querySelector('.wortart-label');
+        if (old) old.remove();
+        var label = document.createElement('span');
+        label.className = 'wortart-label';
+        label.style.cssText = [
+          'display:block','font-size:.63rem','font-weight:700',
+          'margin-top:1px','text-align:center','white-space:nowrap',
+          'color:' + (ok2 ? 'var(--green)' : 'var(--red)'),
+        ].join(';');
+        label.textContent = ok2 ? ('✓ ' + chosen) : ('✗ ' + correct);
+        tokenSpan.appendChild(label);
+
+        if (ok2) ratedCorrect++; else ratedWrong++;
+        closeAllDropdowns();
+        updateScore();
+      });
+
+      // Klick außerhalb des Dropdowns schließt es
+      dd.addEventListener('click', function(ev) { ev.stopPropagation(); });
+
+      tokenSpan.appendChild(dd);
+      dd.focus();
+    });
+
+    sentBox.appendChild(span);
+  });
+
+  // Klick irgendwo im sentBox außerhalb eines Spans schließt offene Dropdowns
+  sentBox.addEventListener('click', function() { closeAllDropdowns(); });
+
+  aw.appendChild(scoreEl);
+  aw.appendChild(sentBox);
+  updateScore();
+
+  var ok = el('btn-ok');
+  if (ok) { ok.style.display = ''; ok.disabled = totalRatable > 0; }
+  setHint('Wort anklicken → Wortart wählen → sofortiges Feedback · dann Bestätigen');
+}
+
+function checkWortart(q) {
+  var sentBox = document.getElementById('wortart-sent');
+  var allCorrect = true;
+
+  if (sentBox) {
+    sentBox.querySelectorAll('.wortart-dd').forEach(function(d) { d.remove(); });
+    sentBox.querySelectorAll('[data-rated]').forEach(function(span) {
+      var correctVal = span.getAttribute('data-correct');
+      var rated      = span.getAttribute('data-rated');
+      if (!correctVal || correctVal === '-' || rated === 'skip') return;
+
+      if (rated === 'wrong') {
+        allCorrect = false;
+      } else if (rated === 'false') {
+        allCorrect = false;
+        span.style.background  = '#fde8e8';
+        span.style.borderColor = 'var(--red)';
+        span.setAttribute('data-rated', 'auto-wrong');
+        var old = span.querySelector('.wortart-label');
+        if (old) old.remove();
+        var label = document.createElement('span');
+        label.className = 'wortart-label';
+        label.style.cssText = [
+          'display:block','font-size:.63rem','font-weight:700',
+          'margin-top:1px','text-align:center','white-space:nowrap',
+          'color:var(--green)',
+        ].join(';');
+        label.textContent = '→ ' + correctVal;
+        span.appendChild(label);
+      }
+    });
+  }
+  return allCorrect;
+}
+
 /* ── KOMMA ───────────────────────────────────────────────────── */
 /*
  * Komma-Aufgabe: Der Nutzer tippt Kommas in einen editierbaren Satz.
@@ -1292,6 +1627,14 @@ function doConfirm() {
     const ok2 = checkSatzglied(cur);
     flash(ok2); showFB(ok2, cur);
     q.answers.push({ ok: ok2, q: cur.sub || cur.q });
+    hideActRow(); showNext(); return;
+  }
+
+  if (cur.type === 'wortart') {
+    q.answered = true;
+    const ok2 = checkWortart(cur);
+    flash(ok2); showFB(ok2, cur);
+    q.answers.push({ ok: ok2, q: cur.sentence || cur.sub });
     hideActRow(); showNext(); return;
   }
 

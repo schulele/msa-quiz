@@ -1,8 +1,9 @@
 // ================================================================
 // MSA-EXTRA-KOMMA.JS
 // Thema: Kommasetzung
-// Aufgabentypen: cross, mc, match, mc3
-// Antwortvarianz: ~50% Komma / ~50% kein Komma; mc c:0/1/2 gemischt
+// Aufgabentypen: komma, mc, match, mc3
+// Schwerpunkte: Satzreihe, Satzgefüge, Aufzählung,
+//               Infinitivgruppe mit hinweisendem Fürwort, Apposition
 // ================================================================
 
 var MSA_EXTRA_KOMMA = [
@@ -13,99 +14,254 @@ var MSA_EXTRA_KOMMA = [
   color: "#0f766e",
   qs: [
 
-  // ── TYP 1: CROSS (Komma / kein Komma) – ausgewogen ──
+  // ================================================================
+  // TYP: KOMMA – 20 Aufgaben
+  // ================================================================
+
+  // ── SATZREIHE (Reihung von Hauptsätzen) ──
 
   {
-    sub: "Anrede, Ausruf, Einschub",
-    type: "cross",
-    q: "Komma an der markierten Stelle ( ) ?",
-    rows: [
-      "Komm wir essen ( ) Opa!",
-      "Er kommt ( ) und sie geht.",
-      "Berlin ( ) die Hauptstadt ( ) ist groß.",
-      "Entweder wir gehen jetzt ( ) oder wir bleiben.",
-      "Nein ( ) das stimmt nicht!",
-      "Sowohl er ( ) als auch ich sind da."
-    ],
-    cols: ["Komma", "kein Komma"],
-    correct: [0, 1, 0, 0, 1, 0, 1, 1],
-    model: "Komm, Opa ✓ Komma (Anrede) | und HS-HS ✓ kein Komma | Berlin, die Hauptstadt, ✓ Komma (Apposition) | entweder...oder ✓ kein Komma (zweiteilige Konj.) | Nein, ✓ Komma (Ausruf) | sowohl...als auch ✓ kein Komma",
-    rule: "<div class=rbox>Anreden und Ausrufe → Komma. Appositionen → Komma rundum. Zweiteilige Konjunktionen (entweder…oder, sowohl…als auch) → kein Komma.</div>"
+    sub: "Satzreihe",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nDie Sonne scheint der Himmel ist blau.',
+    sentence: 'Die Sonne scheint der Himmel ist blau.',
+    correctPositions: [18],
+    acceptedAnswers: ['Die Sonne scheint, der Himmel ist blau.'],
+    model: 'Die Sonne scheint, der Himmel ist blau.',
+    rule: '<div class=rbox>Zwei Hauptsätze ohne Konjunktion (Satzreihe) werden durch ein <span class=hl>Komma</span> getrennt. Beide Sätze haben ein eigenes Prädikat an zweiter Stelle.</div>'
   },
 
   {
-    sub: "Nebensätze: Komma ja oder nein?",
-    type: "cross",
-    q: "Komma an der markierten Stelle ( ) ?",
-    rows: [
-      "Er sagt ( ) dass er heute später kommt.",
-      "Er kommt ( ) und sie geht.",
-      "Ich bleibe zu Hause ( ) weil ich krank bin.",
-      "Er ist groß ( ) und stark.",
-      "Wir gehen ins Kino ( ) obwohl es regnet.",
-      "Sie singt ( ) tanzt ( ) und malt."
-    ],
-    cols: ["Komma", "kein Komma"],
-    correct: [0, 1, 0, 1, 0, 0, 0, 1],
-    model: "dass ✓ Komma | und HS+HS ✓ kein Komma | weil ✓ Komma | und nach Adjektiv ✓ kein Komma | obwohl ✓ Komma | singt ✓ Komma | tanzt ✓ Komma | und ✓ kein Komma",
-    rule: "<div class=rbox>Nebensätze (dass, weil, obwohl) → Komma. Aufzählung mit 'und' am Ende → kein Komma vor 'und'. Zwischen gleichrangigen Adjektiven/Verben → Komma.</div>"
+    sub: "Satzreihe",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nDer Zug kam pünktlich die Reisenden stiegen ein.',
+    sentence: 'Der Zug kam pünktlich die Reisenden stiegen ein.',
+    correctPositions: [21],
+    acceptedAnswers: ['Der Zug kam pünktlich, die Reisenden stiegen ein.'],
+    model: 'Der Zug kam pünktlich, die Reisenden stiegen ein.',
+    rule: '<div class=rbox>Zwei Hauptsätze ohne Konjunktion werden durch ein <span class=hl>Komma</span> getrennt. Erkennbar daran, dass in jedem Teilsatz das Prädikat an zweiter Stelle steht.</div>'
   },
 
   {
-    sub: "Infinitivgruppen & Partizipialkonstruktionen",
-    type: "cross",
-    q: "Komma an der markierten Stelle ( ) ?",
-    rows: [
-      "Um fit zu bleiben ( ) joggt sie jeden Tag.",
-      "Er versucht ( ) zu schlafen. (einfacher Infinitiv)",
-      "Ohne zu zögern ( ) sprang er ins Wasser.",
-      "Ich hoffe ( ) dich bald zu sehen. (nach Signalwort)",
-      "Lachend vor Glück ( ) rannte sie nach Hause.",
-      "Sie arbeitete ( ) ohne zu klagen."
-    ],
-    cols: ["Komma", "kein Komma"],
-    correct: [0, 1, 0, 0, 0, 0],
-    model: "Um fit zu bleiben, ✓ Komma | versucht zu schlafen ✓ kein Komma zwingend | ohne zu zögern, ✓ Komma | hoffe, ✓ Komma (Signalwort) | Lachend vor Glück, ✓ Komma | ohne zu klagen ✓ Komma",
-    rule: "<div class=rbox>Infinitivgruppen mit 'um zu', 'ohne zu' → Komma. Einfacher Infinitiv ohne Signalwort → kein Komma zwingend. Vorangestellte Partizipgruppen → Komma.</div>"
+    sub: "Satzreihe",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nSie öffnete die Tür ein kalter Wind strömte herein.',
+    sentence: 'Sie öffnete die Tür ein kalter Wind strömte herein.',
+    correctPositions: [19],
+    acceptedAnswers: ['Sie öffnete die Tür, ein kalter Wind strömte herein.'],
+    model: 'Sie öffnete die Tür, ein kalter Wind strömte herein.',
+    rule: '<div class=rbox>Zwei selbstständige Hauptsätze ohne Konjunktion → Komma. Das Prädikat „strömte" steht im zweiten Satz an zweiter Stelle: Zeichen für einen Hauptsatz.</div>'
   },
 
   {
-    sub: "Temporaler und Konditionalsatz",
-    type: "cross",
-    q: "Komma an der markierten Stelle ( ) ?",
-    rows: [
-      "Wenn du lernst ( ) wirst du Erfolg haben.",
-      "Er kommt ( ) wenn er Zeit hat.",
-      "Bevor wir fahren ( ) packen wir.",
-      "Er duschte ( ) dann frühstückte er.",
-      "Je mehr du lernst ( ) desto besser wirst du.",
-      "Er sang ( ) während sie tanzte."
-    ],
-    cols: ["Komma", "kein Komma"],
-    correct: [0, 0, 0, 0, 0, 0],
-    model: "Wenn, ✓ Komma | wenn ✓ Komma | Bevor, ✓ Komma | dann HS+HS ✓ Komma (ohne Konj.) | desto ✓ Komma | während ✓ Komma",
-    rule: "<div class=rbox>Konditionalsätze (wenn, falls) → Komma. Temporalsätze (bevor, sobald, während) → Komma. 'Je…desto' → Komma vor desto. Zwei HS ohne Konjunktion → Komma.</div>"
+    sub: "Satzreihe",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nDie Kinder spielten im Garten die Eltern saßen auf der Terrasse die Großeltern ruhten im Haus.',
+    sentence: 'Die Kinder spielten im Garten die Eltern saßen auf der Terrasse die Großeltern ruhten im Haus.',
+    correctPositions: [29, 62],
+    acceptedAnswers: ['Die Kinder spielten im Garten, die Eltern saßen auf der Terrasse, die Großeltern ruhten im Haus.'],
+    model: 'Die Kinder spielten im Garten, die Eltern saßen auf der Terrasse, die Großeltern ruhten im Haus.',
+    rule: '<div class=rbox>Bei einer Reihung von drei Hauptsätzen ohne Konjunktionen steht zwischen jedem Hauptsatz ein <span class=hl>Komma</span>.</div>'
+  },
+
+  // ── SATZGEFÜGE (HS + NS) ──
+
+  {
+    sub: "Satzgefüge",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nWir gehen spazieren obwohl es heute regnet.',
+    sentence: 'Wir gehen spazieren obwohl es heute regnet.',
+    correctPositions: [19],
+    acceptedAnswers: ['Wir gehen spazieren, obwohl es heute regnet.'],
+    model: 'Wir gehen spazieren, obwohl es heute regnet.',
+    rule: '<div class=rbox>„obwohl" leitet einen Nebensatz ein. Nebensätze werden durch ein <span class=hl>Komma</span> vom Hauptsatz getrennt. Das Verb des Nebensatzes steht am Ende: „regnet".</div>'
   },
 
   {
-    sub: "Satzreihen, direkte Rede & Trickfragen",
-    type: "cross",
-    q: "Komma an der markierten Stelle ( ) ?",
-    rows: [
-      "Er schreibt ( ) sie liest. (zwei HS ohne Konj.)",
-      "Er kommt ( ) und sie geht. (zwei HS mit 'und')",
-      "Er sagte ( ) 'Ich komme morgen.' (vor direkter Rede)",
-      "'Komm her!' ( ) rief sie. (nach direkter Rede)",
-      "Das Buch ( ) das er kaufte ( ) ist interessant.",
-      "Sie sang ( ) und er spielte Gitarre."
-    ],
-    cols: ["Komma", "kein Komma"],
-    correct: [0, 1, 0, 0, 0, 0, 1],
-    model: "schreibt, liest ✓ Komma (HS ohne Konj.) | und HS+HS ✓ kein Komma | sagte, ✓ Komma | 'Komm!', ✓ Komma | das, das er kaufte, ✓ Komma | und HS+HS ✓ kein Komma",
-    rule: "<div class=rbox>Zwei HS ohne Konjunktion → Komma. Mit 'und' → kein Komma. Vor und nach direkter Rede → Komma. Relativsatz → Komma einschließen.</div>"
+    sub: "Satzgefüge",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nNachdem sie das Buch gelesen hatte gab sie es ihrer Freundin.',
+    sentence: 'Nachdem sie das Buch gelesen hatte gab sie es ihrer Freundin.',
+    correctPositions: [34],
+    acceptedAnswers: ['Nachdem sie das Buch gelesen hatte, gab sie es ihrer Freundin.'],
+    model: 'Nachdem sie das Buch gelesen hatte, gab sie es ihrer Freundin.',
+    rule: '<div class=rbox>Steht der Nebensatz vor dem Hauptsatz, wird er durch ein <span class=hl>Komma</span> abgetrennt. Das Verb des Nebensatzes („hatte") steht am Ende des Nebensatzes.</div>'
   },
 
-  // ── TYP 2: MC – c:0/1/2 gemischt ──
+  {
+    sub: "Satzgefüge",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nDas Mädchen das jeden Tag übte gewann schließlich den Wettbewerb.',
+    sentence: 'Das Mädchen das jeden Tag übte gewann schließlich den Wettbewerb.',
+    correctPositions: [11, 29],
+    acceptedAnswers: ['Das Mädchen, das jeden Tag übte, gewann schließlich den Wettbewerb.'],
+    model: 'Das Mädchen, das jeden Tag übte, gewann schließlich den Wettbewerb.',
+    rule: '<div class=rbox>Ein eingeschobener Relativsatz wird beidseitig durch <span class=hl>Kommas</span> eingeschlossen: Komma vor dem Relativpronomen „das" und Komma nach dem Ende des Relativsatzes.</div>'
+  },
+
+  {
+    sub: "Satzgefüge",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nEr arbeitete konzentriert weil die Abgabe morgen war.',
+    sentence: 'Er arbeitete konzentriert weil die Abgabe morgen war.',
+    correctPositions: [23],
+    acceptedAnswers: ['Er arbeitete konzentriert, weil die Abgabe morgen war.'],
+    model: 'Er arbeitete konzentriert, weil die Abgabe morgen war.',
+    rule: '<div class=rbox>„weil" leitet einen Kausalsatz ein. Nebensätze werden durch ein <span class=hl>Komma</span> vom Hauptsatz getrennt.</div>'
+  },
+
+  // ── AUFZÄHLUNG ──
+
+  {
+    sub: "Aufzählung",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nAuf dem Markt kaufte sie frische rote aromatische Tomaten.',
+    sentence: 'Auf dem Markt kaufte sie frische rote aromatische Tomaten.',
+    correctPositions: [35, 40],
+    acceptedAnswers: ['Auf dem Markt kaufte sie frische, rote, aromatische Tomaten.'],
+    model: 'Auf dem Markt kaufte sie frische, rote, aromatische Tomaten.',
+    rule: '<div class=rbox>Gleichrangige Adjektive in einer Aufzählung werden durch <span class=hl>Kommas</span> getrennt. Die Probe: „frische und rote und aromatische" klingt sinnvoll → gleichrangig → Komma.</div>'
+  },
+
+  {
+    sub: "Aufzählung",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nEr packte Brot Käse Äpfel und eine Flasche Wasser ein.',
+    sentence: 'Er packte Brot Käse Äpfel und eine Flasche Wasser ein.',
+    correctPositions: [14, 20],
+    acceptedAnswers: ['Er packte Brot, Käse, Äpfel und eine Flasche Wasser ein.'],
+    model: 'Er packte Brot, Käse, Äpfel und eine Flasche Wasser ein.',
+    rule: '<div class=rbox>In einer Aufzählung stehen Kommas zwischen den Gliedern. Vor dem abschließenden „und" steht <span class=hl>kein Komma</span>.</div>'
+  },
+
+  {
+    sub: "Aufzählung",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nSie ist eine kluge fleißige Schülerin.',
+    sentence: 'Sie ist eine kluge fleißige Schülerin.',
+    correctPositions: [20],
+    acceptedAnswers: ['Sie ist eine kluge, fleißige Schülerin.'],
+    model: 'Sie ist eine kluge, fleißige Schülerin.',
+    rule: '<div class=rbox>„kluge" und „fleißige" sind gleichrangige Adjektive: „kluge und fleißige" klingt sinnvoll → Komma zwischen den Adjektiven.</div>'
+  },
+
+  {
+    sub: "Aufzählung",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nDie große grüne alte Eiche steht mitten im Dorf.',
+    sentence: 'Die große grüne alte Eiche steht mitten im Dorf.',
+    correctPositions: [10, 17],
+    acceptedAnswers: ['Die große, grüne, alte Eiche steht mitten im Dorf.'],
+    model: 'Die große, grüne, alte Eiche steht mitten im Dorf.',
+    rule: '<div class=rbox>Drei gleichrangige Adjektive werden durch <span class=hl>Kommas</span> voneinander getrennt.</div>'
+  },
+
+  // ── INFINITIVGRUPPE MIT HINWEISENDEM FÜRWORT ──
+
+  {
+    sub: "Infinitivgruppe mit hinweisendem Fürwort",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nSie war davon überzeugt ihre große Liebe gefunden zu haben.',
+    sentence: 'Sie war davon überzeugt ihre große Liebe gefunden zu haben.',
+    correctPositions: [21],
+    acceptedAnswers: ['Sie war davon überzeugt, ihre große Liebe gefunden zu haben.'],
+    model: 'Sie war davon überzeugt, ihre große Liebe gefunden zu haben.',
+    rule: '<div class=rbox>Das hinweisende Fürwort „davon" kündigt die folgende Infinitivgruppe an. Nach solchen Signalwörtern (davon, daran, darum, damit) steht ein <span class=hl>Komma</span> vor der Infinitivgruppe.</div>'
+  },
+
+  {
+    sub: "Infinitivgruppe mit hinweisendem Fürwort",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nEr hatte es sich vorgenommen jeden Tag Sport zu treiben.',
+    sentence: 'Er hatte es sich vorgenommen jeden Tag Sport zu treiben.',
+    correctPositions: [27],
+    acceptedAnswers: ['Er hatte es sich vorgenommen, jeden Tag Sport zu treiben.'],
+    model: 'Er hatte es sich vorgenommen, jeden Tag Sport zu treiben.',
+    rule: '<div class=rbox>Das Pronomen „es" verweist auf die folgende Infinitivgruppe (hinweisendes Fürwort) → <span class=hl>Komma</span> vor der Infinitivgruppe.</div>'
+  },
+
+  {
+    sub: "Infinitivgruppe mit hinweisendem Fürwort",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nWir freuten uns darauf endlich Urlaub zu machen.',
+    sentence: 'Wir freuten uns darauf endlich Urlaub zu machen.',
+    correctPositions: [21],
+    acceptedAnswers: ['Wir freuten uns darauf, endlich Urlaub zu machen.'],
+    model: 'Wir freuten uns darauf, endlich Urlaub zu machen.',
+    rule: '<div class=rbox>„darauf" ist ein hinweisendes Fürwort, das die Infinitivgruppe ankündigt → <span class=hl>Komma</span> nach dem Signalwort.</div>'
+  },
+
+  {
+    sub: "Infinitivgruppe mit hinweisendem Fürwort",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nSie dachte nicht daran pünktlich zu erscheinen.',
+    sentence: 'Sie dachte nicht daran pünktlich zu erscheinen.',
+    correctPositions: [21],
+    acceptedAnswers: ['Sie dachte nicht daran, pünktlich zu erscheinen.'],
+    model: 'Sie dachte nicht daran, pünktlich zu erscheinen.',
+    rule: '<div class=rbox>„daran" kündigt als hinweisendes Fürwort die Infinitivgruppe an → <span class=hl>Komma</span> vor der Infinitivgruppe.</div>'
+  },
+
+  {
+    sub: "Infinitivgruppe mit hinweisendem Fürwort",
+    type: "komma",
+    q: 'Setzen Sie das fehlende Komma im folgenden Satz:\n\nEr war damit beschäftigt sein Zimmer aufzuräumen.',
+    sentence: 'Er war damit beschäftigt sein Zimmer aufzuräumen.',
+    correctPositions: [22],
+    acceptedAnswers: ['Er war damit beschäftigt, sein Zimmer aufzuräumen.'],
+    model: 'Er war damit beschäftigt, sein Zimmer aufzuräumen.',
+    rule: '<div class=rbox>„damit" ist ein hinweisendes Fürwort → <span class=hl>Komma</span> vor der angekündigten Infinitivgruppe.</div>'
+  },
+
+  // ── APPOSITION ──
+
+  {
+    sub: "Apposition",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nFrau Müller die Leiterin der Abteilung ist im Urlaub.',
+    sentence: 'Frau Müller die Leiterin der Abteilung ist im Urlaub.',
+    correctPositions: [11, 36],
+    acceptedAnswers: ['Frau Müller, die Leiterin der Abteilung, ist im Urlaub.'],
+    model: 'Frau Müller, die Leiterin der Abteilung, ist im Urlaub.',
+    rule: '<div class=rbox>„die Leiterin der Abteilung" ist eine Apposition – ein erläuternder Einschub zu „Frau Müller". Appositionen werden beidseitig durch <span class=hl>Kommas</span> eingeschlossen.</div>'
+  },
+
+  {
+    sub: "Apposition",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nBerlin die Hauptstadt Deutschlands ist eine lebendige Stadt.',
+    sentence: 'Berlin die Hauptstadt Deutschlands ist eine lebendige Stadt.',
+    correctPositions: [7, 30],
+    acceptedAnswers: ['Berlin, die Hauptstadt Deutschlands, ist eine lebendige Stadt.'],
+    model: 'Berlin, die Hauptstadt Deutschlands, ist eine lebendige Stadt.',
+    rule: '<div class=rbox>„die Hauptstadt Deutschlands" ist eine Apposition zu „Berlin" und wird beidseitig durch <span class=hl>Kommas</span> abgetrennt.</div>'
+  },
+
+  {
+    sub: "Apposition",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nMein Bruder ein begeisterter Sportler läuft jeden Morgen.',
+    sentence: 'Mein Bruder ein begeisterter Sportler läuft jeden Morgen.',
+    correctPositions: [11, 35],
+    acceptedAnswers: ['Mein Bruder, ein begeisterter Sportler, läuft jeden Morgen.'],
+    model: 'Mein Bruder, ein begeisterter Sportler, läuft jeden Morgen.',
+    rule: '<div class=rbox>„ein begeisterter Sportler" ist eine Apposition zu „mein Bruder". Sie wird beidseitig durch <span class=hl>Kommas</span> eingeschlossen.</div>'
+  },
+
+  {
+    sub: "Apposition",
+    type: "komma",
+    q: 'Setzen Sie die fehlenden Kommas im folgenden Satz:\n\nDer Schüler Moritz der Klassensprecher meldete sich als Erster.',
+    sentence: 'Der Schüler Moritz der Klassensprecher meldete sich als Erster.',
+    correctPositions: [18, 37],
+    acceptedAnswers: ['Der Schüler Moritz, der Klassensprecher, meldete sich als Erster.'],
+    model: 'Der Schüler Moritz, der Klassensprecher, meldete sich als Erster.',
+    rule: '<div class=rbox>„der Klassensprecher" ist eine Apposition zu „Moritz". Appositionen werden stets beidseitig durch <span class=hl>Kommas</span> abgetrennt.</div>'
+  },
+
+  // ================================================================
+  // TYP: MC – c:0/1/2 gemischt
+  // ================================================================
 
   {
     sub: "Komma-Regel: Anrede",
@@ -157,7 +313,9 @@ var MSA_EXTRA_KOMMA = [
     rule: "<div class=rbox>Einfache Infinitivgruppen (er versucht zu schlafen) → kein Komma zwingend. Bei Signalwort (er hofft, bald zu kommen) oder erweiterten Infinitiven → Komma.</div>"
   },
 
-  // ── TYP 3: MC3 ──
+  // ================================================================
+  // TYP: MC3
+  // ================================================================
 
   {
     sub: "Komma oder kein Komma? (Schnelltest)",
@@ -184,7 +342,9 @@ var MSA_EXTRA_KOMMA = [
     rule: "<div class=rbox>Nach einleitetdem 'sagt,' ist der Komma schon da; kein zweites. und HS+HS → kein Komma. Partizipgruppe → Komma. je…desto → Komma. Aufzählung → Komma. Nebensatz → Komma.</div>"
   },
 
-  // ── TYP 4: MATCH ──
+  // ================================================================
+  // TYP: MATCH
+  // ================================================================
 
   {
     sub: "Kommaregel → Beispiel zuordnen",
