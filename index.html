@@ -183,6 +183,18 @@
         <span class="nav-tab-sub">Zusätzlich</span>
       </div>
       <div class="nav-tab"
+           id="msa-tab-schreibplan"
+           role="tab"
+           tabindex="0"
+           aria-selected="false"
+           aria-controls="msa-panel-schreibplan"
+           data-area="msa"
+           data-tab="schreibplan">
+        <span class="nav-tab-icon" aria-hidden="true">✏️</span>
+        <span class="nav-tab-label">MSA Schreibplan</span>
+        <span class="nav-tab-sub">Schreiben üben</span>
+      </div>
+      <div class="nav-tab"
            id="msa-tab-regeln"
            role="tab"
            tabindex="0"
@@ -227,6 +239,10 @@
         <span><span class="dot" style="background:#16a34a" aria-hidden="true"></span>90%+</span>
       </div>
       <div id="msa-extra-grid"></div>
+    </section>
+
+    <section id="msa-panel-schreibplan" style="display:none" role="tabpanel" aria-labelledby="msa-tab-schreibplan">
+      <div id="msa-schreibplan-grid"></div>
     </section>
 
     <section id="msa-panel-regeln" style="display:none" role="tabpanel" aria-labelledby="msa-tab-regeln">
@@ -280,6 +296,18 @@
         <span class="nav-tab-sub">Zusätzlich</span>
       </div>
       <div class="nav-tab"
+           id="bbr-tab-schreibaufgabe"
+           role="tab"
+           tabindex="0"
+           aria-selected="false"
+           aria-controls="bbr-panel-schreibaufgabe"
+           data-area="bbr"
+           data-tab="schreibaufgabe">
+        <span class="nav-tab-icon" aria-hidden="true">✏️</span>
+        <span class="nav-tab-label">BBR Schreibaufgabe</span>
+        <span class="nav-tab-sub">Schreiben üben</span>
+      </div>
+      <div class="nav-tab"
            id="bbr-tab-regeln"
            role="tab"
            tabindex="0"
@@ -313,6 +341,10 @@
         <span><span class="dot" style="background:#16a34a" aria-hidden="true"></span>90%+</span>
       </div>
       <div id="bbr-extra-grid"></div>
+    </section>
+
+    <section id="bbr-panel-schreibaufgabe" style="display:none" role="tabpanel" aria-labelledby="bbr-tab-schreibaufgabe">
+      <div id="bbr-schreibaufgabe-grid"></div>
     </section>
 
     <section id="bbr-panel-regeln" style="display:none" role="tabpanel" aria-labelledby="bbr-tab-regeln">
@@ -492,6 +524,8 @@
 <!-- ═══════════════════════════════════════════════════════════
      DATEN (ausgelagerte JS-Dateien)
      ═══════════════════════════════════════════════════════════ -->
+<script src="msa-schreibplan.js"></script>
+<script src="bbr-schreibaufgabe.js"></script>
 <script src="regeln.js"></script>
 <script src="regeln-bbr.js"></script>
 <script src="msa-aufgaben.js"></script>
@@ -647,6 +681,33 @@
     tab.addEventListener('click',   activate);
     tab.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') activate(); });
   });
+
+  /* ─ Neue Panels: Schreibplan (MSA) & Schreibaufgabe (BBR) ── */
+  (function () {
+    var MSA_PANELS = ['aufgaben','zehn','extra','schreibplan','regeln'];
+    var BBR_PANELS = ['aufgaben','extra','schreibaufgabe','regeln'];
+
+    function showPanel(area, tab) {
+      var panels = area === 'msa' ? MSA_PANELS : BBR_PANELS;
+      panels.forEach(function (p) {
+        var el = document.getElementById(area + '-panel-' + p);
+        if (el) el.style.display = (p === tab) ? '' : 'none';
+      });
+      // Tab active-Klasse aktualisieren
+      document.querySelectorAll('[data-area="' + area + '"][data-tab]').forEach(function (t) {
+        t.classList.toggle('active-tab', t.dataset.tab === tab);
+        t.setAttribute('aria-selected', t.dataset.tab === tab ? 'true' : 'false');
+      });
+    }
+
+    ['schreibplan','schreibaufgabe'].forEach(function (tabName) {
+      var area = tabName === 'schreibplan' ? 'msa' : 'bbr';
+      var el = document.getElementById(area + '-tab-' + tabName);
+      if (el) {
+        el.addEventListener('click', function () { showPanel(area, tabName); });
+      }
+    });
+  })();
 
   /* ─ Zurück-Buttons ──────────────────────────────────────── */
   on('btn-msa-back',    'click', goStart);
