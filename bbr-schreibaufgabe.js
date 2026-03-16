@@ -43,8 +43,9 @@
       <div class="card" style="padding:14px 16px;background:${tint};border:1px solid ${border}">${html}</div>
     </div>`;
 
-  const weiter = (label = 'Weiter →', disabled = false) => `
-    <div style="text-align:center;margin-top:22px">
+  const weiter = (label = 'Weiter →', disabled = false, showBack = true) => `
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:22px">
+      ${showBack ? `<button id="bb-zurueck" class="btn btn-ol" style="min-width:120px">← Zurück</button>` : ''}
       <button id="bb-weiter" class="btn btn-dk" style="min-width:170px;background:#16a34a;${disabled ? 'opacity:.35;cursor:not-allowed' : ''}" ${disabled ? 'disabled' : ''}>${label}</button>
     </div>`;
 
@@ -131,7 +132,7 @@
       `)}
 
       ${box(`<p style="font-size:.9rem"><strong>Deine Aufgabe:</strong> Schreibe als Elias Lang eine ${r('förmliche Bewerbungs-E-Mail')} an Frau Alvarez für ein Schülerpraktikum vom <strong>29.08.2023 bis 16.09.2023</strong>.</p>`)}
-      ${weiter('Los geht\'s →')}`;
+      ${weiter('Los geht\'s →', false, false)}`;
   }
 
   /* 1 – Wie schreibe ich eine förmliche E-Mail? */
@@ -400,7 +401,10 @@
             <li>${grn('✅')} Grußformel + Name</li>
           </ul>
         `)}
-        <button id="bb-weiter" class="btn btn-ol" style="margin-top:6px;border-color:#16a34a;color:#16a34a">↺ Nochmal von vorne</button>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:6px">
+          <button id="bb-zurueck" class="btn btn-ol" style="min-width:120px">← Zurück</button>
+          <button id="bb-weiter" class="btn btn-ol" style="border-color:#16a34a;color:#16a34a">↺ Nochmal von vorne</button>
+        </div>
       </div>`;
   }
 
@@ -438,6 +442,12 @@
     if (wb) wb.addEventListener('click', () => {
       if (S.step >= TOTAL) { S.step = 0; }
       else { S.step++; }
+      render();
+    });
+
+    const zb = document.getElementById('bb-zurueck');
+    if (zb) zb.addEventListener('click', () => {
+      if (S.step > 0) { S.step--; }
       render();
     });
 

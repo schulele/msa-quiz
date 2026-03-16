@@ -31,10 +31,10 @@
   const ARGS_A = [
     {
       bubble: SPRECHBLASEN[2],
-      args:   ['Förderung des Gemeinschaftsgefühls', 'Gemeinsame Aktivitäten stärken den Zusammenhalt'],
+      args:   ['Gesellschaftsspiele fördern echte Gemeinschaft', 'Analoge Spiele schaffen unvergessliche Erlebnisse ohne Bildschirm'],
       belege: [
-        'Abend ohne Handy → gemeinsam Karten spielen',
-        'Gruppenspiele stärken Teamgeist',
+        'Gesellschaftsspiele → alle mitmachen, niemand am Handy',
+        'Spieleabend auf Fahrt → gemeinsame Erinnerungen stärker als Fotos',
       ],
     },
     {
@@ -68,7 +68,7 @@
   const EIGENE_A = ['Mehr Bewegung und Naturerlebnisse möglich', 'Unabhängigkeit vom Internet stärkt Selbstvertrauen', 'Gemeinsame Erlebnisse ohne Ablenkung'];
   const EIGENE_B = ['Google Maps für Navigation', 'Informationen im Internet suchen', 'Kontakt zur Familie jederzeit gewährleistet'];
 
-  const TOTAL = 15;
+  const TOTAL = 12;
 
   /* ═══════════════════════════════════════════════════════════
      HTML-HELFER
@@ -112,7 +112,9 @@
 
   /* 0 – Aufgabenpräsentation + Meinungsäußerungen */
   function s0() {
-    const allVoted = Object.keys(S.votes).length >= 4;
+    const CORRECT_VOTES = { 0: 'contra', 1: 'contra', 2: 'pro', 3: 'pro' };
+    const allCorrect = Object.keys(S.votes).length >= 4
+      && Object.entries(S.votes).every(([k, v]) => v === CORRECT_VOTES[parseInt(k)]);
     return `
       ${progress(0)}
       <h3 style="margin-bottom:14px">Soll während einer Klassenfahrt auf digitale Medien verzichtet werden?</h3>
@@ -150,7 +152,7 @@
         }).join('')}
       </div>
 
-      ${navigation('Los geht\'s →', !allVoted)}`;
+      ${navigation('Los geht\'s →', !allCorrect)}`;
   }
 
   /* 1 – Einleitung: Schreibanlass */
@@ -171,7 +173,9 @@
       ${toggleBtn('sp-btn-hilfe', '💡 Hilfe', '💡')}
       ${toggleBox('sp-box-hilfe', `
         <p style="font-weight:600;margin-bottom:6px">💡 Eine andere Möglichkeit wäre:</p>
-        <p style="font-size:.87rem;font-style:italic">${grn('„Abschlussfahrt geplant – Vorschlag: kein Handy – Abstimmung nötig"')}</p>
+        <ul style="padding-left:16px;font-size:.87rem;line-height:2;margin:0">
+          <li>${grn('Abschlussfahrt geplant – Vorschlag: kein Handy – Abstimmung nötig')}</li>
+        </ul>
       `)}
       ${navigation()}`;
   }
@@ -236,118 +240,112 @@
       </div>`;
   }
 
-  /* 4–6 / 8–10 – Argumente (These + Gegenthese) */
-  function sArg(num, isThese) {
-    const stepN          = isThese ? 3 + num : 7 + num;
-    const theseText      = S.these === 'A' ? THESE_A : THESE_B;
-    const gegenText      = S.these === 'A' ? THESE_B : THESE_A;
-    const argsFor        = S.these === 'A' ? ARGS_A  : ARGS_B;
-    const argsGegen      = S.these === 'A' ? ARGS_B  : ARGS_A;
-    const currentArgs    = isThese ? argsFor   : argsGegen;
-    const eigeneListe    = isThese
-      ? (S.these === 'A' ? EIGENE_A : EIGENE_B)
-      : (S.these === 'A' ? EIGENE_B : EIGENE_A);
+  /* 4 / 6 – Argumente (These / Gegenthese) – beide Sprechblasen auf einer Seite */
+  function sArgBoth(isThese) {
+    const stepN            = isThese ? 4 : 6;
+    const theseText        = S.these === 'A' ? THESE_A : THESE_B;
+    const gegenText        = S.these === 'A' ? THESE_B : THESE_A;
+    const currentArgs      = isThese
+      ? (S.these === 'A' ? ARGS_A : ARGS_B)
+      : (S.these === 'A' ? ARGS_B : ARGS_A);
     const currentTheseText = isThese ? theseText : gegenText;
-    const isEigenes      = num === 3;
-    const label          = isThese ? 'Hauptteil – These' : 'Hauptteil – Gegenthese';
-    const argColor       = isThese ? '#8b5cf6' : '#f59e0b';
-    const stepKey        = String(stepN);
-    const hasChoice      = S.argChoices[stepKey] !== undefined;
-    const chosenData     = S.argChoices[stepKey];
-    const hasBeleg       = hasChoice && chosenData.bel !== undefined;
+    const label            = isThese ? 'Hauptteil – These' : 'Hauptteil – Gegenthese';
+    const argColor         = isThese ? '#8b5cf6' : '#f59e0b';
+    const stepKey          = String(stepN);
+    const choices          = S.argChoices[stepKey] || {};
+    const bothDone         = choices[0] && choices[0].opt !== undefined && choices[0].bel !== undefined
+                          && choices[1] && choices[1].opt !== undefined && choices[1].bel !== undefined;
 
     return `
       ${progress(stepN)}
       ${chip(label, argColor)}
-      <h3 style="margin:4px 0 6px">${isEigenes ? 'Eigenes Argument' : 'Argument'}</h3>
+      <h3 style="margin:4px 0 6px">Argumente</h3>
       ${box(`
         <p style="font-size:.75rem;opacity:.5;margin-bottom:4px">${isThese ? 'Deine These' : 'Gegenthese'}</p>
         <p style="font-size:.87rem;font-style:italic;line-height:1.45">${currentTheseText}</p>
       `)}
 
-      ${isEigenes ? `
-        ${box(`<p style="font-size:.9rem">Formuliere jetzt ein ${r('eigenes Argument')} und stütze es mit einem Beleg aus deinem ${r('Alltag oder eigenen Erfahrungen')}.</p>`)}
-        ${toggleBtn('sp-btn-ideen', 'Ideen anzeigen', '🔍', '#0ea5e9')}
-        ${toggleBox('sp-box-ideen', `
-          <p style="font-weight:600;margin-bottom:8px">💡 Mögliche Argumente:</p>
-          <ul style="padding-left:16px;font-size:.87rem;line-height:2;margin:0">
-            ${eigeneListe.map(e => `<li>${e}</li>`).join('')}
-          </ul>
-        `)}
-        ${navigation()}
-      ` : `
-        <p style="font-size:.82rem;font-weight:700;margin:10px 0 8px;opacity:.7">Klicke eine Sprechblase an:</p>
-        ${currentArgs.map((a, ai) => {
-          const isActiveBub = hasChoice && chosenData.bub === ai;
-          const chosenOpt   = isActiveBub ? chosenData.opt : undefined;
-          return `
-          <div style="margin-bottom:16px">
-            <!-- Sprechblase -->
-            <div id="sp-bubble-${ai}" data-bubble="${ai}"
-              style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;
-                     background:rgba(128,128,128,.07);border-radius:12px;cursor:pointer;
-                     border:2px solid ${isActiveBub ? '#6366f1' : 'rgba(128,128,128,.18)'};
-                     transition:border-color .2s">
-              <span style="font-size:1.4rem;line-height:1.2">${a.bubble.icon}</span>
-              <p style="font-size:.9rem;font-style:italic;margin:0;flex:1">&bdquo;${a.bubble.text}&ldquo;</p>
-            </div>
-            <!-- Argument-Optionen -->
-            <div id="sp-args-${ai}"
-              style="display:${isActiveBub ? 'block' : 'none'};margin-top:8px;padding:10px 12px;
-                     background:rgba(99,102,241,.04);border-radius:8px;border:1px solid ${argColor}33">
-              <p style="font-size:.78rem;font-weight:700;opacity:.6;margin-bottom:8px">➜ Argument ableiten – wähle eine Version:</p>
-              ${a.args.map((arg, oi) => {
-                const isChosen = isActiveBub && chosenOpt === oi;
+      <p style="font-size:.82rem;font-weight:700;margin:10px 0 8px;opacity:.7">Klicke eine Sprechblase an:</p>
+      ${currentArgs.map((a, ai) => {
+        const c         = choices[ai] || {};
+        const chosenOpt = c.opt;
+        const chosenBel = c.bel;
+        return `
+        <div style="margin-bottom:16px">
+          <div id="sp-bubble-${ai}" data-bubble="${ai}"
+            style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;
+                   background:rgba(128,128,128,.07);border-radius:12px;cursor:pointer;
+                   border:2px solid ${chosenOpt !== undefined ? '#6366f1' : 'rgba(128,128,128,.18)'};
+                   transition:border-color .2s">
+            <span style="font-size:1.4rem;line-height:1.2">${a.bubble.icon}</span>
+            <p style="font-size:.9rem;font-style:italic;margin:0;flex:1">&bdquo;${a.bubble.text}&ldquo;</p>
+          </div>
+          <div id="sp-args-${ai}"
+            style="display:${chosenOpt !== undefined ? 'block' : 'none'};margin-top:8px;padding:10px 12px;
+                   background:rgba(99,102,241,.04);border-radius:8px;border:1px solid ${argColor}33">
+            <p style="font-size:.78rem;font-weight:800;margin-bottom:8px">➜ Argument ableiten – wähle eine Version:</p>
+            ${a.args.map((arg, oi) => {
+              const isChosen = chosenOpt === oi;
+              return `
+              <div data-bub="${ai}" data-opt="${oi}" data-color="${argColor}"
+                style="padding:8px 12px;border-radius:8px;cursor:pointer;margin-bottom:6px;
+                       font-size:.87rem;font-weight:600;color:${argColor};transition:all .2s;
+                       border:2px solid ${isChosen ? argColor : 'rgba(128,128,128,.2)'};
+                       background:${isChosen ? argColor + '11' : ''}">
+                ➜ ${arg}
+              </div>`;
+            }).join('')}
+            <div id="sp-beleg-area-${ai}"
+              style="display:${chosenOpt !== undefined ? 'block' : 'none'};
+                     margin-top:12px;padding-top:10px;border-top:1px solid ${argColor}22">
+              <p style="font-size:.78rem;font-weight:800;margin-bottom:8px">➜ Beleg / Beispiel wählen:</p>
+              ${a.belege.map((bel, bi) => {
+                const isBelChosen = chosenBel === bi;
                 return `
-                <div id="sp-arg-opt-${ai}-${oi}"
-                  data-bub="${ai}" data-opt="${oi}" data-color="${argColor}"
+                <div data-belbub="${ai}" data-belopt="${bi}" data-color="${argColor}"
                   style="padding:8px 12px;border-radius:8px;cursor:pointer;margin-bottom:6px;
-                         font-size:.87rem;font-weight:600;color:${argColor};transition:all .2s;
-                         border:2px solid ${isChosen ? argColor : 'rgba(128,128,128,.2)'};
-                         background:${isChosen ? argColor + '11' : ''}">
-                  ➜ ${arg}
+                         font-size:.85rem;color:#374151;transition:all .2s;
+                         border:2px solid ${isBelChosen ? argColor : 'rgba(128,128,128,.2)'};
+                         background:${isBelChosen ? argColor + '11' : ''}">
+                  ➜ ${bel}
                 </div>`;
               }).join('')}
-              <!-- Beleg-Optionen -->
-              <div id="sp-beleg-area-${ai}"
-                style="display:${isActiveBub && chosenOpt !== undefined ? 'block' : 'none'};
-                       margin-top:12px;padding-top:10px;border-top:1px solid ${argColor}22">
-                <p style="font-size:.78rem;font-weight:700;opacity:.6;margin-bottom:8px">➜ Beleg / Beispiel wählen:</p>
-                ${a.belege.map((bel, bi) => {
-                  const isBelChosen = isActiveBub && chosenData.bel === bi;
-                  return `
-                  <div id="sp-beleg-opt-${ai}-${bi}"
-                    data-belbub="${ai}" data-belopt="${bi}" data-color="${argColor}"
-                    style="padding:8px 12px;border-radius:8px;cursor:pointer;margin-bottom:6px;
-                           font-size:.85rem;color:#374151;transition:all .2s;
-                           border:2px solid ${isBelChosen ? argColor : 'rgba(128,128,128,.2)'};
-                           background:${isBelChosen ? argColor + '11' : ''}">
-                    ➜ ${bel}
-                  </div>`;
-                }).join('')}
-              </div>
             </div>
-          </div>`;
-        }).join('')}
+          </div>
+        </div>`;
+      }).join('')}
 
-        ${navigation('Weiter →', !hasBeleg)}
-      `}`;
+      ${navigation('Weiter →', !bothDone)}`;
   }
 
-
-  /* 7 – Gegenthese-Übergang */
-  function s7() {
-    const gegenText = S.these === 'A' ? THESE_B : THESE_A;
+  /* 5 / 7 – Eigenes Argument (These / Gegenthese) */
+  function sEigen(isThese) {
+    const stepN        = isThese ? 5 : 7;
+    const theseText    = S.these === 'A' ? THESE_A : THESE_B;
+    const gegenText    = S.these === 'A' ? THESE_B : THESE_A;
+    const eigeneListe  = isThese
+      ? (S.these === 'A' ? EIGENE_A : EIGENE_B)
+      : (S.these === 'A' ? EIGENE_B : EIGENE_A);
+    const theseLabel   = isThese ? theseText : gegenText;
+    const label        = isThese ? 'Hauptteil – These' : 'Hauptteil – Gegenthese';
+    const argColor     = isThese ? '#8b5cf6' : '#f59e0b';
     return `
-      ${progress(7)}
-      ${chip('Hauptteil – Gegenthese', '#f59e0b')}
-      <h3 style="margin:4px 0 14px">Gegenthese</h3>
+      ${progress(stepN)}
+      ${chip(label, argColor)}
+      <h3 style="margin:4px 0 6px">Eigenes Argument</h3>
       ${box(`
-        <p style="font-size:.78rem;opacity:.55;margin-bottom:8px">Da du These ${S.these} gewählt hast, ist deine Gegenthese:</p>
-        <p style="font-size:1rem;font-weight:700;line-height:1.5;color:#f59e0b">${gegenText}</p>
-      `, 'rgba(245,158,11,.06)', '#f59e0b33')}
-      ${box(`<p style="font-size:.9rem">Jetzt formulierst du ${r('Gegenargumente')} – Argumente, die ${r('gegen deine These')} sprechen. Das zeigt, dass du das Thema von beiden Seiten betrachtest.</p>`)}
-      ${navigation('Gegenargumente →')}`;
+        <p style="font-size:.75rem;opacity:.5;margin-bottom:4px">${isThese ? 'Deine These' : 'Gegenthese'}</p>
+        <p style="font-size:.87rem;font-style:italic;line-height:1.45">${theseLabel}</p>
+      `)}
+      ${box(`<p style="font-size:.9rem">Formuliere jetzt ein ${r('eigenes Argument')} und stütze es mit einem Beleg aus deinem ${r('Alltag oder eigenen Erfahrungen')}.</p>`)}
+      ${toggleBtn('sp-btn-ideen', 'Ideen anzeigen', '🔍', '#0ea5e9')}
+      ${toggleBox('sp-box-ideen', `
+        <p style="font-weight:600;margin-bottom:8px">💡 Mögliche Argumente:</p>
+        <ul style="padding-left:16px;font-size:.87rem;line-height:2;margin:0">
+          ${eigeneListe.map(e => `<li>${e}</li>`).join('')}
+        </ul>
+      `)}
+      ${navigation()}`;
   }
 
   /* 11 – Schluss: Persönliche Meinung */
@@ -489,17 +487,14 @@
       case 1:  return s1();
       case 2:  return s2();
       case 3:  return s3();
-      case 4:  return sArg(1, true);
-      case 5:  return sArg(2, true);
-      case 6:  return sArg(3, true);
-      case 7:  return s7();
-      case 8:  return sArg(1, false);
-      case 9:  return sArg(2, false);
-      case 10: return sArg(3, false);
-      case 11: return s11();
-      case 12: return s12();
-      case 13: return s13();
-      case 14: return s14();
+      case 4:  return sArgBoth(true);
+      case 5:  return sEigen(true);
+      case 6:  return sArgBoth(false);
+      case 7:  return sEigen(false);
+      case 8:  return s11();
+      case 9:  return s12();
+      case 10: return s13();
+      case 11: return s14();
       default: return s15();
     }
   }
@@ -557,39 +552,49 @@
     });
 
     /* ── Pro / Contra Abstimmung (Schritt 0) ── */
+    // Richtige Antworten: 0+1 = contra (Fotos, Notfall → sprechen gegen Verzicht),
+    //                     2+3 = pro    (Gesellschaftsspiele, Gespräche → sprechen für Verzicht)
+    const CORRECT_VOTES = { 0: 'contra', 1: 'contra', 2: 'pro', 3: 'pro' };
+
     SPRECHBLASEN.forEach((_, i) => {
       const proBtn    = document.getElementById(`sp-vote-pro-${i}`);
       const contraBtn = document.getElementById(`sp-vote-contra-${i}`);
 
       const applyVote = (choice) => {
         S.votes[i] = choice;
+        const correct = choice === CORRECT_VOTES[i];
+
+        // Farbe: grün wenn richtig, rot wenn falsch
+        const choiceColor = correct ? '#16a34a' : '#ef4444';
 
         if (proBtn) {
-          proBtn.style.background  = choice === 'pro' ? '#16a34a22' : '';
-          proBtn.style.color       = choice === 'pro' ? '#16a34a'   : '';
-          proBtn.style.borderColor = choice === 'pro' ? '#16a34a'   : '';
+          proBtn.style.background  = choice === 'pro' ? choiceColor + '22' : '';
+          proBtn.style.color       = choice === 'pro' ? choiceColor        : '';
+          proBtn.style.borderColor = choice === 'pro' ? choiceColor        : '';
         }
         if (contraBtn) {
-          contraBtn.style.background  = choice === 'contra' ? '#ef444422' : '';
-          contraBtn.style.color       = choice === 'contra' ? '#ef4444'   : '';
-          contraBtn.style.borderColor = choice === 'contra' ? '#ef4444'   : '';
+          contraBtn.style.background  = choice === 'contra' ? choiceColor + '22' : '';
+          contraBtn.style.color       = choice === 'contra' ? choiceColor        : '';
+          contraBtn.style.borderColor = choice === 'contra' ? choiceColor        : '';
         }
 
         const conf = document.getElementById(`sp-vote-conf-${i}`);
         if (conf) {
           conf.style.display = 'inline';
-          conf.style.color   = choice === 'pro' ? '#16a34a' : '#ef4444';
-          conf.textContent   = choice === 'pro' ? '✓ Pro'   : '✓ Contra';
+          conf.style.color   = choiceColor;
+          conf.textContent   = correct
+            ? (choice === 'pro' ? '✓ Pro' : '✓ Contra')
+            : (choice === 'pro' ? '✗ Pro' : '✗ Contra');
         }
 
-        // Weiter freischalten sobald alle vier bewertet wurden
-        if (Object.keys(S.votes).length >= 4) {
-          const wbBtn = document.getElementById('sp-weiter');
-          if (wbBtn) {
-            wbBtn.disabled       = false;
-            wbBtn.style.opacity  = '1';
-            wbBtn.style.cursor   = 'pointer';
-          }
+        // Weiter erst wenn alle vier richtig bewertet wurden
+        const allCorrect = Object.keys(S.votes).length >= 4
+          && Object.entries(S.votes).every(([k, v]) => v === CORRECT_VOTES[parseInt(k)]);
+        const wbBtn = document.getElementById('sp-weiter');
+        if (wbBtn) {
+          wbBtn.disabled      = !allCorrect;
+          wbBtn.style.opacity = allCorrect ? '1' : '.35';
+          wbBtn.style.cursor  = allCorrect ? 'pointer' : 'not-allowed';
         }
       };
 
@@ -620,8 +625,8 @@
         const argsDiv = document.getElementById(`sp-args-${ai}`);
         if (!argsDiv) return;
         const isOpen  = argsDiv.style.display !== 'none';
-        argsDiv.style.display    = isOpen ? 'none'        : 'block';
-        bEl.style.borderColor    = isOpen ? 'transparent' : '#6366f1';
+        argsDiv.style.display = isOpen ? 'none' : 'block';
+        bEl.style.borderColor = isOpen ? 'rgba(128,128,128,.18)' : '#6366f1';
       });
     });
 
@@ -632,29 +637,28 @@
         const opt      = parseInt(optEl.getAttribute('data-opt'));
         const argColor = optEl.getAttribute('data-color') || '#8b5cf6';
         const stepKey  = String(S.step);
-        const prev     = S.argChoices[stepKey];
-        // Behalte bel nur wenn dieselbe Blase
-        S.argChoices[stepKey] = { bub, opt, bel: (prev && prev.bub === bub) ? prev.bel : undefined };
+        if (!S.argChoices[stepKey]) S.argChoices[stepKey] = {};
+        const prev = S.argChoices[stepKey][bub] || {};
+        S.argChoices[stepKey][bub] = { opt, bel: prev.bel };
 
-        // Argument-Optionen: reset + highlight
-        document.querySelectorAll('[data-bub][data-opt]').forEach(o => {
+        // Reset + highlight nur innerhalb dieser Blase
+        document.querySelectorAll(`[data-bub="${bub}"][data-opt]`).forEach(o => {
           o.style.borderColor = 'rgba(128,128,128,.2)';
           o.style.background  = '';
         });
         optEl.style.borderColor = argColor;
         optEl.style.background  = argColor + '11';
 
-        // Beleg-Bereich für diese Blase einblenden
+        // Beleg-Bereich einblenden
         const belegArea = document.getElementById(`sp-beleg-area-${bub}`);
         if (belegArea) belegArea.style.display = 'block';
 
-        // Weiter sperren bis Beleg gewählt
-        const wbBtn = document.getElementById('sp-weiter');
-        if (wbBtn) {
-          wbBtn.disabled      = true;
-          wbBtn.style.opacity = '.35';
-          wbBtn.style.cursor  = 'not-allowed';
-        }
+        // Bubble-Rahmen aktiv
+        const bubEl = document.getElementById(`sp-bubble-${bub}`);
+        if (bubEl) bubEl.style.borderColor = '#6366f1';
+
+        // Weiter prüfen
+        _checkBothDone(stepKey);
       });
     });
 
@@ -665,26 +669,34 @@
         const belopt   = parseInt(belEl.getAttribute('data-belopt'));
         const argColor = belEl.getAttribute('data-color') || '#8b5cf6';
         const stepKey  = String(S.step);
-        const prev     = S.argChoices[stepKey] || {};
-        S.argChoices[stepKey] = { ...prev, bub, bel: belopt };
+        if (!S.argChoices[stepKey]) S.argChoices[stepKey] = {};
+        const prev = S.argChoices[stepKey][bub] || {};
+        S.argChoices[stepKey][bub] = { ...prev, bel: belopt };
 
-        // Beleg-Optionen: reset + highlight
-        document.querySelectorAll('[data-belbub][data-belopt]').forEach(o => {
+        // Reset + highlight nur innerhalb dieser Blase
+        document.querySelectorAll(`[data-belbub="${bub}"][data-belopt]`).forEach(o => {
           o.style.borderColor = 'rgba(128,128,128,.2)';
           o.style.background  = '';
         });
         belEl.style.borderColor = argColor;
         belEl.style.background  = argColor + '11';
 
-        // Weiter freischalten
-        const wbBtn = document.getElementById('sp-weiter');
-        if (wbBtn) {
-          wbBtn.disabled      = false;
-          wbBtn.style.opacity = '1';
-          wbBtn.style.cursor  = 'pointer';
-        }
+        // Weiter prüfen
+        _checkBothDone(stepKey);
       });
     });
+  }
+
+  function _checkBothDone(stepKey) {
+    const c = S.argChoices[stepKey] || {};
+    const done = c[0] && c[0].opt !== undefined && c[0].bel !== undefined
+              && c[1] && c[1].opt !== undefined && c[1].bel !== undefined;
+    const wbBtn = document.getElementById('sp-weiter');
+    if (wbBtn) {
+      wbBtn.disabled      = !done;
+      wbBtn.style.opacity = done ? '1' : '.35';
+      wbBtn.style.cursor  = done ? 'pointer' : 'not-allowed';
+    }
   }
 
   /* ═══════════════════════════════════════════════════════════
